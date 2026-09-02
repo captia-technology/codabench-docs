@@ -1,239 +1,201 @@
-# Cómo crear una competición en Codabench
+# Cómo crear una competición en Codabench (vía UI)
 
-Guía de referencia general para publicar un benchmark/competición en [Codabench](https://www.codabench.org/) (o una instancia self-hosted del mismo). Cubre conceptos, estructura del bundle, configuración YAML, programas de ingestion/scoring, fases, leaderboards y errores comunes.
+Guía de referencia para publicar un benchmark/competición en [Codabench](https://www.codabench.org/) usando el **editor web** (formularios, sin escribir `competition.yaml` a mano ni subir un bundle `.zip` completo). Es el flujo recomendado para crear y mantener una competición directamente desde la interfaz.
+
+> Codabench también admite crear la competición subiendo un bundle `.zip` con un `competition.yaml` (útil para versionar en un repo). Esta guía no cubre ese método — ver [Referencias](#referencias) si se necesita en el futuro.
 
 ---
 
 ## 1. Conceptos clave
 
-Codabench organiza una competición en piezas reutilizables y componibles:
+Antes de tocar la UI, conviene tener claros los bloques con los que se construye una competición:
 
 | Concepto | Qué es |
 |---|---|
-| **Competition** | La competición en sí: metadata, páginas, fases y leaderboards. |
-| **Task** | Une un dataset con un programa de scoring (y opcionalmente de ingestion). Una Task es reutilizable entre varias Phases o competiciones. |
-| **Phase** | Una etapa temporal de la competición (ej. `Development`, `Final`). Cada fase referencia una o más Tasks y tiene sus propias fechas de inicio/fin. |
-| **Program** | Código ejecutable subido como `.zip`. Hay dos tipos: **Ingestion program** (transforma input del participante en predicciones) y **Scoring program** (compara predicciones contra ground truth y calcula métricas). |
-| **Dataset** | Datos de entrada (`input_data`), datos de referencia/ground truth (`reference_data`) y, opcionalmente, un starting kit (`starting_kit`) o datos públicos (`public_data`). |
-| **Leaderboard** | Tabla de resultados. Define qué columnas (métricas) mostrar y cómo rankear (asc/desc, selección de mejor submission). |
-| **Submission** | Lo que sube un participante: normalmente predicciones (`.zip`) o código (si la competición es *code submission*). |
+| **Competition** | La competición en sí: título, descripción, páginas, fases y leaderboards. |
+| **Dataset** | Datos subidos como recurso: `input_data` (lo que ve el participante), `reference_data` (ground truth), `public_data` o `starting_kit`. |
+| **Program** | Código ejecutable subido como recurso. Dos tipos: **Ingestion program** (transforma la submission del participante en predicciones) y **Scoring program** (compara predicciones contra `reference_data` y calcula métricas). |
+| **Task** | Combina Datasets + Programs (input_data, reference_data, ingestion program, scoring program). Se crea una vez y se reutiliza en una o varias Phases. |
+| **Phase** | Etapa temporal de la competición (ej. `Development`, `Final`). Referencia una o varias Tasks y tiene sus propias fechas y límites de submission. |
+| **Leaderboard** | Tabla de resultados: columnas (métricas), orden de ranking y regla de qué submission de cada participante se muestra. |
+| **Submission** | Lo que sube un participante: predicciones o código, según cómo esté configurada la Task. |
 
-A diferencia de CodaLab, en Codabench **Task** es una entidad independiente y reusable — no se define inline dentro de cada fase.
-
----
-
-## 2. Dos formas de crear una competición
-
-1. **Vía UI** (recomendado para empezar): `My Competitions → Create Competition` en la web de Codabench, subiendo un bundle `.zip`.
-2. **Vía bundle YAML + zip**: se define todo en `competition.yaml` y se sube el zip completo. Es el método reproducible y versionable — recomendado si vas a mantener la competición en un repo de código.
-
-Esta guía se centra en el método 2, porque es el que permite trazabilidad y control de versiones.
+Los recursos (Datasets/Programs) y las Tasks se crean **una sola vez** y luego se reutilizan al vincularlos desde las Phases — no se suben de nuevo por cada fase.
 
 ---
 
-## 3. Estructura del bundle
+## 2. Requisitos previos
 
-Un bundle de competición es un `.zip` con esta forma típica:
+- Cuenta creada en la instancia de Codabench que se vaya a usar (p. ej. codabench.org o una instancia propia).
+- Los ficheros ya preparados y comprimidos en `.zip` por separado:
+  - `input_data.zip`
+  - `reference_data.zip`
+  - `ingestion_program.zip` (opcional si la competición es de predicciones directas)
+  - `scoring_program.zip`
+  - `starting_kit.zip` / `public_data.zip` (opcionales)
+- Cada programa (`ingestion_program`, `scoring_program`) debe incluir dentro un fichero `metadata` (sin extensión) que indique el comando a ejecutar, por ejemplo:
 
-```
-mi-competicion/
-├── competition.yaml          # Config principal (obligatorio)
-├── pages/
-│   ├── overview.md
-│   ├── data.md
-│   ├── evaluation.md
-│   └── terms.md
-├── logo.png                  # Imagen de la competición (opcional)
-├── ingestion_program/
-│   ├── ingestion.py
-│   └── metadata              # opcional, describe el ejecutable
-├── scoring_program/
-│   ├── scoring.py
-│   └── metadata
-├── input_data/                # Datos que ve el participante (dev/test según fase)
-├── reference_data/            # Ground truth, usado por el scoring program
-├── starting_kit/               # Notebook/ejemplo para el participante (opcional)
-└── public_data/                 # Datos públicos descargables (opcional)
-```
-
-Al hacer zip, el `competition.yaml` debe quedar en la **raíz** del zip (no dentro de una subcarpeta).
+  ```yaml
+  command: python3 $program/scoring.py $input $output
+  ```
 
 ---
 
-## 4. `competition.yaml` comentado
+## 3. Crear la competición (Details)
 
-```yaml
-version: 2                       # Versión del formato de bundle (usar 2 para Codabench)
-title: "Mi Competición de Ejemplo"
-description: "Descripción corta, aparece en el listado de competiciones."
-image: logo.png                  # Ruta relativa dentro del bundle
-registration_auto_approve: true  # false = un admin debe aprobar cada registro
-docker_image: codalab/codalab-legacy:py39   # Imagen usada para ejecutar ingestion/scoring
+1. En el menú superior: **Benchmarks → Management**.
+2. Click en **Create** (botón arriba a la derecha de Competition Management).
+3. Se abre el editor de la competición con varias pestañas. Rellenar **Details**:
+   - **Title**: nombre de la competición.
+   - **Logo**: imagen identificativa.
+   - **Description**: resumen que aparece en el listado de competiciones.
+   - **Queue**: cola de procesamiento de submissions (usar la que corresponda; por defecto la pública si no se tiene una propia configurada).
 
-terms: pages/terms.md
-
-pages:
-  - title: Overview
-    file: pages/overview.md
-  - title: Data
-    file: pages/data.md
-  - title: Evaluation
-    file: pages/evaluation.md
-
-tasks:
-  - index: 0
-    name: "Tarea principal"
-    description: "Qué debe predecir el participante."
-    ingestion_program: ingestion_program
-    scoring_program: scoring_program
-    input_data: input_data
-    reference_data: reference_data
-    starting_kit: starting_kit    # opcional
-
-solutions: []                    # opcional, soluciones de referencia publicables tras cierre
-
-phases:
-  - index: 0
-    name: "Development"
-    description: "Fase de desarrollo, feedback inmediato."
-    start: 2026-09-02
-    end: 2026-10-15
-    tasks:
-      - 0                         # índice de la task definida arriba
-    is_public: true
-    hidden: false
-
-  - index: 1
-    name: "Final"
-    description: "Fase final, sin feedback hasta el cierre."
-    start: 2026-10-15
-    end: 2026-10-30
-    tasks:
-      - 0
-    is_public: false
-
-leaderboards:
-  - index: 0
-    title: "Resultados"
-    key: main
-    submission_rule: "Force_Last"   # o Add_And_Delete, Force_Best...
-    columns:
-      - title: "Accuracy"
-        key: accuracy
-        index: 0
-        sorting: desc               # desc = mayor es mejor
-        computation: null           # o "avg", "std" si combina varias columnas
-```
-
-Puntos que suelen dar problemas:
-
-- **`index` en tasks/phases/leaderboards** debe ser consistente y sin huecos empezando en 0.
-- **`docker_image`**: si el scoring program necesita librerías concretas (numpy, sklearn, pandas...), usar una imagen que ya las tenga o construir una propia y publicarla en Docker Hub.
-- **Fechas** en UTC. Si `start`/`end` no están bien puestas, la fase puede aparecer cerrada o no visible.
-- **`columns.key`** en el leaderboard debe coincidir *exactamente* con la clave que el scoring program escribe en `scores.txt` (ver sección 6).
+En este punto la competición ya existe (en borrador) y se puede seguir editando en cualquier momento.
 
 ---
 
-## 5. Ingestion program
+## 4. Participation
 
-El ingestion program traduce la entrada del participante en predicciones evaluables. Es opcional si el participante sube directamente las predicciones (submission de resultados, no de código).
+Pestaña **Participation**:
 
-Estructura mínima:
-
-```
-ingestion_program/
-├── ingestion.py
-└── metadata
-```
-
-`metadata` (sin extensión) describe cómo ejecutarlo:
-
-```yaml
-command: python3 $program/ingestion.py $input $output $program
-```
-
-Variables disponibles: `$input` (submission del participante + input_data), `$output` (dónde escribir resultados), `$program` (carpeta del propio ingestion program), `$hidden` (reference_data, si aplica).
-
-Si la competición es de tipo *predicciones directas* (el participante sube ya el `.zip` de predicciones), se puede omitir el ingestion program por completo y el scoring program consume directamente la submission.
+- **Terms**: términos y condiciones de la competición (texto/markdown).
+- **Auto Approve Registration**: si está marcado, cualquiera que se registre entra automáticamente; si no, un organizador debe aprobar cada registro manualmente antes de que el participante pueda enviar submissions.
 
 ---
 
-## 6. Scoring program
+## 5. Pages
 
-Compara la salida del ingestion program (o la submission directa) contra `reference_data` y escribe las métricas.
+Pestaña **Pages** — contenido informativo que verán los participantes como pestañas dentro de la competición pública (Overview, Data, Evaluation, etc.):
 
-```
-scoring_program/
-├── scoring.py
-└── metadata
-```
+1. Click **Add page**.
+2. Rellenar **Title** y **Content** (markdown).
+3. Repetir por cada página necesaria.
 
-`metadata`:
+Se puede enlazar entre páginas usando anchors del tipo `_tab_page0`, `_tab_page1`, `_tab_page_term` (para la pestaña de Terms).
 
-```yaml
-command: python3 $program/scoring.py $input $output
-```
+---
 
-El scoring program debe escribir un fichero `scores.txt` en `$output` con formato `clave: valor`:
+## 6. Recursos: Datasets/Programs
+
+Antes de crear una Task hacen falta los recursos que va a usar. Ir a **Resources → Datasets/Programs** (accesible también desde el botón **Manage Tasks/Datasets** dentro de la pestaña Phases):
+
+1. Click **Add Dataset/Program**.
+2. Rellenar nombre, subir el `.zip` correspondiente y seleccionar el tipo de recurso.
+3. Repetir para cada uno:
+   - `input_data`
+   - `reference_data`
+   - `ingestion_program` (si aplica)
+   - `scoring_program`
+   - `starting_kit` / `public_data` (opcionales)
+
+Los recursos se pueden marcar como públicos o privados, y son reutilizables entre Tasks y entre competiciones propias.
+
+---
+
+## 7. Crear la Task
+
+Ir a **Resources → Tasks**:
+
+1. Click **Create Task**.
+2. Rellenar **nombre** y **descripción** de la task (qué debe predecir/resolver el participante).
+3. Seleccionar de los recursos ya subidos en el paso anterior:
+   - Input data
+   - Reference data
+   - Ingestion program (opcional)
+   - Scoring program (obligatorio)
+
+Codabench permite tener varias Tasks por competición y asignar más de una Task a la misma Phase — útil si la competición tiene varias subtareas evaluadas por separado.
+
+---
+
+## 8. Phases
+
+Volver al editor de la competición, pestaña **Phases**:
+
+1. Crear una fase (p. ej. `Development`) con:
+   - **Name** y **Description**.
+   - **Start** / **End** (en UTC).
+   - **Tasks**: asignar la(s) Task(s) creada(s) en el paso 7.
+   - **Execution Time Limit**: límite de tiempo (segundos) para que corran ingestion/scoring por submission.
+   - **Max submissions per day**: límite diario por participante (medianoche a medianoche UTC).
+   - **Max submissions per person**: tope total por participante.
+2. Repetir para cada fase adicional (p. ej. `Final`), reutilizando la misma Task si el scoring program no cambia, o creando una Task nueva si cambia el dataset oculto.
+
+La fase Development normalmente da feedback inmediato al participante; la fase Final suele ocultar resultados hasta el cierre de la competición para evitar overfitting al leaderboard público.
+
+---
+
+## 9. Leaderboards
+
+Pestaña **Leaderboards**:
+
+1. Crear un leaderboard: **Title** y **Key** (identificador único, preferiblemente en minúsculas).
+2. Añadir columnas, una por cada métrica que devuelva el scoring program:
+   - **Title**: nombre visible de la columna.
+   - **Column Key**: debe coincidir *exactamente* con la clave que el scoring program escribe en `scores.txt` (ver más abajo).
+   - **Sorting**: ascendente o descendente (según si menor o mayor valor es mejor).
+   - **Primary Column**: marca cuál es la columna principal de ranking.
+   - **Computation**: `None` normalmente, o `Average` si la columna es la media calculada de otras columnas (en ese caso no recibe score directo del scoring program).
+
+El scoring program debe escribir un `scores.txt` con líneas `clave: valor`, por ejemplo:
 
 ```
 accuracy: 0.8721
 f1_score: 0.8390
 ```
 
-Estas claves son las que se referencian en `leaderboards[].columns[].key` del `competition.yaml`. Si no coinciden, la columna aparece vacía en el leaderboard sin error explícito — es el fallo más común al montar una competición nueva.
+Si la `Column Key` no coincide con la clave de `scores.txt`, la columna aparece vacía en el leaderboard sin error explícito — es el fallo más frecuente al montar el leaderboard.
 
 ---
 
-## 7. Fases (Phases)
+## 10. Collaborators (opcional)
 
-- Cada fase referencia una o varias `tasks` por índice.
-- `is_public: true` en Development permite feedback inmediato al participante tras cada submission.
-- La fase Final suele tener `is_public: false` para evitar overfitting al leaderboard público (los resultados solo se revelan al cerrar la competición).
-- El paso de una fase a otra es automático según fechas (`start`/`end`), no requiere intervención manual salvo que se reconfigure.
-- Se pueden reutilizar las mismas `tasks` entre fases (útil cuando dev y final comparten scoring program pero cambian el dataset oculto).
+Pestaña **Collaborators**: añadir otros organizadores buscando por usuario o email, para que puedan editar la competición sin compartir la cuenta principal.
 
 ---
 
-## 8. Leaderboards
+## 11. Probar la competición
 
-- `submission_rule` controla qué submission de un participante cuenta:
-  - `Force_Last`: solo la última cuenta.
-  - `Force_Best`: se queda con la mejor según la métrica principal.
-  - `Add_And_Delete`: el participante puede elegir manualmente cuál mostrar.
-- Se pueden definir varias columnas y marcar cuál ordena el ranking (normalmente la primera, o la que tenga `sorting` definido y sea la métrica principal).
-- `computation` permite combinar múltiples runs (ej. media de varias fases) si la task se ejecuta más de una vez.
-
----
-
-## 9. Publicar y probar
-
-1. Empaquetar la carpeta en `.zip` (competition.yaml en la raíz).
-2. En Codabench: `My Competitions → Create Competition → Upload` y seleccionar el zip.
-3. Codabench valida el YAML; si hay errores de sintaxis o de referencias (índices, ficheros no encontrados) los reporta en la propia UI.
-4. Hacer una submission de prueba (dummy) en Development antes de anunciar la competición, para verificar que:
-   - el ingestion program corre sin errores,
-   - el scoring program produce `scores.txt` con las claves esperadas,
-   - el leaderboard muestra los valores correctamente.
-5. Iterar: se puede volver a subir un bundle actualizado ("Edit Competition → Upload new bundle") sin perder registros de participantes, aunque **sí** puede resetear submissions según qué se cambie (tasks/phases). Revisar el changelog de submissions tras cada actualización de bundle en producción.
+1. Publicar (o dejar en modo no listado) la competición y entrar a su página pública.
+2. Pestaña **My Submissions**: subir una submission de prueba (`.zip`) — dummy o real.
+3. Seguir los logs en tiempo real mientras se procesa (stdout/stderr disponibles por submission).
+4. Verificar:
+   - que el ingestion program (si existe) corre sin errores,
+   - que el scoring program genera `scores.txt` con las claves esperadas,
+   - que el leaderboard muestra el valor correctamente.
+5. Si el leaderboard no se actualiza sola: ir a **Resources → Submissions**, localizar la submission procesada y usar el botón de acción **añadir a leaderboard** (según la `submission_rule` configurada, puede requerirse esta acción manual la primera vez).
 
 ---
 
-## 10. Troubleshooting común
+## 12. Submission rule del leaderboard
+
+Se configura al crear/editar el leaderboard y controla qué submission de cada participante se muestra:
+
+- **Force Last**: solo la última submission cuenta.
+- **Force Best**: se muestra automáticamente la mejor según la columna principal.
+- **Add and Delete (Multiple)**: el propio participante elige manualmente cuál mostrar entre sus submissions.
+
+---
+
+## 13. Troubleshooting común
 
 | Síntoma | Causa probable |
 |---|---|
-| Leaderboard vacío o con `-` | La `key` en `columns` no coincide con la clave escrita en `scores.txt`. |
-| Submission se queda en "Running" indefinidamente | Timeout del docker_image, o excepción no capturada en ingestion/scoring (revisar logs de la submission, botón "stderr"/"stdout"). |
-| Error al subir el bundle: "Invalid YAML" | Indentación incorrecta o `competition.yaml` no está en la raíz del zip. |
-| Fase no aparece / sigue en la anterior | Fechas `start`/`end` mal puestas o en huso horario distinto al esperado (usar UTC). |
-| Participante no puede subir submission | `registration_auto_approve: false` y el registro no ha sido aprobado manualmente por un admin. |
-| Scoring program falla con `ModuleNotFoundError` | La `docker_image` no incluye la librería usada; usar una imagen con más dependencias o construir una custom. |
-| Columnas de leaderboard en orden incorrecto | El `index` de cada columna no refleja el orden deseado. |
+| Leaderboard vacío o con `-` | El **Column Key** no coincide con la clave escrita en `scores.txt` por el scoring program. |
+| Submission se queda en "Running" indefinidamente | Se supera el **Execution Time Limit** de la fase, o hay una excepción no capturada en ingestion/scoring (revisar logs stdout/stderr de la submission). |
+| No aparece la Task al configurar una Phase | La Task no se creó antes en **Resources → Tasks**, o el Dataset/Program referenciado sigue sin subirse. |
+| Fase no aparece / sigue en la anterior | Fechas **Start/End** mal puestas o interpretadas en huso horario distinto (Codabench usa UTC). |
+| Participante no puede enviar submission | **Auto Approve Registration** desactivado y el registro no ha sido aprobado manualmente por un organizador. |
+| Scoring program falla con `ModuleNotFoundError` | Dependencias no incluidas en el entorno de ejecución de la queue/worker usada; revisar qué imagen/entorno tiene asociada la queue. |
+| Submission ya procesada no sale en el leaderboard | Falta pulsar la acción manual de "añadir a leaderboard" en **Resources → Submissions**, según la submission rule configurada. |
 
 ---
 
 ## Referencias
 
-- Documentación oficial: https://www.codabench.org/docs/
-- Repo del proyecto (Codalab-competitions / Codabench en GitHub): buscar `codalab/codabench` en GitHub para ver bundles de ejemplo (`competition_examples/`) que sirven como plantilla real.
+- [Getting started with Codabench](https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Getting-started-with-Codabench/)
+- [Competition Creation Form](https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/)
+- [Resource Management (Submissions, Datasets/Programs, Tasks)](https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/)
+- [How to Create your First Benchmark on Codabench (tutorial completo)](https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html)
+- Método alternativo (bundle YAML + zip, versionable en repo): [Competition Creation Bundle](https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Bundle/)
