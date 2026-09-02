@@ -38,6 +38,7 @@ Los recursos (Datasets/Programs) y las Tasks se crean **una sola vez** y luego s
   ```yaml
   command: python3 $program/scoring.py $input $output
   ```
+- Conviene nombrar los zips de forma que se identifiquen sin ambigüedad al elegirlos en los desplegables de la UI, p. ej. `reference_data_<slug>_<version>.zip`, `scoring_program_<slug>_<version>.zip`, `<slug>_<version>_public_data.zip`, `<slug>_<version>_starting_kit.zip` — sobre todo si se van a crear varias versiones/fases de la misma competición y conviven varios recursos con nombres parecidos en **Resources → Datasets/Programs**.
 
 ---
 
@@ -53,14 +54,16 @@ Los recursos (Datasets/Programs) y las Tasks se crean **una sola vez** y luego s
 
 En este punto la competición ya existe (en borrador) y se puede seguir editando en cualquier momento.
 
+> La cabecera pública de la competición muestra siempre un **Docker image** (p. ej. `codalab/codalab-legacy:py37`), aunque toda la competición se haya montado por UI sin tocar YAML — es el entorno de ejecución asociado a la Queue/Task usada, no algo que se escriba a mano en este flujo.
+
 ---
 
 ## 4. Participation
 
 Pestaña **Participation**:
 
-- **Terms**: términos y condiciones de la competición (texto/markdown).
-- **Auto Approve Registration**: si está marcado, cualquiera que se registre entra automáticamente; si no, un organizador debe aprobar cada registro manualmente antes de que el participante pueda enviar submissions.
+- **Terms**: términos y condiciones de la competición (texto/markdown). Se muestran en un modal antes de registrarse y también quedan disponibles como pestaña "Terms" dentro de la competición pública.
+- **Auto Approve Registration**: si está marcado, cualquiera que se registre entra automáticamente; si no, la competición muestra "This competition requires approval from the competition organizers" y un organizador debe aprobar cada registro manualmente (**Resources → Participants**) antes de que el participante pueda enviar submissions.
 
 ---
 
@@ -73,6 +76,8 @@ Pestaña **Pages** — contenido informativo que verán los participantes como p
 3. Repetir por cada página necesaria.
 
 Se puede enlazar entre páginas usando anchors del tipo `_tab_page0`, `_tab_page1`, `_tab_page_term` (para la pestaña de Terms).
+
+Patrón habitual de páginas en una competición de tipo "predicciones directas": `Overview` (objetivo, flujo de trabajo resumido), `Data` (estructura del dataset, columnas públicas/excluidas, split train/test), `Evaluation` (métrica principal, formato exacto de submission, reglas de validación), `Submission` (paso a paso para generar y subir la entrega), `FAQ`, y opcionalmente `Files` (enlaces directos de descarga a los recursos públicos — Public Data, Starting Kit — dejando claro qué NO debe descargar el participante, p. ej. `reference_data`/`scoring_program`, aunque esos recursos ya son privados por configuración en Resources).
 
 ---
 
@@ -124,6 +129,8 @@ Volver al editor de la competición, pestaña **Phases**:
 
 La fase Development normalmente da feedback inmediato al participante; la fase Final suele ocultar resultados hasta el cierre de la competición para evitar overfitting al leaderboard público.
 
+Si **End** se deja vacío, la fase queda abierta indefinidamente (la cabecera pública muestra "Current Phase Ends: Never") — es válido para competiciones internas de validación sin fecha de cierre fija.
+
 ---
 
 ## 9. Leaderboards
@@ -147,6 +154,8 @@ f1_score: 0.8390
 
 Si la `Column Key` no coincide con la clave de `scores.txt`, la columna aparece vacía en el leaderboard sin error explícito — es el fallo más frecuente al montar el leaderboard.
 
+Mientras no haya ninguna submission añadida al leaderboard, la pestaña **Results** muestra "No visible leaderboard for this benchmark" — es el estado normal antes de la primera submission válida, no un error de configuración.
+
 ---
 
 ## 10. Collaborators (opcional)
@@ -155,7 +164,29 @@ Pestaña **Collaborators**: añadir otros organizadores buscando por usuario o e
 
 ---
 
-## 11. Probar la competición
+## 11. Formato de submission en competiciones de predicciones directas
+
+Cuando la Task no tiene ingestion program (participante sube ya las predicciones, no código), el propio **scoring program** es responsable de validar la entrega antes de puntuar. Conviene documentar el formato exacto en la página `Evaluation`/`Submission` y hacer que el scoring program falle con un mensaje claro si no se cumple. Patrón típico:
+
+- El participante sube un `.zip` con un único CSV **en la raíz** (no dentro de una carpeta), p. ej. `submission.zip → submission.csv`.
+- El CSV tiene columnas fijas y conocidas de antemano, p. ej. `id,prediccion_iaq_class`.
+- El scoring program valida, antes de calcular métricas:
+
+| Error típico | Causa |
+|---|---|
+| `Only zip files are allowed` | Se subió el CSV suelto en vez de un `.zip`. |
+| `Missing submission.csv` | El zip no contiene el fichero con el nombre exacto esperado. |
+| `submission.csv inside folder` | El CSV está dentro de una subcarpeta en vez de en la raíz del zip. |
+| `Invalid columns` | Las columnas no coinciden exactamente (nombre u orden) con lo esperado. |
+| `IDs mismatch` | Faltan o sobran IDs respecto a `test.csv`/`reference_data`. |
+| `Duplicate IDs` | Hay una fila repetida para el mismo ID. |
+| `Prediction out of range` | El valor predicho no pertenece al conjunto de clases/valores válidos. |
+
+Publicar una **sample submission** de referencia (con un resultado esperado conocido, p. ej. "si subes la sample oficial deberías obtener `metric = X`") ayuda a que los participantes detecten pronto si algo en su entorno (fase, dataset, versión) no está bien apuntado, antes de perder tiempo con su propio modelo.
+
+---
+
+## 12. Probar la competición
 
 1. Publicar (o dejar en modo no listado) la competición y entrar a su página pública.
 2. Pestaña **My Submissions**: subir una submission de prueba (`.zip`) — dummy o real.
@@ -168,7 +199,7 @@ Pestaña **Collaborators**: añadir otros organizadores buscando por usuario o e
 
 ---
 
-## 12. Submission rule del leaderboard
+## 13. Submission rule del leaderboard
 
 Se configura al crear/editar el leaderboard y controla qué submission de cada participante se muestra:
 
@@ -178,17 +209,20 @@ Se configura al crear/editar el leaderboard y controla qué submission de cada p
 
 ---
 
-## 13. Troubleshooting común
+## 14. Troubleshooting común
 
 | Síntoma | Causa probable |
 |---|---|
 | Leaderboard vacío o con `-` | El **Column Key** no coincide con la clave escrita en `scores.txt` por el scoring program. |
+| "No visible leaderboard for this benchmark" | Normal si aún no hay ninguna submission válida añadida al leaderboard; no indica un fallo de configuración. |
 | Submission se queda en "Running" indefinidamente | Se supera el **Execution Time Limit** de la fase, o hay una excepción no capturada en ingestion/scoring (revisar logs stdout/stderr de la submission). |
 | No aparece la Task al configurar una Phase | La Task no se creó antes en **Resources → Tasks**, o el Dataset/Program referenciado sigue sin subirse. |
-| Fase no aparece / sigue en la anterior | Fechas **Start/End** mal puestas o interpretadas en huso horario distinto (Codabench usa UTC). |
-| Participante no puede enviar submission | **Auto Approve Registration** desactivado y el registro no ha sido aprobado manualmente por un organizador. |
+| Fase no aparece / sigue en la anterior | Fechas **Start/End** mal puestas o interpretadas en huso horario distinto (Codabench usa UTC); recordar que **End** vacío significa fase sin cierre ("Never"). |
+| Participante no puede enviar submission | **Auto Approve Registration** desactivado y el registro no ha sido aprobado manualmente por un organizador en **Resources → Participants**. |
 | Scoring program falla con `ModuleNotFoundError` | Dependencias no incluidas en el entorno de ejecución de la queue/worker usada; revisar qué imagen/entorno tiene asociada la queue. |
 | Submission ya procesada no sale en el leaderboard | Falta pulsar la acción manual de "añadir a leaderboard" en **Resources → Submissions**, según la submission rule configurada. |
+| Submission rechazada con `Only zip files are allowed` / `Missing submission.csv` / `Invalid columns` / `IDs mismatch` | Formato de entrega no válido — ver [sección 11](#11-formato-de-submission-en-competiciones-de-predicciones-directas); reforzar la validación y el mensaje de error dentro del propio scoring program. |
+| Sample submission da un resultado distinto al esperado (p. ej. `n` de filas no coincide) | La fase probablemente no está apuntando al `reference_data` correcto de esa versión del dataset. |
 
 ---
 
