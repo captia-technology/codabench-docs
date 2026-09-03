@@ -5,7 +5,7 @@ Guía de referencia para crear y mantener competiciones en [Codabench](https://w
 ## Contenido
 
 - [`docs/crear-competicion.md`](docs/crear-competicion.md) — guía completa del flujo vía UI: conceptos, `Management → Create`, Resources (Datasets/Programs/Tasks), Phases, Leaderboards, formato de submission, publicación y troubleshooting.
-- [`templates/dataset-pipeline/`](templates/dataset-pipeline/) — motor genérico (Python, parametrizado por un `spec.yaml` declarativo) para generar la release de un dataset lista para subir a Codabench: descubrimiento de entidades, extracción desde InfluxDB/captia-connect, normalización, split train/test, QA con veredicto PASS/FAIL, EDA y empaquetado de los ZIPs (`public_data`, `reference_data`, `scoring_program`, `starting_kit`). Reutilizable entre proyectos — solo hay que reescribir `spec.yaml`.
+- El motor genérico de generación de datasets (`spec.yaml` + pipeline Python: descubrimiento de entidades, extracción InfluxDB/captia-connect, normalización, split train/test, QA, EDA, empaquetado de ZIPs) vive aparte, en el repo privado [`captia-technology/codabench-dataset-pipeline`](https://github.com/captia-technology/codabench-dataset-pipeline) (acceso restringido).
 
 ## Alcance
 
