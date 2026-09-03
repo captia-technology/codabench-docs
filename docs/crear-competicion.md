@@ -233,3 +233,4 @@ Se configura al crear/editar el leaderboard y controla qué submission de cada p
 - [Resource Management (Submissions, Datasets/Programs, Tasks)](https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/)
 - [How to Create your First Benchmark on Codabench (tutorial completo)](https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html)
 - Método alternativo (bundle YAML + zip, versionable en repo): [Competition Creation Bundle](https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Bundle/)
+- Para generar los ficheros (`public_data`, `reference_data`, `scoring_program`, `starting_kit`) antes de llegar a esta guía: [`../templates/dataset-pipeline/`](../templates/dataset-pipeline/), motor genérico parametrizado por `spec.yaml`.
