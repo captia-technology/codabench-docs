@@ -64,7 +64,7 @@ jobs:
           # miente sobre cuándo se revisó cada página es peor que un fallo.
           fetch-depth: 0
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           # Versión fija a propósito, no `3.x`: en local se trabaja con Python 3.11 y aquí con
           # 3.12, así que los scripts se escriben para las dos; lo que no queremos es que una
