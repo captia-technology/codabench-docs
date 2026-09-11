@@ -12,18 +12,25 @@ sidebar_position: 1
 
 1. En el menú superior: **Benchmarks → Management**.
 2. Click en **Create** (botón arriba a la derecha de Competition Management).
-3. Se abre el editor de la competición con varias pestañas. Rellenar **Details**:
-   - **Title**: nombre de la competición.
-   - **Logo**: imagen identificativa.
-   - **Description**: resumen que aparece en el listado de competiciones.
-   - **Queue**: cola de procesamiento de submissions (usar la que corresponda; por defecto la pública si no se tiene una propia configurada).
+3. Se abre el editor de la competición con seis pestañas —**Details**, **Participation**, **Pages**, **Phases**, **Leaderboards** y **Collaborators**—. Rellenar **Details**:
+
+| Campo | Para qué |
+|---|---|
+| **Title** | Nombre de la competición. |
+| **Logo** | Imagen identificativa. |
+| **Description** | Resumen que aparece en el listado de competiciones. |
+| **Queue** | Cola de procesamiento de submissions. Se elige entre las que se hayan creado en la gestión de colas; sin ninguna propia, se usa la pública. |
+| **Competition Docker Image** | Imagen en la que se ejecutan ingestion y scoring. Ver la nota de abajo. |
+| **Competition Type**, **Competition Reward** | Clasificación y premio, informativos, para el listado público. |
+| **Organizer Contact Email** | A quién escribe un participante con un problema. |
+| **Competition Report**, **Fact Sheet** | Enlace a un informe y fichas de datos adicionales de la competición. |
 
 En este punto la competición ya existe (en borrador) y se puede seguir editando en cualquier momento.
 
 :::note[El Docker image que aparece sin haberlo escrito]
+La cabecera pública de la competición muestra un **Docker image** —normalmente `codalab/codalab-legacy:py37`— aunque nadie lo haya escrito. No es que lo herede de la cola ni de la Task: es el campo **Competition Docker Image** de esta misma pestaña, que tiene **ese valor por defecto** en el modelo de la competición.
 
-La cabecera pública de la competición muestra siempre un **Docker image** (p. ej. `codalab/codalab-legacy:py37`), aunque toda la competición se haya montado por UI sin tocar YAML — es el entorno de ejecución asociado a la Queue/Task usada, no algo que se escriba a mano en este flujo.
-
+La consecuencia práctica importa: si el scoring program necesita una librería que esa imagen no trae, el fallo será un `ModuleNotFoundError` en el log de la submission, y se arregla **aquí**, poniendo una imagen que sí la incluya. No hace falta tocar YAML ni cambiar de cola.
 :::
 
 **Siguiente paso:** [Participation](./participation.md) — quién puede registrarse y bajo qué términos.

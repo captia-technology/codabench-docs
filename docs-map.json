@@ -5,7 +5,7 @@
     "codabench": {
       "producto": "Codabench",
       "documentacion": "https://docs.codabench.org/",
-      "revision_contrastada": "v1.23",
+      "revision_contrastada": "v1.31.2",
       "nota": "«revision_contrastada» sale de la etiqueta de versión que llevan las URLs de la documentación citadas por la guía, NO de una comprobación contra una instancia de Codabench en marcha. Los «paths» son URLs de documentación, no rutas de fichero: el producto documentado es externo. Una de ellas es un tutorial de la comunidad, no documentación oficial."
     }
   },
@@ -105,7 +105,7 @@
           "id": "codabench",
           "paths": [
             "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/",
-            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/"
           ]
         }
       ]
@@ -117,7 +117,7 @@
           "id": "codabench",
           "paths": [
             "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/",
-            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/"
           ]
         }
       ]
@@ -129,7 +129,7 @@
           "id": "codabench",
           "paths": [
             "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/",
-            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/"
           ]
         }
       ]
@@ -141,7 +141,7 @@
           "id": "codabench",
           "paths": [
             "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/",
-            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/"
           ]
         }
       ]
@@ -152,7 +152,7 @@
         {
           "id": "codabench",
           "paths": [
-            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/"
           ]
         }
       ]
@@ -163,7 +163,7 @@
         {
           "id": "codabench",
           "paths": [
-            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/"
           ]
         }
       ]
@@ -174,7 +174,7 @@
         {
           "id": "codabench",
           "paths": [
-            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/"
           ]
         }
       ]
@@ -218,7 +218,7 @@
         {
           "id": "codabench",
           "paths": [
-            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/",
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/",
             "https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html"
           ]
         }
@@ -230,7 +230,7 @@
         {
           "id": "codabench",
           "paths": [
-            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/",
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/",
             "https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html"
           ]
         }
@@ -242,7 +242,7 @@
         {
           "id": "codabench",
           "paths": [
-            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/",
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/",
             "https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html"
           ]
         }

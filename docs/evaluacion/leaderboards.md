@@ -12,15 +12,32 @@ sidebar_position: 2
 
 Pestaña **Leaderboards**:
 
-1. Crear un leaderboard: **Title** y **Key** (identificador único, preferiblemente en minúsculas).
-2. Añadir columnas, una por cada métrica que devuelva el scoring program:
-   - **Title**: nombre visible de la columna.
-   - **Column Key**: debe coincidir *exactamente* con la clave que el scoring program escribe en `scores.txt` (ver más abajo).
-   - **Sorting**: ascendente o descendente (según si menor o mayor valor es mejor).
-   - **Primary Column**: marca cuál es la columna principal de ranking.
-   - **Computation**: `None` normalmente, o `Average` si la columna es la media calculada de otras columnas (en ese caso no recibe score directo del scoring program).
+1. Crear un leaderboard: **Title** y **Key**, los dos obligatorios. La ayuda del propio campo explica para qué sirve la clave: es la que el scoring program usa para asignar puntuaciones a este leaderboard. Preferiblemente en minúsculas.
+2. **Leaderboard is Hidden** deja la tabla montada pero invisible para los participantes. Sirve para preparar una fase final sin enseñar los resultados mientras tanto.
+3. **Submission Rule**: qué submission de cada participante ocupa su fila. Son [seis reglas](./submission-rule.md) y la elección cambia si el participante tiene que hacer algo o no.
+4. Añadir columnas, una por cada métrica que devuelva el scoring program:
 
-Qué submission de cada participante se muestra en esta tabla lo decide la [submission rule](./submission-rule.md), que se configura al crear o editar el leaderboard.
+| Campo | Qué hace |
+|---|---|
+| **Title** | Nombre visible de la columna. |
+| **Column Key** | Obligatorio. Debe coincidir *exactamente* con la clave que el scoring program escribe en `scores.txt` (ver más abajo). |
+| **Column Precision** | Obligatorio. Decimales con los que se muestra el valor, de 1 a 10; por defecto **2**. No redondea el score guardado, solo cómo se presenta — y también gobierna el que se ve en el panel de la submission. |
+| **Sorting** | `Descending` o `Ascending`. La ayuda del campo lo resume: ascendente significa que menor es mejor, descendente que mayor es mejor. |
+| **Primary Column** | Marca la columna principal de ranking. Es la que ordena la tabla y la que se muestra como puntuación de la submission. |
+| **Hidden** | Oculta esa columna concreta a los participantes sin dejar de calcularla. |
+| **Computation** | Cómo se calcula la columna. Ver abajo. |
+
+## Las columnas calculadas
+
+`Computation` admite **seis** valores: `None`, `Average`, `Sum`, `Min`, `Max` y `Average Rank`. Con `None` —lo normal— la columna recibe su valor directamente del scoring program, por su `Column Key`.
+
+Con cualquiera de las otras cinco, la columna **no** recibe score del scoring program: se calcula a partir de otras columnas. Al elegir una aparece un segundo desplegable, **Apply to:**, donde se marcan las columnas que entran en el cálculo.
+
+:::tip[`Average Rank` no es la media de los valores]
+`Average`, `Sum`, `Min` y `Max` operan sobre los valores de esa fila. **`Average Rank` opera sobre la tabla entera**: calcula la posición de cada submission en cada una de las columnas seleccionadas y promedia esas posiciones. Por eso su valor cambia cuando otro participante añade o quita una submission, aunque la propia no se haya tocado.
+
+Es útil cuando las métricas tienen escalas distintas y promediarlas sin más daría un número sin sentido. Está disponible desde **Codabench v1.29**.
+:::
 
 ## El fichero `scores.txt`
 

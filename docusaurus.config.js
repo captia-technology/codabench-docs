@@ -20,7 +20,7 @@
  *   `/en/` sin romper ningún enlace entrante. Si algún día se pasa `--locale en` al build, el
  *   sitio inglés se publicaría en la raíz y machacaría el español.
  *
- * - `versions.current.label: 'Codabench v1.23'` sin `versioned_docs` — la versión viva se etiqueta
+ * - `versions.current.label: 'Codabench v1.31.2'` sin `versioned_docs` — la versión viva se etiqueta
  *   con la versión de Codabench contra la que se contrastó el contenido, igual que el manual de
  *   captia.ai se etiqueta con la versión de la aplicación. Todavía no se congela ninguna: el
  *   primer corte tendrá sentido cuando Codabench publique una versión que cambie la UI descrita.
@@ -111,7 +111,7 @@ const config = {
           showLastUpdateTime: hayHistorialGit,
           lastVersion: 'current',
           versions: {
-            current: { label: 'Codabench v1.23', path: '' },
+            current: { label: 'Codabench v1.31.2', path: '' },
           },
         },
         blog: false,
@@ -191,7 +191,7 @@ const config = {
           ],
         },
       ],
-      copyright: `© ${new Date().getFullYear()} CAPTIA Technology. Guía contrastada con Codabench v1.23.`,
+      copyright: `© ${new Date().getFullYear()} CAPTIA Technology. Guía contrastada con Codabench v1.31.2.`,
     },
     prism: {
       theme: require('prism-react-renderer').themes.github,

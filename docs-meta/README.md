@@ -28,7 +28,8 @@ que no se convierta en una afirmación falsa sin que nadie se dé cuenta.
 |---|---|---|
 | [`01-setup-inicial.md`](01-setup-inicial.md) | El montaje del 2026-09-10: de dónde se replicó el patrón, qué se copió exacto, qué se adaptó y qué se decidió | **Instantánea fechada** — registro de cómo quedó montado, no se reescribe |
 | [`02-reparto-del-contenido.md`](02-reparto-del-contenido.md) | De dónde sale cada página del sitio: la correspondencia entre las 16 partes de la guía original —preámbulo, 14 secciones y Referencias— y las 16 páginas que las heredan | **Vigente** — es la trazabilidad del contenido |
-| [`03-version-contrastada.md`](03-version-contrastada.md) | De dónde sale «Codabench v1.23», qué **no** significa, y qué haría falta para contrastarla de verdad | **Vigente** — se actualiza cada vez que la etiqueta cambie |
+| [`03-version-contrastada.md`](03-version-contrastada.md) | De dónde salió la etiqueta «Codabench v1.23» del primer corte, qué **no** significaba, y qué haría falta para contrastarla de verdad | **Vigente** — se actualiza cada vez que la etiqueta cambie |
+| [`04-sync-codabench-v1.31.2.md`](04-sync-codabench-v1.31.2.md) | La revisión de v1.23 a v1.31.2: qué cambió de verdad, qué no era desfase sino hueco, y qué queda pendiente | **Vigente** — es el registro del ciclo de versión |
 
 ## Dos avisos que valen siempre
 

@@ -1,5 +1,15 @@
 # «Codabench v1.23» — de dónde sale esa etiqueta
 
+:::note
+**Actualizado el 2026-09-11.** Este documento describe el primer corte, cuando el sitio se
+etiquetaba `Codabench v1.23`. Esa etiqueta ya no está vigente: la revisión a **v1.31.2** y lo que
+se comprobó en ella están en
+[`04-sync-codabench-v1.31.2.md`](04-sync-codabench-v1.31.2.md). Lo de abajo se conserva porque
+explica por qué la etiqueta inicial no era una comprobación, que es la lección que no conviene
+perder.
+:::
+
+
 Este sitio se presenta como **contrastado con Codabench v1.23**. Aparece en el desplegable de
 versión del navbar, en el pie de todas las páginas, en la portada y en `docs-map.json`.
 

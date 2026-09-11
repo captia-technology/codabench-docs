@@ -103,7 +103,7 @@ DOC_FORMULARIO = (
     "Competition-Creation-Form/"
 )
 DOC_RECURSOS = (
-    "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+    "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/"
 )
 DOC_RAIZ = "https://docs.codabench.org/"
 # Tutorial de la comunidad, no documentación oficial. Se cita porque la guía lo cita: es la
@@ -504,7 +504,7 @@ def construir_docs_map(mapa_fuentes: dict) -> str:
                 # exacta, porque `scripts/check_codabench.py --fijar` lo localiza y le
                 # sustituye el número al comprobar la última release publicada. Sacarlo a
                 # una constante lo escondería de esa sustitución.
-                "revision_contrastada": "v1.23",
+                "revision_contrastada": "v1.31.2",
                 "nota": (
                     "«revision_contrastada» sale de la etiqueta de versión que llevan las "
                     "URLs de la documentación citadas por la guía, NO de una comprobación "
