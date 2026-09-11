@@ -22,14 +22,16 @@ Este fichero es un índice, no un manual. El detalle vive donde se carga solo cu
 
 ## Lo mínimo que hay que saber
 
-**El sitio es público.** El repositorio es privado, pero lo publicado no. Nada en `docs/` que
-identifique a nadie: ni URLs de instancias internas de Codabench, ni nombres de cola de ejecución
-de un cliente, ni correos con dominio real (`@ejemplo.com` y `@example.com` sí), ni IPs, ni
-credenciales o tokens. El hook lo comprueba al escribir y `scripts/check_docs.py` lo bloquea en CI.
+**Todo es público: el sitio y el repositorio.** Nada en el árbol que identifique a nadie: ni URLs
+de instancias internas de Codabench, ni nombres de cola de ejecución de un cliente, ni correos con
+dominio real (`@ejemplo.com` y `@example.com` sí), ni IPs, ni credenciales o tokens. El hook lo
+comprueba al escribir y `scripts/check_docs.py` lo bloquea en CI, pero **los dos solo miran
+`docs/`**: fuera de ahí —`docs-meta/`, `scripts/`, `.claude/`— no hay validación automática y el
+cuidado es humano.
 
-**`docs-meta/` no se publica.** Está fuera de `docs/`, que es lo único que entra en el sitio. Ahí
-va el porqué de las decisiones y los registros fechados de qué se montó y contra qué se contrastó.
-No lo muevas dentro de `docs/`.
+**`docs-meta/` no entra en el sitio, pero se lee en GitHub.** Está fuera de `docs/`, que es lo
+único que Docusaurus publica; ahí va el porqué de las decisiones y los registros fechados. Que no
+se publique en el sitio no lo hace privado: no escribas ahí nada que no pondrías en la portada.
 
 **La navegación se declara, no se deduce.** El orden del sidebar, la etiqueta de cada página, los
 `_category_.json`, `docs/mapa-de-la-guia.md` y `docs-map.json` salen todos de `SECCIONES`, dentro

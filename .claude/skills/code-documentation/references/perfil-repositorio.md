@@ -16,7 +16,7 @@ CodaLab. Sitio Docusaurus 3.10.2 en español, publicado en
 
 | Clave | Valor | Dónde se comprueba |
 | --- | --- | --- |
-| Repositorio | `captia-technology/codabench-docs`, **privado** | `docusaurus.config.js` (`organizationName`, `projectName`) |
+| Repositorio | `captia-technology/codabench-docs`, **público** | `docusaurus.config.js` (`organizationName`, `projectName`) |
 | Sitio publicado | **público**, sin autenticación | La regla de datos publicables sale de ahí |
 | Dominio | `https://docs.codabench.captia.ai` | `docusaurus.config.js`; el literal es respaldo, manda `VERCEL_PROJECT_PRODUCTION_URL` |
 | Publica | Vercel, producción desde `main`; preview por pull request | `vercel.json` y el encabezado de `.github/workflows/docs-ci.yml` |
@@ -139,7 +139,7 @@ que escribirla `\|`—, y nada publicable que identifique a nadie.
 
 ## Datos que no pueden publicarse
 
-El repositorio es privado; el sitio no. En `docs/` no puede aparecer un correo
+El repositorio y el sitio son públicos los dos. En `docs/` no puede aparecer un correo
 con dominio real (se permiten `@ejemplo.com` y `@example.com`), una dirección
 IP, una credencial o token, la URL de una instancia interna de Codabench, ni
 ningún identificador de la lista `scripts/privados.txt`.

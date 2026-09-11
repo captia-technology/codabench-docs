@@ -8,13 +8,16 @@ Guía de cómo crear y mantener competiciones en **Codabench**: 21 páginas en e
 | **Sitio** | `docs.codabench.captia.ai` |
 | **Contenido** | Contrastado con **Codabench v1.23**. Esa etiqueta sale de las URL de la documentación oficial que citaba la guía original, **no** de una comprobación contra una instancia viva: ver [`docs-meta/03-version-contrastada.md`](docs-meta/03-version-contrastada.md) |
 | **Publica** | Vercel, desde la rama de producción. GitHub Actions solo verifica |
-| **Repositorio** | `captia-technology/codabench-docs`, privado. **El sitio es público** |
+| **Repositorio** | `captia-technology/codabench-docs`, **público**. El sitio también |
 
-> **Lo primero que hay que interiorizar**: el repositorio es privado pero lo publicado no lo es.
-> Todo lo que entre en `docs/` acaba en internet. Codabench se despliega por instancias, así que
-> lo que no puede salir es concreto: la URL de una instancia interna, la cola de ejecución de un
-> cliente, correos con dominio real, direcciones IP, claves o tokens de API. Un hook lo comprueba
-> al escribir y `scripts/check_docs.py` lo bloquea en CI.
+> **Lo primero que hay que interiorizar**: aquí **todo es público**. No solo el sitio: el
+> repositorio también, así que `docs-meta/`, `scripts/` y `.claude/` se leen desde GitHub aunque no
+> entren en el sitio publicado. La regla de qué no puede salir vale para el árbol entero, no solo
+> para `docs/`. Codabench se despliega por instancias, así que lo que no puede salir es concreto:
+> la URL de una instancia interna, la cola de ejecución de un cliente, correos con dominio real,
+> direcciones IP, claves o tokens de API. Un hook lo comprueba al escribir y
+> `scripts/check_docs.py` lo bloquea en CI —ambos cubren `docs/`; **fuera de `docs/` no hay red de
+> seguridad automática** y la revisión es humana—.
 
 ---
 

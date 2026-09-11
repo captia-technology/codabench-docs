@@ -161,9 +161,10 @@ se prohíbe de entrada, en vez de exigir un `slug:` transliterado como hace el m
 aquel arrastra rutas heredadas de antes de la regla y este árbol se estrena hoy, así que sale más
 barato no crear el problema que documentarlo página por página.
 
-**8. Nada publicable que identifique a nadie.** El repositorio es privado y **el sitio publicado
-es público**: es una asimetría fácil de olvidar cuando se pega un ejemplo tomado de una
-competición real. Fuera, por tanto: correos con dominio real (los ejemplos usan `@ejemplo.com` o
+**8. Nada publicable que identifique a nadie.** **El repositorio y el sitio son públicos los
+dos**, así que no hay ninguna zona de borrador donde pegar algo «de momento»: lo que se escribe,
+se publica. Es fácil de olvidar cuando se copia un ejemplo tomado de una competición real. Fuera,
+por tanto: correos con dominio real (los ejemplos usan `@ejemplo.com` o
 `@example.com`), direcciones IP, credenciales y tokens (`api_key`, `token:`, `Bearer …`, cadenas
 hex o base64 largas), URLs de instancias internas de Codabench y cualquier identificador de
 `scripts/privados.txt` si el equipo mantiene esa lista (no versionada; ver `.gitignore`). Un token

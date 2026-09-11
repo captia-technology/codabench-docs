@@ -32,8 +32,9 @@ que no se convierta en una afirmación falsa sin que nadie se dé cuenta.
 
 ## Dos avisos que valen siempre
 
-**El sitio es público.** El repositorio es privado, pero lo publicado no lo es. Codabench se
-despliega por instancias, y lo que no puede salir es concreto: la URL de una instancia interna, el
+**El sitio es público, y el repositorio también.** Esta carpeta no entra en el sitio —Docusaurus
+solo publica `docs/`—, pero se lee desde GitHub como cualquier otro fichero: no es un cuaderno
+privado. Codabench se despliega por instancias, y lo que no puede salir es concreto: la URL de una instancia interna, el
 nombre de una cola de ejecución de un cliente, correos con dominio real, IPs, claves o tokens. Hoy
 la guía no tiene capturas; el día que las tenga, revísalas antes de subirlas, porque una captura de
 la interfaz de Codabench lleva la URL en la barra y el usuario en la esquina.
