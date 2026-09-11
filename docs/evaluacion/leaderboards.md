@@ -39,6 +39,8 @@ Con cualquiera de las otras cinco, la columna **no** recibe score del scoring pr
 Es útil cuando las métricas tienen escalas distintas y promediarlas sin más daría un número sin sentido. Está disponible desde **Codabench v1.29**.
 :::
 
+En el [ejemplo](../empezar/ejemplo.md) son dos columnas: `f1_macro`, marcada como **Primary Column** porque es la que ordena la tabla, y `accuracy` al lado como referencia. Las dos con `Computation` en `None`: las calcula el scoring program y llegan ya hechas.
+
 ## El fichero `scores.txt`
 
 El scoring program debe escribir un `scores.txt` con líneas `clave: valor`, por ejemplo:

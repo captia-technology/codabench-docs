@@ -77,6 +77,17 @@
       ]
     },
     {
+      "doc": "docs/empezar/ejemplo.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Getting-started-with-Codabench/"
+          ]
+        }
+      ]
+    },
+    {
       "doc": "docs/empezar/index.md",
       "sources": [
         {

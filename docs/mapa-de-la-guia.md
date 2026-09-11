@@ -14,10 +14,11 @@ Esta página la genera `scripts/build_nav.py` a partir de la declaración `SECCI
 
 ## Antes de empezar
 
-*3 páginas.*
+*4 páginas.*
 
 - [Antes de empezar](./empezar/index.md)
 - [Conceptos clave](./empezar/conceptos.md)
+- [La competición de ejemplo](./empezar/ejemplo.md)
 - [Requisitos previos](./empezar/requisitos.md)
 
 ## Crear la competición

@@ -72,6 +72,11 @@ const config = {
 
   markdown: {
     format: 'detect',
+    // Los diagramas se escriben en bloques ```mermaid dentro del propio .md. Se eligió frente a
+    // SVG a mano por una razón que se nota al mantenerlos: un diagrama en texto se revisa en el
+    // diff, se corrige en una línea y hereda los colores del tema en los dos modos. Un SVG
+    // incrustado hay que volver a dibujarlo y, si trae colores propios, se rompe en modo oscuro.
+    mermaid: true,
     hooks: { onBrokenMarkdownLinks: 'throw' },
   },
 
@@ -115,12 +120,16 @@ const config = {
           },
         },
         blog: false,
-        theme: { customCss: './src/css/custom.css' },
+        // Dos ficheros, y el orden importa: `custom.css` declara los tokens y es copia exacta
+        // del tema del manual de captia.ai —no se toca—; `diagramas.css` los consume para
+        // vestir los diagramas, que son de este sitio. Ver `.claude/rules/design-system.md`.
+        theme: { customCss: ['./src/css/custom.css', './src/css/diagramas.css'] },
       },
     ],
   ],
 
   themes: [
+    '@docusaurus/theme-mermaid',
     [
       require.resolve('@easyops-cn/docusaurus-search-local'),
       {
@@ -145,6 +154,25 @@ const config = {
 
   themeConfig: {
     colorMode: { defaultMode: 'light', respectPrefersColorScheme: true },
+    // Mermaid trae sus propios colores y ninguno es de la marca. Se le pasan los temas que
+    // reconoce —`base` admite variables— con los tokens del Captia Technology Design System: azul
+    // de marca sobre claro, verde de acento sobre oscuro, que es la misma regla que sigue el
+    // resto del sitio y por el mismo motivo medido (el azul sobre el fondo oscuro da 1.87).
+    mermaid: {
+      theme: { light: 'base', dark: 'base' },
+      options: {
+        fontFamily: 'Geist, system-ui, sans-serif',
+        themeVariables: {
+          primaryColor: '#f5f5f5',
+          primaryTextColor: '#0a0a0a',
+          primaryBorderColor: '#0000dc',
+          lineColor: '#6b6b6b',
+          secondaryColor: '#ffffff',
+          tertiaryColor: '#ffffff',
+          fontSize: '14px',
+        },
+      },
+    },
     // Sin tarjeta social todavía: generarla exige rasterizar el mark real y disponer de la
     // binaria de Geist, que el propio design system declara no vendorizada. Antes que
     // publicar una aproximación del logo, no se declara ninguna.

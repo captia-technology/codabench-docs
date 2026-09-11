@@ -10,6 +10,41 @@ sidebar_position: 1
 
 Antes de tocar la UI, conviene tener claros los bloques con los que se construye una competición.
 
+```mermaid
+flowchart TB
+  subgraph RES["Resources · se suben una vez y se reutilizan"]
+    direction LR
+    ID["Dataset<br/><b>input_data</b><br/><i>lo que ve el participante</i>"]
+    RD["Dataset<br/><b>reference_data</b><br/><i>la verdad, privada</i>"]
+    IP["Program<br/><b>ingestion</b><br/><i>opcional</i>"]
+    SP["Program<br/><b>scoring</b><br/><i>calcula las métricas</i>"]
+  end
+
+  TASK["<b>Task</b><br/>combina datos y programas<br/>en algo ejecutable"]
+
+  ID --> TASK
+  RD --> TASK
+  IP --> TASK
+  SP --> TASK
+
+  subgraph COMP["Competition"]
+    direction LR
+    PH1["<b>Phase</b> · Development<br/>fechas y límites propios"]
+    PH2["<b>Phase</b> · Final<br/>datos ocultos"]
+    LB["<b>Leaderboard</b><br/>columnas, orden<br/>y submission rule"]
+  end
+
+  TASK --> PH1
+  TASK --> PH2
+  PH1 --> LB
+  PH2 --> LB
+
+  SUB["<b>Submission</b><br/>del participante"] --> PH1
+  LB --> RES2["Pestaña <b>Results</b><br/>lo que ve todo el mundo"]
+```
+
+La flecha que más se malinterpreta es la que **no** está: `reference_data` nunca llega al participante. Entra en la Task, la usa el scoring program para comparar, y ahí se queda.
+
 ## Los bloques de una competición
 
 | Concepto | Qué es |
@@ -26,4 +61,4 @@ Antes de tocar la UI, conviene tener claros los bloques con los que se construye
 
 Los recursos (Datasets/Programs) y las Tasks se crean **una sola vez** y luego se reutilizan al vincularlos desde las Phases — no se suben de nuevo por cada fase.
 
-**Siguiente paso:** [Requisitos previos](./requisitos.md) — los ficheros y la cuenta que hay que tener listos antes de abrir el editor.
+**Siguiente paso:** [La competición de ejemplo](./ejemplo.md) — el caso concreto al que se refiere el resto de la guía.

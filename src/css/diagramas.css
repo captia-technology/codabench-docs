@@ -1,0 +1,76 @@
+/**
+ * Estilos de los diagramas Mermaid.
+ *
+ * POR QUÉ ESTE FICHERO EXISTE Y NO ESTÁ EN custom.css
+ * `src/css/custom.css` es copia byte a byte del tema del manual de captia.ai, y esa igualdad se
+ * comprueba con un `diff` (ver `.claude/rules/design-system.md`). Meter aquí una regla propia
+ * rompería esa comprobación y, con ella, la garantía de que el sistema de diseño no se ha
+ * bifurcado. Los diagramas son de este sitio, así que sus estilos viven aparte y `customCss`
+ * carga los dos ficheros.
+ *
+ * No se define ni un color nuevo: todo sale de los tokens que ya declara `custom.css`.
+ */
+
+/* Mermaid pinta el SVG con los `themeVariables` de docusaurus.config.js, que son los del modo
+   claro. En oscuro hay que recolorear desde CSS: el SVG ya está generado cuando el tema cambia,
+   y `!important` es necesario porque Mermaid escribe los colores en el atributo `style` de cada
+   nodo, que gana a cualquier regla de hoja de estilos. */
+
+[data-theme='dark'] .docusaurus-mermaid-container svg .node rect,
+[data-theme='dark'] .docusaurus-mermaid-container svg .node polygon,
+[data-theme='dark'] .docusaurus-mermaid-container svg .node circle,
+[data-theme='dark'] .docusaurus-mermaid-container svg .cluster rect {
+  fill: var(--ifm-background-surface-color) !important;
+  stroke: var(--captia-accent) !important;
+}
+
+[data-theme='dark'] .docusaurus-mermaid-container svg .nodeLabel,
+[data-theme='dark'] .docusaurus-mermaid-container svg .edgeLabel,
+[data-theme='dark'] .docusaurus-mermaid-container svg .cluster-label,
+[data-theme='dark'] .docusaurus-mermaid-container svg text {
+  fill: var(--ifm-font-color-base) !important;
+  color: var(--ifm-font-color-base) !important;
+}
+
+/* La etiqueta de una arista lleva su propio fondo opaco para que la línea no la cruce. */
+[data-theme='dark'] .docusaurus-mermaid-container svg .edgeLabel rect,
+[data-theme='dark'] .docusaurus-mermaid-container svg .labelBkg {
+  fill: var(--ifm-background-color) !important;
+  background-color: var(--ifm-background-color) !important;
+}
+
+/* La línea de una arista es un trazo ABIERTO: se le da color de trazo y `fill: none`.
+   Rellenarla la convierte en una mancha triangular enorme —el navegador cierra el path y pinta
+   el área— y el diagrama queda ilegible. La punta de flecha es lo contrario: es un `marker`, una
+   figura cerrada que se pinta con relleno y sin trazo. */
+[data-theme='dark'] .docusaurus-mermaid-container svg .edgePath path,
+[data-theme='dark'] .docusaurus-mermaid-container svg .flowchart-link {
+  stroke: var(--ifm-color-content-secondary) !important;
+  fill: none !important;
+}
+
+[data-theme='dark'] .docusaurus-mermaid-container svg marker path,
+[data-theme='dark'] .docusaurus-mermaid-container svg marker polygon,
+[data-theme='dark'] .docusaurus-mermaid-container svg .arrowheadPath {
+  fill: var(--ifm-color-content-secondary) !important;
+  stroke: none !important;
+}
+
+/* El diagrama se separa del texto como una figura, no como un párrafo más, y se centra.
+   `overflow-x` porque un diagrama ancho debe desplazarse él, nunca la página (misma regla que
+   las tablas en custom.css). */
+.docusaurus-mermaid-container {
+  display: block;
+  overflow-x: auto;
+  margin: 2rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: var(--captia-radius-lg);
+  background: var(--ifm-background-color);
+  text-align: center;
+}
+
+.docusaurus-mermaid-container svg {
+  max-width: 100%;
+  height: auto;
+}

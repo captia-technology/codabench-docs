@@ -1,7 +1,7 @@
 ---
 title: "Requisitos previos"
 description: "Llegar al editor de competiciones con la cuenta creada y con todos los ficheros ya comprimidos y nombrados de forma que se distingan en los desplegables de la UI."
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Requisitos previos

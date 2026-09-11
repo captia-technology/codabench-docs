@@ -152,8 +152,12 @@ SECCIONES = [
         "carpeta": "empezar",
         "label": "Antes de empezar",
         "fuentes": [DOC_GETTING_STARTED],
+        # El orden es el del recorrido de un lector nuevo: primero el vocabulario, después el
+        # caso concreto al que se referirá el resto de la guía, y por último lo que hay que
+        # tener en la mano antes de abrir el editor.
         "docs": [
             "conceptos",
+            ["ejemplo", "El ejemplo"],
             "requisitos",
         ],
     },

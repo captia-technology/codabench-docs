@@ -17,7 +17,7 @@ Codabench también admite crear la competición subiendo un bundle `.zip` con un
 
 Las seis secciones siguen el orden en que se monta una competición, y ese orden no admite atajos: una Task no puede referenciar un Dataset o un Program que todavía no se ha subido, y una Phase no puede asignar una Task que todavía no existe.
 
-1. **Antes de empezar** — esta sección: los [conceptos clave](./conceptos.md) con los que se construye una competición, y los [requisitos previos](./requisitos.md) que hay que tener listos antes de abrir el editor.
+1. **Antes de empezar** — esta sección: los [conceptos clave](./conceptos.md) con los que se construye una competición, [la competición de ejemplo](./ejemplo.md) que sirve de hilo conductor, y los [requisitos previos](./requisitos.md) que hay que tener listos antes de abrir el editor.
 2. **[Crear la competición](../competicion/index.md)** — las pestañas que definen la competición en sí: **Details**, **Participation**, **Pages** y **Collaborators**.
 3. **[Recursos y tasks](../recursos/index.md)** — subir los Datasets y Programs y combinarlos en la Task que evaluará las submissions.
 4. **[Fases y evaluación](../evaluacion/index.md)** — las **Phases** con sus fechas y límites, los **Leaderboards** con sus columnas, y la regla que decide qué submission de cada participante se muestra.

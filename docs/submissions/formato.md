@@ -14,8 +14,30 @@ sidebar_position: 1
 Cuando la Task no tiene ingestion program (el participante sube ya las predicciones, no código), el propio **scoring program** es responsable de validar la entrega antes de puntuar. Conviene documentar el formato exacto en la [página](../competicion/pages.md) `Evaluation`/`Submission` y hacer que el scoring program falle con un mensaje claro si no se cumple. Patrón típico:
 
 - El participante sube un `.zip` con un único CSV **en la raíz** (no dentro de una carpeta), p. ej. `submission.zip → submission.csv`.
-- El CSV tiene columnas fijas y conocidas de antemano, p. ej. `id,prediccion_iaq_class`.
+- El CSV tiene columnas fijas y conocidas de antemano — en el [ejemplo](../empezar/ejemplo.md), `id,prediccion_iaq_class`.
 - El scoring program valida, antes de calcular métricas:
+
+### La entrega correcta, y las tres que llegan mal
+
+El error más frecuente no es el modelo: es el envoltorio. Estas son las cuatro formas en que llega un zip, y solo una pasa.
+
+```mermaid
+flowchart TB
+  OK["✔ submission.zip<br/>└─ submission.csv"]:::bien
+  E1["✗ submission.csv<br/><i>sin comprimir</i>"]:::mal
+  E2["✗ submission.zip<br/>└─ salida/<br/>&nbsp;&nbsp;&nbsp;└─ submission.csv"]:::mal
+  E3["✗ submission.zip<br/>└─ predicciones.csv"]:::mal
+
+  OK --> R1["Se valida y se puntúa"]:::bien
+  E1 --> R2["<code>Only zip files are allowed</code>"]:::mal
+  E2 --> R3["<code>submission.csv inside folder</code>"]:::mal
+  E3 --> R4["<code>Missing submission.csv</code>"]:::mal
+
+  classDef bien stroke-width:2px
+  classDef mal stroke-dasharray: 4 3
+```
+
+Merece la pena enseñar esta distinción en la página `Submission` de la competición: se ahorra la mitad de los mensajes en el foro.
 
 | Error típico | Causa |
 |---|---|
