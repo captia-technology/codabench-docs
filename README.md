@@ -274,13 +274,27 @@ explicación va a [`docs-meta/README.md`](docs-meta/README.md).
 
 ### La fecha de actualización necesita el historial completo
 
-`docusaurus.config.js` trae `showLastUpdateTime: true`, y esa fecha sale de `git log`, no del
-sistema de ficheros. El CI ya lo cubre con `fetch-depth: 0`, pero **Vercel clona en superficial y
-no hay opción equivalente en `vercel.json`**: hay que declarar `VERCEL_DEEP_CLONE=true` en las
-variables de entorno del proyecto. Sin ella el sitio compila igual —el aviso
-`Cannot infer the update date` no rompe nada— pero todas las páginas acaban mostrando la misma
-fecha, que es peor que no mostrar ninguna: dice que el manual se revisó entero el día del último
-despliegue.
+La fecha de «última actualización» sale de `git log`, no del sistema de ficheros, y esa opción
+**no degrada cuando falla: tumba el build entero**. Con el error puesto, además, mirando al sitio
+equivocado:
+
+```
+Can't process doc metadata for doc at path path=/vercel/path0/docs/index.mdx
+  Error: Command failed with exit code 128: git ... log --format=RESULT:%ct,%an ... "index.mdx"
+```
+
+Ni la fecha ni la opción aparecen ahí: parece un problema del documento. Pasó en el primer
+despliegue de este repositorio, con un `vercel deploy` desde la CLI, que sube los ficheros **sin
+`.git`**. Por eso `docusaurus.config.js` calcula `showLastUpdateTime` en vez de fijarlo:
+
+```js
+const hayHistorialGit = fs.existsSync(path.join(__dirname, '.git'));
+```
+
+Sin historial, el sitio se construye y no muestra fecha; con historial, la muestra. Y para que sea
+la fecha real de cada página y no la del último despliegue, el clon no puede ser superficial —que
+es como clona Vercel por defecto—: hay que declarar **`VERCEL_DEEP_CLONE=true`** en las variables
+de entorno del proyecto. El CI ya lo cubre por su lado con `fetch-depth: 0`.
 
 ### Dominio
 

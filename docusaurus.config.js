@@ -27,6 +27,21 @@
  *   De dónde sale esa etiqueta y qué la mantiene honesta, en `docs-meta/03-version-contrastada.md`.
  */
 
+// `showLastUpdateTime` saca la fecha de `git log`, no del sistema de ficheros, y cuando el
+// comando falla NO degrada: tumba el build entero con «Can't process doc metadata». Pasa siempre
+// que se construye sin historial —un `vercel deploy` desde la CLI sube los ficheros sin `.git`, y
+// un `git archive` o un ZIP descargado tampoco lo llevan—, y el mensaje de error no menciona ni
+// la fecha ni esta opción: habla de metadatos de un documento, así que se busca el fallo en el
+// documento.
+//
+// El despliegue normal —Vercel conectado al repositorio— sí clona y tiene `.git`, de modo que la
+// fecha se sigue mostrando ahí, que es donde importa. Para que sea la fecha REAL de cada página y
+// no la del último despliegue, el clon no puede ser superficial: hay que declarar
+// `VERCEL_DEEP_CLONE=true` en las variables de entorno del proyecto (ver README).
+const fs = require('fs');
+const path = require('path');
+const hayHistorialGit = fs.existsSync(path.join(__dirname, '.git'));
+
 const config = {
   title: 'Guía de Codabench',
   tagline: 'Crear y mantener competiciones en Codabench',
@@ -93,7 +108,7 @@ const config = {
           path: 'docs',
           routeBasePath: '/',
           sidebarPath: './sidebars.js',
-          showLastUpdateTime: true,
+          showLastUpdateTime: hayHistorialGit,
           lastVersion: 'current',
           versions: {
             current: { label: 'Codabench v1.23', path: '' },

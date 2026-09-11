@@ -34,3 +34,5 @@ scripts/privados.txt
 .DS_Store
 Thumbs.db
 desktop.ini
+
+.vercel
