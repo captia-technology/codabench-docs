@@ -21,7 +21,7 @@ CodaLab. Sitio Docusaurus 3.10.2 en español, publicado en
 | Dominio | `https://docs.codabench.captia.ai` | `docusaurus.config.js`; el literal es respaldo, manda `VERCEL_PROJECT_PRODUCTION_URL` |
 | Publica | Vercel, producción desde `main`; preview por pull request | `vercel.json` y el encabezado de `.github/workflows/docs-ci.yml` |
 | Rama por defecto hoy | `master` | `git branch --show-current` |
-| Versión rotulada | `Codabench v1.23` | `docusaurus.config.js`, `versions.current.label` |
+| Versión rotulada | `Codabench v1.31.2` | `docusaurus.config.js`, `versions.current.label` |
 | Idioma | español, un solo locale, sin prefijo de URL | `docusaurus.config.js`, bloque `i18n` |
 
 `main` y `master` conviven a propósito: el workflow de CI nombra las dos ramas
@@ -101,7 +101,7 @@ python scripts/check_codabench.py      # ¿hay release nueva de Codabench? qué 
 python scripts/check_fuentes.py        # ¿siguen vivas las URLs externas que cita la guía?
 ```
 
-`check_codabench.py` compara la etiqueta `Codabench v1.23` que declara este
+`check_codabench.py` compara la etiqueta `Codabench v1.31.2` que declara este
 sitio con la última release publicada en
 `https://api.github.com/repos/codalab/codabench/releases/latest`, y lista qué
 páginas dependen de qué fuentes leyéndolo de `docs-map.json`. Sale 0 al día, 1

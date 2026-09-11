@@ -49,7 +49,7 @@ Verificado con `diff` contra la referencia el 2026-09-10:
 | Fichero | Verificación |
 |---|---|
 | `src/css/custom.css` | **Idéntico fuera de comentarios y líneas en blanco.** Los tokens de marca, la escala tipográfica, los radios y los contrastes medidos no cambian ni un valor |
-| `src/components/Portada/index.js` | Mismos componentes, mismas clases, mismos tokens. Una sola desviación de código: el rótulo del panel de cabecera, que allí era el literal «Manual funcional» en el JSX, aquí es la prop `rotulo` con ese mismo valor por defecto —el original renderiza idéntico—, y este sitio le pasa el suyo. De paso, el `versión ` que precedía a la etiqueta se va: aquí la etiqueta ya es «Codabench v1.23» |
+| `src/components/Portada/index.js` | Mismos componentes, mismas clases, mismos tokens. Una sola desviación de código: el rótulo del panel de cabecera, que allí era el literal «Manual funcional» en el JSX, aquí es la prop `rotulo` con ese mismo valor por defecto —el original renderiza idéntico—, y este sitio le pasa el suyo. De paso, el `versión ` que precedía a la etiqueta se va: aquí la etiqueta ya es «Codabench v1.31.2» |
 | `src/components/Portada/styles.module.css` | Idéntico salvo el comentario de cabecera |
 | `static/img/logo-mark.svg` | **Byte a byte idéntico.** Es el mark real del design system, con su geometría exacta |
 | `.claude/skills/code-documentation/` | Copiada en estructura —los mismos 38 ficheros, con `references/captia-profile.md` renombrado a `references/perfil-repositorio.md`—, pero **reescrita en contenido**: solo 4 quedan idénticos byte a byte (`scripts/docs_tools.py`, los dos de `tests/` y `assets/captia-design-contract.example.json`). Todo lo demás se adaptó a documentar una fuente externa (ver abajo) |
@@ -129,16 +129,16 @@ ningún enlace entrante.
 **3. `routeBasePath: '/'`.** La documentación **es** el sitio: no hay blog ni landing que compartan
 dominio, así que un prefijo `/docs/` solo alargaría todas las URL sin distinguir nada.
 
-**4. `versions.current.label: 'Codabench v1.23'`, sin `versioned_docs`.** La versión viva se
+**4. `versions.current.label: 'Codabench v1.31.2'`, sin `versioned_docs`.** La versión viva se
 etiqueta con la versión de Codabench contra la que se contrastó el contenido, igual que el manual
 de captia.ai se etiqueta con la versión de la aplicación. No se congela ninguna versión todavía: el
 primer corte tendrá sentido cuando Codabench publique una que cambie la interfaz descrita, y
-congelar antes de tener nada que congelar duplica el árbol entero de `docs/` —23 ficheros— para
+congelar antes de tener nada que congelar duplica el árbol entero de `docs/` —25 ficheros— para
 nada. De dónde sale exactamente
 esa etiqueta, en [`03-version-contrastada.md`](03-version-contrastada.md).
 
 **5. Búsqueda local (`@easyops-cn/docusaurus-search-local`) y no Algolia.** No hace falta dar de
-alta un servicio externo ni esperar a un crawler para un sitio de 21 páginas. Dos ajustes no
+alta un servicio externo ni esperar a un crawler para un sitio de 23 páginas. Dos ajustes no
 vienen por defecto y se pusieron a mano: el extracto de resultado sube de 50 a **120** caracteres,
 porque media docena de páginas empiezan describiendo la misma pantalla del editor web y con 50 el
 fragmento se agota antes de llegar a la palabra buscada —todos los resultados se leen igual—; y

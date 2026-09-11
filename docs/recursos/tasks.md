@@ -1,7 +1,7 @@
 ---
 title: "Tasks"
 description: "Combinar los recursos ya subidos en una Task, la unidad reutilizable que después se asigna a una o varias Phases."
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Tasks

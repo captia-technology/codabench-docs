@@ -1,4 +1,4 @@
-# El reparto del contenido — de un fichero a 21 páginas
+# El reparto del contenido — de un fichero a 23 páginas
 
 De dónde sale cada página del sitio. Este documento es la **trazabilidad del contenido**: permite
 comprobar, fila a fila, que el reparto no perdió nada y que ninguna página se escribió de la nada.
@@ -15,8 +15,8 @@ arriba abajo en GitHub y tenía tres límites que un fichero suelto no resuelve:
 - **No hay forma de decir contra qué versión está contrastado** lo que dice, ni de saber qué
   páginas revisar cuando Codabench cambie.
 
-Hoy son **21 páginas repartidas en 6 secciones** —6 páginas índice y 15 de detalle—, más la
-portada (`docs/index.mdx`) y el mapa generado (`docs/mapa-de-la-guia.md`): 23 ficheros en `docs/`.
+Hoy son **23 páginas repartidas en 6 secciones** —6 páginas índice y 17 de detalle—, más la
+portada (`docs/index.mdx`) y el mapa generado (`docs/mapa-de-la-guia.md`): 25 ficheros en `docs/`.
 
 ## La regla del reparto
 
@@ -158,7 +158,7 @@ fuera. Comprobado línea a línea contra las 164 líneas no vacías del document
 
 ```bash
 python scripts/check_docs.py          # enlaces, tablas, front matter, invariantes
-python scripts/build_nav.py --check   # que las 21 páginas estén declaradas y colocadas
+python scripts/build_nav.py --check   # que las 23 páginas estén declaradas y colocadas
 npm run build                         # onBrokenLinks: 'throw' — un enlace roto no pasa de aquí
 ```
 

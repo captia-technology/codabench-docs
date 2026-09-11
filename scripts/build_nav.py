@@ -181,6 +181,7 @@ SECCIONES = [
         "fuentes": [DOC_RECURSOS],
         "docs": [
             "datasets-programs",
+            ["scoring-program", "El scoring program"],
             "tasks",
         ],
     },

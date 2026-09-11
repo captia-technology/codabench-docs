@@ -16,7 +16,7 @@ mecanismo sí está comprobado contra la configuración real del sitio: `onBroke
 
 ## La plantilla de página
 
-Las 21 páginas comparten una estructura. Al crear o editar una, mantenerla:
+Las 23 páginas comparten una estructura. Al crear o editar una, mantenerla:
 
 ```markdown
 ---
@@ -102,9 +102,11 @@ de este sitio encuentran «Forzar el mejor». La negrita es lo que separa el ró
 lo rodea; sin ella, «pulsa en add dataset» se lee como una instrucción vaga y no como el nombre
 exacto de un botón.
 
-La versión contrastada es **Codabench v1.23**, y sale de las URLs de la documentación oficial que
-cita esta guía, **no** de una comprobación contra la instancia. Donde una página lo afirme, tiene
-que decirlo así: una versión afirmada sin decir de dónde viene se lee como verificada.
+La versión contrastada es **Codabench v1.31.2**, y se apoya en las notas de publicación y en el
+código de esa versión —los formularios del editor y los modelos—, **no** en haber montado una
+competición sobre una instancia con ella. Donde una página afirme la versión, tiene que decir de
+dónde sale: una versión afirmada a secas se lee como verificada de punta a punta, y aquí no lo
+está. El procedimiento de revisión, en `docs-meta/04-sync-codabench-v1.31.2.md`.
 
 ## Las once invariantes
 

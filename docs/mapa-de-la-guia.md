@@ -33,10 +33,11 @@ Esta página la genera `scripts/build_nav.py` a partir de la declaración `SECCI
 
 ## Recursos y tasks
 
-*3 páginas.*
+*4 páginas.*
 
 - [Recursos y tasks](./recursos/index.md)
 - [Datasets y Programs](./recursos/datasets-programs.md)
+- [El scoring program por dentro](./recursos/scoring-program.md)
 - [Tasks](./recursos/tasks.md)
 
 ## Fases y evaluación

@@ -1,12 +1,12 @@
 # codabench-docs
 
-Sitio de documentación de **cómo crear y mantener competiciones en Codabench**: 21 páginas en
+Sitio de documentación de **cómo crear y mantener competiciones en Codabench**: 23 páginas en
 español repartidas en 6 secciones, con Docusaurus 3.10.2 y publicado en Vercel bajo
 **https://docs.codabench.captia.ai**. El contenido se etiqueta como contrastado con **Codabench
-v1.23**; esa etiqueta sale de las URL de la documentación oficial que citaba la guía original y
-**no** de una comprobación contra una instancia viva —ver
-[`docs-meta/03-version-contrastada.md`](docs-meta/03-version-contrastada.md), que existe
-precisamente para que eso no se olvide—.
+v1.31.2**, tras la revisión de septiembre de 2026. Esa etiqueta se apoya en las notas de
+publicación y en el código de esa versión —formularios del editor y modelos—, **no** en haber
+vuelto a montar una competición sobre una instancia con ella; la distinción importa y está
+registrada en [`docs-meta/04-sync-codabench-v1.31.2.md`](docs-meta/04-sync-codabench-v1.31.2.md).
 
 Este fichero es un índice, no un manual. El detalle vive donde se carga solo cuando hace falta:
 
@@ -54,7 +54,7 @@ Lo que sí cambia es el contenido, el dominio y la navegación.
 
 **Cuando Codabench cambia, hay que revisar la guía.** Es un producto externo con su propio
 calendario. Cuando publique una versión que cambie la interfaz descrita y nadie toque la guía, la
-afirmación «contrastado con Codabench v1.23» pasa a ser falsa en un sitio público, y **ningún
+afirmación «contrastado con Codabench v1.31.2» pasa a ser falsa en un sitio público, y **ningún
 build ni validador lo detecta**. `python scripts/check_codabench.py` compara la última release
 publicada de `codalab/codabench` con la que declara este sitio y dice qué páginas dependen de qué
 fuentes; `--fijar` cierra el ciclo subiendo la etiqueta. El paso del medio —contrastar pantalla a
@@ -71,7 +71,7 @@ python scripts/build_nav.py --apply   # regenera orden, categorías, mapa y docs
 python scripts/add_frontmatter.py --apply     # title de un documento nuevo, a partir de su H1
 python scripts/normalize_headings.py --apply  # un solo H1 por documento
 python scripts/check_fuentes.py       # las URL externas que cita la guía siguen vivas
-python scripts/check_codabench.py     # ¿sigue siendo v1.23 la versión contrastada?
+python scripts/check_codabench.py     # ¿sigue siendo v1.31.2 la versión contrastada?
 python scripts/check_codabench.py --fijar   # cierre del ciclo, DESPUÉS de revisar el contenido
 npm start                             # previsualización local
 npm run build                         # build de producción, SIN --locale

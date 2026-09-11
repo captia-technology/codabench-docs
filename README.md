@@ -1,12 +1,12 @@
 # Documentación de Codabench
 
-Guía de cómo crear y mantener competiciones en **Codabench**: 21 páginas en español repartidas en
+Guía de cómo crear y mantener competiciones en **Codabench**: 23 páginas en español repartidas en
 6 secciones, construida con [Docusaurus](https://docusaurus.io/) 3.10.2 y publicada en Vercel.
 
 | | |
 |---|---|
 | **Sitio** | `docs.codabench.captia.ai` |
-| **Contenido** | Contrastado con **Codabench v1.23**. Esa etiqueta sale de las URL de la documentación oficial que citaba la guía original, **no** de una comprobación contra una instancia viva: ver [`docs-meta/03-version-contrastada.md`](docs-meta/03-version-contrastada.md) |
+| **Contenido** | Contrastado con **Codabench v1.31.2**. Esa etiqueta sale de las URL de la documentación oficial que citaba la guía original, **no** de una comprobación contra una instancia viva: ver [`docs-meta/03-version-contrastada.md`](docs-meta/03-version-contrastada.md) |
 | **Publica** | Vercel, desde la rama de producción. GitHub Actions solo verifica |
 | **Repositorio** | `captia-technology/codabench-docs`, **público**. El sitio también |
 
@@ -67,7 +67,7 @@ npm run serve      # sirve el build ya construido, para comprobarlo como en prod
 
 | Dónde | Qué contiene | Se publica |
 |---|---|---|
-| `docs/` | Las 21 páginas de la guía en sus 6 secciones, más la portada (`index.mdx`) y el mapa generado | **Sí** |
+| `docs/` | Las 23 páginas de la guía en sus 6 secciones, más la portada (`index.mdx`) y el mapa generado | **Sí** |
 | `src/` | Componentes de la portada y el tema | Sí (compilado) |
 | `static/` | El mark del design system y el resto de estáticos | Sí |
 | `scripts/` | Validadores y generadores, en Python. Los que escriben en el árbol son idempotentes y traen `--check`; los `check_*` no escriben nada | No |
@@ -149,7 +149,7 @@ de cero, sale más barato prohibirlo de entrada que mantener la excepción.
 Esto es lo más fácil de olvidar y lo que más daño hace.
 
 El sitio afirma, en el pie de todas las páginas y en el desplegable de versión, estar
-**«contrastado con Codabench v1.23»**. No es un adorno: es la afirmación que sostiene todo lo
+**«contrastado con Codabench v1.31.2»**. No es un adorno: es la afirmación que sostiene todo lo
 demás. Codabench es un producto externo y sigue su propio calendario; cuando publique una versión
 que cambie la interfaz descrita y nadie toque la guía, esa frase pasará a ser falsa en un sitio
 público y **ningún build ni validador lo detectará**: el sitio compila perfectamente mientras
@@ -184,7 +184,7 @@ python scripts/build_nav.py --apply         # regenera el mapa y docs-map.json
 python scripts/check_docs.py && npm run build
 ```
 
-> **`--fijar` nunca antes del paso 2.** Cambiar «v1.23» por la versión nueva sin haber revisado las
+> **`--fijar` nunca antes del paso 2.** Cambiar «v1.31.2» por la versión nueva sin haber revisado las
 > páginas no actualiza nada: convierte una afirmación **caducada** en una **falsa**, que es peor,
 > porque la caducada se detecta comparando versiones —justamente con este script— y la falsa solo
 > la descubre un lector siguiendo instrucciones que ya no encajan con lo que tiene en pantalla.
@@ -320,7 +320,7 @@ compite en buscadores con el definitivo ni deja resultados que caduquen el día 
 | `python scripts/add_frontmatter.py --apply` | `title` de un documento nuevo, a partir de su H1 |
 | `python scripts/normalize_headings.py --apply` | Un solo H1 por documento |
 | `python scripts/check_fuentes.py` | Que las URL externas que cita la guía sigan vivas. De red, a mano |
-| `python scripts/check_codabench.py` | ¿Sigue siendo v1.23 la versión contrastada? De red, a mano |
+| `python scripts/check_codabench.py` | ¿Sigue siendo v1.31.2 la versión contrastada? De red, a mano |
 | `python scripts/check_codabench.py --fijar` | Cierra el ciclo tras revisar: sube la etiqueta de versión donde aparece |
 | `npm run build` | Build de producción, **sin `--locale`** |
 
@@ -404,7 +404,7 @@ que se sirve. Debe ser `'/'`.
 |---|---|
 | [`docs-meta/01-setup-inicial.md`](docs-meta/01-setup-inicial.md) | De dónde se replicó el patrón, qué se copió exacto y qué se adaptó |
 | [`docs-meta/02-reparto-del-contenido.md`](docs-meta/02-reparto-del-contenido.md) | De dónde sale cada página del sitio, sección a sección |
-| [`docs-meta/03-version-contrastada.md`](docs-meta/03-version-contrastada.md) | De dónde sale «Codabench v1.23» y qué haría falta para contrastarla de verdad |
+| [`docs-meta/03-version-contrastada.md`](docs-meta/03-version-contrastada.md) | De dónde sale «Codabench v1.31.2» y qué haría falta para contrastarla de verdad |
 | [`.claude/rules/documentacion.md`](.claude/rules/documentacion.md) | La plantilla de página y las invariantes, desarrolladas |
 | [`.claude/rules/design-system.md`](.claude/rules/design-system.md) | Los tokens de marca y por qué el tema no se bifurca |
 | [`CLAUDE.md`](CLAUDE.md) | El índice del repositorio para trabajar con Claude Code |

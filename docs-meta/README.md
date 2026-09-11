@@ -13,12 +13,12 @@ lo quita y el build se cae. Aquí es donde se busca antes de deshacer algo.
 ## Estado actual
 
 El repositorio pasa de ser **una guía de un solo fichero** (`docs/crear-competicion.md`, 236
-líneas) a un **sitio Docusaurus de 21 páginas en 6 secciones**, con el tema del Captia Technology
+líneas) a un **sitio Docusaurus de 23 páginas en 6 secciones**, con el tema del Captia Technology
 Design System, validadores en Python, verificación en CI y publicación en Vercel. El patrón se
 replica del manual de captia.ai (`my-qa-captia-ai-app`); qué se copió exacto y qué se adaptó está
 en [`01-setup-inicial.md`](01-setup-inicial.md).
 
-El contenido publicado se etiqueta como contrastado con **Codabench v1.23**. Esa etiqueta tiene un
+El contenido publicado se etiqueta como contrastado con **Codabench v1.31.2**. Esa etiqueta tiene un
 origen concreto y limitado, y [`03-version-contrastada.md`](03-version-contrastada.md) existe para
 que no se convierta en una afirmación falsa sin que nadie se dé cuenta.
 
@@ -28,7 +28,7 @@ que no se convierta en una afirmación falsa sin que nadie se dé cuenta.
 |---|---|---|
 | [`01-setup-inicial.md`](01-setup-inicial.md) | El montaje del 2026-09-10: de dónde se replicó el patrón, qué se copió exacto, qué se adaptó y qué se decidió | **Instantánea fechada** — registro de cómo quedó montado, no se reescribe |
 | [`02-reparto-del-contenido.md`](02-reparto-del-contenido.md) | De dónde sale cada página del sitio: la correspondencia entre las 16 partes de la guía original —preámbulo, 14 secciones y Referencias— y las 16 páginas que las heredan | **Vigente** — es la trazabilidad del contenido |
-| [`03-version-contrastada.md`](03-version-contrastada.md) | De dónde salió la etiqueta «Codabench v1.23» del primer corte, qué **no** significaba, y qué haría falta para contrastarla de verdad | **Vigente** — se actualiza cada vez que la etiqueta cambie |
+| [`03-version-contrastada.md`](03-version-contrastada.md) | De dónde salió la etiqueta «Codabench v1.31.2» del primer corte, qué **no** significaba, y qué haría falta para contrastarla de verdad | **Vigente** — se actualiza cada vez que la etiqueta cambie |
 | [`04-sync-codabench-v1.31.2.md`](04-sync-codabench-v1.31.2.md) | La revisión de v1.23 a v1.31.2: qué cambió de verdad, qué no era desfase sino hueco, y qué queda pendiente | **Vigente** — es el registro del ciclo de versión |
 
 ## Dos avisos que valen siempre
@@ -119,7 +119,7 @@ confirmar en el panel cuál está configurada. Es un desajuste que no da error e
 simplemente no despliega.
 
 **Contrastar la versión de verdad.** Ver [`03-version-contrastada.md`](03-version-contrastada.md):
-hoy «v1.23» sale de una URL de la documentación oficial, no de una instancia.
+hoy «v1.31.2» sale de una URL de la documentación oficial, no de una instancia.
 
 **Capturas.** La guía es procedimental y describe formularios que el lector tiene delante; no hay
 ni una imagen. Añadirlas obligaría a auditar cada una antes de publicarla, porque una captura de

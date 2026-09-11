@@ -180,6 +180,17 @@
       ]
     },
     {
+      "doc": "docs/recursos/scoring-program.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/"
+          ]
+        }
+      ]
+    },
+    {
       "doc": "docs/recursos/tasks.md",
       "sources": [
         {

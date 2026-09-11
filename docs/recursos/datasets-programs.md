@@ -25,4 +25,4 @@ Los cuatro tipos de recurso se ven mejor con el [ejemplo](../empezar/ejemplo.md)
 
 Los recursos se pueden marcar como públicos o privados, y son reutilizables entre Tasks y entre competiciones propias.
 
-**Siguiente paso:** [Tasks](./tasks.md) — combinar estos recursos en la unidad que evalúa las submissions.
+**Siguiente paso:** [El scoring program](./scoring-program.md) — qué lleva dentro ese zip, dónde encuentra los ficheros y dónde deja las métricas.
