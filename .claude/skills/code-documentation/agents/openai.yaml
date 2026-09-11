@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Documentation"
+  short_description: "Documentación profesional, verificable y con marca"
+  default_prompt: "Documenta desde la fuente contrastada —documentación oficial, interfaz observada o competición montada—, reutiliza el design system existente, conserva versiones y verifica contenido y experiencia."

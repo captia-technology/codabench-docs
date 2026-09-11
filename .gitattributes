@@ -1,0 +1,17 @@
+# Finales de línea: LF siempre, tanto en el repositorio como en el árbol de trabajo.
+# El contenido se edita en Windows pero el CI y el build de Docusaurus corren en Linux;
+# sin esto, git avisa de conversiones CRLF y los diffs y los linters de markdown
+# producen ruido que no corresponde a ningún cambio real.
+* text=auto eol=lf
+
+# Binarios: que git no intente normalizarlos nunca.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.svg  text eol=lf
+*.pdf  binary
+*.ico  binary
+*.woff binary
+*.woff2 binary

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "visibility": "internal-review-before-publication",
+  "claims": [
+    {
+      "document": "{{DOC_PATH}}",
+      "claim": "{{MATERIAL_CLAIM}}",
+      "status": "unverified",
+      "evidence": [
+        {
+          "source_id": "codabench",
+          "revision": "{{VERSION_EN_LA_URL_OFICIAL_O_FECHA_DE_OBSERVACION}}",
+          "path": "{{URL_OFICIAL_O_RUTA_DE_NAVEGACION_EN_LA_INTERFAZ}}",
+          "symbol": "{{CAMPO_O_ROTULO_CONCRETO_SI_APLICA}}"
+        }
+      ],
+      "verification": {"command": null, "exit_code": null, "result": "not-run"}
+    }
+  ]
+}

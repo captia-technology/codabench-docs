@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "contract_type": "captia-documentation-design",
+  "status": "unresolved",
+  "brand": "Captia",
+  "source_of_truth": {
+    "repository": null,
+    "revision": null,
+    "files": [],
+    "context_evidence": []
+  },
+  "themes": {
+    "supported_modes": [],
+    "default_mode": null,
+    "selector": null
+  },
+  "roles": [
+    {
+      "role": "color.brand.primary",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "color.surface",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "color.text",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "color.text.muted",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "color.link",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "color.border",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "color.focus",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "color.status",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "typography.body",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "typography.heading",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "typography.code",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "spacing",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "radius",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "elevation",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "breakpoints",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "icons",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "brand.assets",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    },
+    {
+      "role": "motion",
+      "source_identifier": null,
+      "source_path": null,
+      "usage_in_docs": null,
+      "status": "unresolved"
+    }
+  ],
+  "reused_components": [],
+  "approved_exceptions": [],
+  "example_notice": "Private agent convention, not Docusaurus configuration. Resolve from the existing Captia design system and authorized context. Nulls are deliberately unresolved, never guessed tokens. Do not publish source paths."
+}

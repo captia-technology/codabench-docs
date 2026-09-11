@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "_generado_por": "scripts/build_nav.py — no editar a mano; este fichero es solo el ejemplo del formato",
+  "_fuentes": {
+    "codabench": {
+      "producto": "Codabench",
+      "documentacion": "https://docs.codabench.org/",
+      "revision_contrastada": "v1.23",
+      "nota": "La versión sale de las URLs de la documentación oficial que cita la guía, no de una comprobación contra una instancia desplegada."
+    }
+  },
+  "documents": [
+    {
+      "doc": "docs/empezar/conceptos.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Getting-started-with-Codabench/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/recursos/tasks.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+          ]
+        }
+      ]
+    }
+  ],
+  "_aviso_de_ejemplo": "Las rutas de 'paths' son URLs, no ficheros: la fuente documentada es una plataforma externa. Una página puede respaldarse además en la observación directa de la interfaz; el literal exacto con el que eso se declara lo fija SECCIONES en scripts/build_nav.py, no este ejemplo. Estas URLs son ilustrativas: abrirlas antes de declararlas."
+}

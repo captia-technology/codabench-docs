@@ -1,0 +1,109 @@
+name: Documentación · CI
+
+# La PUBLICACIÓN la hace Vercel, conectado al repositorio: producción desde `main` y una preview
+# por cada pull request. Este workflow NO publica nada. Solo verifica, y falla el pull request
+# antes de que nadie abra la preview.
+#
+# Existe porque un build de Vercel en verde no garantiza nada de lo que aquí se comprueba:
+#
+#  - Los validadores son Python y Vercel no los ejecuta: su `buildCommand` es `npm run build` y
+#    nada más. `scripts/check_docs.py` comprueba invariantes del CONTENIDO —enlaces relativos e
+#    imágenes que resuelven con la caja exacta del fichero, un solo H1 por página, filas de tabla
+#    cuadradas, rutas ASCII en minúscula, y nada publicable que identifique a nadie (correos con
+#    dominio real, IPs, credenciales, URLs de instancias internas de Codabench)—. Docusaurus
+#    construye igual de bien con un enlace roto y con un correo real dentro. El repositorio es
+#    privado, pero el sitio publicado es público: por eso esa comprobación bloquea.
+#  - El runner es Linux y las máquinas de trabajo son Windows. En Windows el sistema de ficheros
+#    no distingue mayúsculas, así que un enlace a `Conceptos.md` apuntando a `conceptos.md` abre
+#    en local y devuelve 404 en producción. Este job es el único sitio donde ese fallo aparece
+#    antes de publicarse.
+#  - Y, sobre todo, **Vercel puede no construir**. El `ignoreCommand` de `vercel.json` salta el
+#    despliegue cuando el último commit no toca `docs`, `src`, `static`, `docusaurus.config.js`,
+#    `sidebars.js`, `package.json`, `package-lock.json` ni `vercel.json`. Un cambio en `scripts/`
+#    —justo el que puede romper la validación de todas las páginas— no dispara ningún build de
+#    Vercel. Sin este workflow, ese cambio no lo verificaría nadie.
+
+on:
+  push:
+    # `main` es la rama desde la que Vercel publica producción. `master` es como se llama hoy la
+    # rama por defecto del repositorio. Se listan las dos a propósito: si el workflow solo
+    # nombrara la rama que aún no existe, no fallaría nada, simplemente no se ejecutaría nunca, y
+    # un CI apagado no avisa de que está apagado.
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  # Permite relanzar la verificación a mano —al actualizar una acción, o cuando `npm ci` se ha caído
+  # por un fallo de red del registro— sin tener que inventar un commit vacío. Lo que NO se puede
+  # arreglar relanzando es `scripts/privados.txt`: está en `.gitignore`, así que el runner nunca lo
+  # ve y `check_docs.py` corre siempre allí con la lista vacía.
+  workflow_dispatch:
+
+# Solo se lee el repositorio: este workflow no escribe commits, ni releases, ni comentarios. Con
+# el permiso mínimo declarado, un paso comprometido no puede empujar nada al repositorio.
+permissions:
+  contents: read
+
+# Una sola ejecución viva por rama. Al empujar correcciones seguidas a un pull request, la
+# ejecución anterior se cancela en vez de competir por runners y de dejar en el pull request el
+# resultado de un commit ya superado.
+concurrency:
+  group: docs-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # El sitio muestra la fecha de última actualización de cada página
+          # (`showLastUpdateTime` en `docusaurus.config.js`) y esa fecha sale del historial de
+          # git. Con el clon superficial por defecto, el build no encuentra el commit que tocó
+          # cada fichero: no falla —solo avisa, «Cannot infer the update date for some files»—
+          # y publica la misma fecha en todas las páginas. Un aviso que nadie lee y un sitio que
+          # miente sobre cuándo se revisó cada página es peor que un fallo.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          # Versión fija a propósito, no `3.x`: en local se trabaja con Python 3.11 y aquí con
+          # 3.12, así que los scripts se escriben para las dos; lo que no queremos es que una
+          # versión de Python publicada mañana cambie el resultado del CI sin que nadie haya
+          # tocado el repositorio.
+          python-version: '3.12'
+
+      - name: Invariantes de docs/
+        # Mismo comando que se ejecuta en local antes de pedir revisión (`npm run check`). Si
+        # falla aquí y no allí, casi siempre es la caja de un enlace: Linux la distingue.
+        run: python scripts/check_docs.py
+
+      - name: Navegación declarada
+        # `build_nav.py` es la fuente única del orden del sidebar, del mapa de la guía y de
+        # `docs-map.json`. En `--check` falla si aparece un documento sin declarar en SECCIONES,
+        # si se declara uno que ya no existe, o si el mapa y el docs-map generados se han quedado
+        # atrás respecto a `docs/`. Sin esto, una página nueva se colaría al final del sidebar y
+        # ausente del mapa, y el sitio publicaría un índice que miente sobre su propio contenido.
+        run: python scripts/build_nav.py --check
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          # La caché se indexa por `package-lock.json`, así que se invalida sola cuando cambian
+          # las dependencias. Ahorra el minuto largo de `npm ci` en la mayoría de ejecuciones.
+          cache: npm
+
+      - name: Instalar dependencias
+        # `npm ci`, no `npm install`: instala exactamente lo que fija el lockfile y falla si el
+        # lockfile y `package.json` no concuerdan. Es el mismo `installCommand` que usa Vercel,
+        # que es lo que hace que este build sea representativo del que publica.
+        run: npm ci
+
+      - name: Construir el sitio
+        # Mismo `buildCommand` que Vercel: si rompe aquí, rompe allí. El sitio está configurado
+        # con `onBrokenLinks`, `onBrokenAnchors` y `onBrokenMarkdownLinks` en `throw`, así que
+        # este paso es además la segunda red bajo `check_docs.py`: caza las anclas rotas, que el
+        # validador no persigue.
+        #
+        # SIN `--locale`, deliberadamente. Con un único locale, construir uno concreto no añade
+        # prefijo de URL: pasar `--locale` publicaría ese idioma en la raíz del sitio.
+        run: npm run build

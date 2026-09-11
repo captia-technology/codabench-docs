@@ -1,0 +1,125 @@
+---
+title: "Guía de Codabench"
+sidebar_label: "Portada"
+slug: /
+sidebar_position: 0
+hide_title: true
+hide_table_of_contents: true
+---
+
+{/* `hide_title` es necesario: sin él Docusaurus inyecta un H1 con el `title` del front matter
+    porque el contenido no empieza por un encabezado de Markdown, y la página acabaría con dos
+    H1 seguidos —«Guía de Codabench» y el del propio panel de portada—. El `title` se conserva
+    porque es lo que se ve en la pestaña del navegador y en los resultados de búsqueda. */}
+
+import { Portada, Bloque, Rejilla, Tarjeta, Anatomia } from '@site/src/components/Portada';
+
+<Portada
+  rotulo="Guía del organizador"
+  version="Codabench v1.23"
+  titulo="Crear una competición en Codabench"
+  entradilla="El recorrido completo desde el editor web: qué es cada bloque, en qué orden se monta, qué se sube, cómo se puntúa y qué falla cuando algo no aparece en el leaderboard. Sin escribir un competition.yaml a mano."
+  acciones={[
+    { to: '/empezar', label: 'Empezar por el principio' },
+    { to: '/mapa-de-la-guia', label: 'Ver el mapa completo' },
+  ]}
+/>
+
+<Bloque
+  titulo="Según dónde estés"
+  entradilla="Cuatro entradas a la guía por la pregunta que traes, en vez de por el menú de Codabench.">
+  <Rejilla>
+    <Tarjeta titulo="Nunca he montado una" to="/empezar/conceptos" accion="Empezar">
+      Qué es una Competition, un Dataset, un Program, una Task, una Phase y un Leaderboard, y
+      cómo encajan entre sí antes de tocar un solo formulario.
+    </Tarjeta>
+    <Tarjeta titulo="Tengo los ficheros listos" to="/recursos/datasets-programs" accion="Subir recursos">
+      Cómo se suben los zips como recursos reutilizables y cómo se combinan en una Task que luego
+      usarán una o varias fases.
+    </Tarjeta>
+    <Tarjeta titulo="Quiero que puntúe" to="/evaluacion/leaderboards" accion="Configurar el leaderboard">
+      Las columnas del leaderboard, la clave que tiene que coincidir con lo que escribe el
+      scoring program, y qué submission de cada participante se muestra.
+    </Tarjeta>
+    <Tarjeta titulo="Algo no funciona" to="/referencia/troubleshooting" accion="Diagnosticar">
+      Leaderboard vacío, submissions eternas en «Running», fases que no aparecen: el síntoma y su
+      causa probable.
+    </Tarjeta>
+  </Rejilla>
+</Bloque>
+
+<Bloque
+  titulo="Las seis secciones"
+  entradilla="La guía sigue el orden real de montar una competición. Cada sección abre con su página de entrada y desciende al detalle de cada formulario.">
+  <Rejilla ancha>
+    <Tarjeta titulo="Antes de empezar" meta="3 páginas" to="/empezar" accion="Abrir">
+      Qué cubre esta guía y qué no, el vocabulario de Codabench, y los ficheros y la cuenta que
+      hay que tener listos antes de abrir el editor.
+    </Tarjeta>
+    <Tarjeta titulo="Crear la competición" meta="5 páginas" to="/competicion" accion="Abrir">
+      El editor web pestaña a pestaña: Details, Participation, Pages y Collaborators. Lo que ve
+      el participante y quién puede entrar.
+    </Tarjeta>
+    <Tarjeta titulo="Recursos y tasks" meta="3 páginas" to="/recursos" accion="Abrir">
+      Los Datasets y Programs que se suben una vez y se reutilizan, y la Task que los combina en
+      algo que una fase puede ejecutar.
+    </Tarjeta>
+    <Tarjeta titulo="Fases y evaluación" meta="4 páginas" to="/evaluacion" accion="Abrir">
+      Phases con sus fechas y sus límites, el leaderboard con sus columnas y su orden, y la regla
+      que decide qué submission cuenta.
+    </Tarjeta>
+    <Tarjeta titulo="Submissions" meta="3 páginas" to="/submissions" accion="Abrir">
+      El formato exacto de la entrega, la validación que el scoring program debe hacer antes de
+      puntuar, y cómo probar la competición de punta a punta.
+    </Tarjeta>
+    <Tarjeta titulo="Referencia" meta="3 páginas" to="/referencia" accion="Abrir">
+      El catálogo de síntomas y causas, y las fuentes oficiales contra las que está contrastado
+      todo lo anterior.
+    </Tarjeta>
+  </Rejilla>
+</Bloque>
+
+<Bloque
+  titulo="Cómo se lee una página"
+  entradilla="Todas las páginas de la guía tienen la misma forma, y es deliberado.">
+  <Anatomia
+    pasos={[
+      {
+        titulo: 'Objetivo',
+        texto: 'La primera línea dice qué consigue el lector en esa página. Si no es lo que buscas, no hace falta leer el resto.',
+      },
+      {
+        titulo: 'El procedimiento',
+        texto: 'Los pasos en el orden en que se hacen en la interfaz, con los rótulos de Codabench tal como aparecen en pantalla, sin traducir.',
+      },
+      {
+        titulo: 'Lo que suele fallar',
+        texto: 'Donde algo falla de forma característica en ese punto, la página lo avisa allí mismo en vez de dejarlo para el final. El catálogo completo de síntomas y causas está en Troubleshooting.',
+      },
+    ]}
+  />
+</Bloque>
+
+<Bloque
+  titulo="Antes de llegar aquí"
+  entradilla="Esta guía empieza cuando los ficheros ya existen.">
+  <Rejilla>
+    <Tarjeta titulo="Generar los datasets" meta="repo privado" to="/empezar/requisitos" accion="Ver requisitos">
+      Los `public_data`, `reference_data`, `scoring_program` y `starting_kit` se generan con el
+      motor parametrizado del repositorio privado `captia-technology/codabench-dataset-pipeline`.
+    </Tarjeta>
+    <Tarjeta titulo="El método del bundle YAML" meta="fuera de alcance" to="/referencia/fuentes" accion="Ver fuentes">
+      Codabench también admite crear la competición subiendo un `.zip` con un `competition.yaml`.
+      Esta guía cubre el editor web; las fuentes enlazan al otro método.
+    </Tarjeta>
+  </Rejilla>
+</Bloque>
+
+:::note[Sobre la versión]
+
+La etiqueta **Codabench v1.23** sale de las URL de la documentación oficial que cita esta guía
+—la de Resource Management está publicada bajo `v1.23`; las demás, bajo `latest`—, **no** de una
+comprobación contra la instancia en la que se montó la competición. El detalle está en
+[fuentes y documentación oficial](./referencia/fuentes.md).
+
+:::

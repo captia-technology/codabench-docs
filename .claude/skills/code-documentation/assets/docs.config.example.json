@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "project": "Guía de Codabench",
+  "language": "es",
+  "source_repositories": [
+    {
+      "id": "codabench",
+      "kind": "external-platform",
+      "path": null,
+      "ref": null,
+      "documentation": "https://docs.codabench.org/",
+      "contrasted_version": "v1.23",
+      "notice": "Plataforma externa: no hay checkout ni commit que comparar. La evidencia es la documentación oficial, la observación directa de la interfaz y las competiciones reales ya montadas."
+    }
+  ],
+  "documentation": {
+    "path": ".",
+    "repository_id": "captia-technology/codabench-docs",
+    "preferred_branch": "main",
+    "default_branch_today": "master",
+    "framework": "docusaurus",
+    "docs_dir": "docs",
+    "private_notes_dir": "docs-meta",
+    "map_file": "docs-map.json",
+    "map_is_generated_by": "scripts/build_nav.py",
+    "baseline_dir": ".docs-baselines"
+  },
+  "policy": {
+    "preserve_initial_documentation": true,
+    "initial_label": "legacy-inicial",
+    "initial_content_status": "unverified-historical",
+    "allow_source_links_in_public_docs": false,
+    "automatic_publish": false,
+    "automatic_dependency_installation": false,
+    "automatic_git_operations": false,
+    "published_site_is_public": true,
+    "repository_is_private": true
+  },
+  "example_notice": "Sustituir los valores tras inspeccionar el repositorio. Lo lee el agente, no Claude Code, ni Docusaurus, ni los helpers. Los subcomandos validate-map y drift de docs_tools.py no aplican aquí: el mapa usa URLs y ellos exigen rutas relativas; ver references/data-formats.md.",
+  "experience": {
+    "quality": "professional-product-documentation",
+    "design_system": "existing-captia",
+    "design_system_status_here": "resuelto-copia-exacta-no-se-rediseña",
+    "reuse_authorized_claude_context": true,
+    "invent_brand_tokens": false,
+    "showcase_reference": "https://docusaurus.io/showcase",
+    "brand_contract_required_for_visual_changes": true,
+    "visual_qa_required_for_visual_approval": true,
+    "reuse_existing_components_first": true,
+    "supported_color_modes": "claro y oscuro, con respectPrefersColorScheme activo",
+    "preserve_historical_render_compatibility": true,
+    "private_reports_must_be_excluded_from_publication": true,
+    "screenshots_today": "ninguna; contenido procedimental con rótulos de la interfaz en negrita"
+  }
+}

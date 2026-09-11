@@ -1,0 +1,96 @@
+Ejecutado el 2026-09-10 en Windows 11, Python 3.11.9, desde la carpeta de la
+skill, con:
+
+    python -B -m unittest discover -s tests -v
+
+56 de 57 pruebas aprobadas. La que falta,
+test_real_git_filenames_with_spaces_and_newlines, NO puede ejecutarse en
+Windows: crea a proposito un fichero con un salto de linea en el nombre para
+comprobar que la lectura de Git lo maneja, y NTFS rechaza ese nombre con
+OSError 22 antes de que el helper llegue a intervenir. El paquete original, sin
+tocar, falla exactamente igual en esta maquina; en Linux pasa, y asi consta en
+la validacion del ZIP 1.1.0. No es una regresion de la adaptacion: es una
+limitacion del sistema de ficheros.
+
+Salida integra a continuacion.
+
+----------------------------------------------------------------------
+
+test_archive_inside_docs_rejected (test_docs_tools.BaselineTests.test_archive_inside_docs_rejected) ... ok
+test_exact_original_bytes_and_hashes (test_docs_tools.BaselineTests.test_exact_original_bytes_and_hashes) ... ok
+test_existing_archive_is_not_overwritten (test_docs_tools.BaselineTests.test_existing_archive_is_not_overwritten) ... ok
+test_sensitive_files_and_symlinks_excluded_and_disclosed (test_docs_tools.BaselineTests.test_sensitive_files_and_symlinks_excluded_and_disclosed) ... ok
+test_size_limit_leaves_no_archive (test_docs_tools.BaselineTests.test_size_limit_leaves_no_archive) ... ok
+test_symlink_input_directory_rejected (test_docs_tools.BaselineTests.test_symlink_input_directory_rejected) ... ok
+test_deleted_source_is_included (test_docs_tools.GitTests.test_deleted_source_is_included) ... ok
+test_fail_on_drift_exit_code (test_docs_tools.GitTests.test_fail_on_drift_exit_code) ... ok
+test_ignored_untracked_not_reported (test_docs_tools.GitTests.test_ignored_untracked_not_reported) ... ok
+test_invalid_revision_is_not_treated_as_a_command (test_docs_tools.GitTests.test_invalid_revision_is_not_treated_as_a_command) ... ok
+test_modified_source_maps_to_document (test_docs_tools.GitTests.test_modified_source_maps_to_document) ... ok
+test_no_changes_does_not_require_review (test_docs_tools.GitTests.test_no_changes_does_not_require_review) ... ok
+test_read_only_drift_leaves_worktree_unchanged (test_docs_tools.GitTests.test_read_only_drift_leaves_worktree_unchanged) ... ok
+test_real_git_filenames_with_spaces_and_newlines (test_docs_tools.GitTests.test_real_git_filenames_with_spaces_and_newlines) ... ERROR
+test_rename_matches_both_old_and_new_paths (test_docs_tools.GitTests.test_rename_matches_both_old_and_new_paths) ... ok
+test_requires_repository_root (test_docs_tools.GitTests.test_requires_repository_root) ... ok
+test_revision_range_is_rejected (test_docs_tools.GitTests.test_revision_range_is_rejected) ... ok
+test_unknown_source_id_leaves_paths_unmapped (test_docs_tools.GitTests.test_unknown_source_id_leaves_paths_unmapped) ... ok
+test_unmapped_file_remains_visible (test_docs_tools.GitTests.test_unmapped_file_remains_visible) ... ok
+test_working_tree_includes_staged_unstaged_and_untracked (test_docs_tools.GitTests.test_working_tree_includes_staged_unstaged_and_untracked) ... ok
+test_working_tree_rejects_non_head_target (test_docs_tools.GitTests.test_working_tree_rejects_non_head_target) ... ok
+test_excludes_sensitive_generated_and_symlink_files (test_docs_tools.InventoryTests.test_excludes_sensitive_generated_and_symlink_files) ... ok
+test_invalid_package_json_is_reported (test_docs_tools.InventoryTests.test_invalid_package_json_is_reported) ... ok
+test_inventory_does_not_create_files (test_docs_tools.InventoryTests.test_inventory_does_not_create_files) ... ok
+test_max_files_limit_is_not_silently_partial (test_docs_tools.InventoryTests.test_max_files_limit_is_not_silently_partial) ... ok
+test_metadata_only_no_command_or_dependency_values (test_docs_tools.InventoryTests.test_metadata_only_no_command_or_dependency_values) ... ok
+test_doc_traversal_and_non_markdown_rejected (test_docs_tools.MapTests.test_doc_traversal_and_non_markdown_rejected) ... ok
+test_duplicate_document_is_rejected (test_docs_tools.MapTests.test_duplicate_document_is_rejected) ... ok
+test_empty_map_is_valid_but_has_no_coverage (test_docs_tools.MapTests.test_empty_map_is_valid_but_has_no_coverage) ... ok
+test_invalid_json_has_controlled_error (test_docs_tools.MapTests.test_invalid_json_has_controlled_error) ... ok
+test_invalid_schema_and_missing_fields (test_docs_tools.MapTests.test_invalid_schema_and_missing_fields) ... ok
+test_missing_document_cli_is_nonzero (test_docs_tools.MapTests.test_missing_document_cli_is_nonzero) ... ok
+test_source_pattern_traversal_rejected (test_docs_tools.MapTests.test_source_pattern_traversal_rejected) ... ok
+test_symlink_document_not_followed (test_docs_tools.MapTests.test_symlink_document_not_followed) ... ok
+test_valid_map_and_existing_document (test_docs_tools.MapTests.test_valid_map_and_existing_document) ... ok
+test_case_sensitive_classes_and_question_mark (test_docs_tools.PathTests.test_case_sensitive_classes_and_question_mark) ... ok
+test_concrete_paths_reject_globs (test_docs_tools.PathTests.test_concrete_paths_reject_globs) ... ok
+test_name_status_parser_preserves_spaces_newlines_and_renames (test_docs_tools.PathTests.test_name_status_parser_preserves_spaces_newlines_and_renames) ... ok
+test_recursive_glob_matches_zero_and_multiple_directories (test_docs_tools.PathTests.test_recursive_glob_matches_zero_and_multiple_directories) ... ok
+test_rejects_traversal_absolute_drives_and_ambiguous_globs (test_docs_tools.PathTests.test_rejects_traversal_absolute_drives_and_ambiguous_globs) ... ok
+test_single_star_does_not_cross_a_directory (test_docs_tools.PathTests.test_single_star_does_not_cross_a_directory) ... ok
+test_all_modes_documented (test_skill_structure.SkillStructureTests.test_all_modes_documented) ... ok
+test_brand_contract_does_not_assume_themes (test_skill_structure.SkillStructureTests.test_brand_contract_does_not_assume_themes) ... ok
+test_brand_contract_is_explicitly_unresolved (test_skill_structure.SkillStructureTests.test_brand_contract_is_explicitly_unresolved) ... ok
+test_brand_roles_do_not_ship_guessed_tokens (test_skill_structure.SkillStructureTests.test_brand_roles_do_not_ship_guessed_tokens) ... ok
+test_entrypoint_frontmatter_and_size (test_skill_structure.SkillStructureTests.test_entrypoint_frontmatter_and_size) ... ok
+test_entrypoint_local_links_resolve (test_skill_structure.SkillStructureTests.test_entrypoint_local_links_resolve) ... ok
+test_existing_conservative_policies_retained (test_skill_structure.SkillStructureTests.test_existing_conservative_policies_retained) ... ok
+test_experience_policy_requires_brand_and_visual_evidence (test_skill_structure.SkillStructureTests.test_experience_policy_requires_brand_and_visual_evidence) ... ok
+test_json_files_parse (test_skill_structure.SkillStructureTests.test_json_files_parse) ... ok
+test_no_cache_or_nested_archive_in_bundle (test_skill_structure.SkillStructureTests.test_no_cache_or_nested_archive_in_bundle) ... ok
+test_public_templates_have_titles_and_descriptions (test_skill_structure.SkillStructureTests.test_public_templates_have_titles_and_descriptions) ... ok
+test_python_sources_parse_without_execution (test_skill_structure.SkillStructureTests.test_python_sources_parse_without_execution) ... ok
+test_scenario_identifiers_unique_and_visual_cases_present (test_skill_structure.SkillStructureTests.test_scenario_identifiers_unique_and_visual_cases_present) ... ok
+test_single_entrypoint (test_skill_structure.SkillStructureTests.test_single_entrypoint) ... ok
+test_visual_references_linked_from_entrypoint (test_skill_structure.SkillStructureTests.test_visual_references_linked_from_entrypoint) ... ok
+test_visual_report_starts_unverified (test_skill_structure.SkillStructureTests.test_visual_report_starts_unverified) ... ok
+
+======================================================================
+ERROR: test_real_git_filenames_with_spaces_and_newlines (test_docs_tools.GitTests.test_real_git_filenames_with_spaces_and_newlines)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\CAPTIA\CAPTIA-CODABENCH\codabench-docs\.claude\skills\code-documentation\tests\test_docs_tools.py", line 345, in test_real_git_filenames_with_spaces_and_newlines
+    self.write('src/auth/name with space\nand newline.ts')
+  File "C:\CAPTIA\CAPTIA-CODABENCH\codabench-docs\.claude\skills\code-documentation\tests\test_docs_tools.py", line 40, in write
+    path.write_text(content, encoding='utf-8')
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\pathlib.py", line 1078, in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 22] Invalid argument: 'C:\\Users\\jaime\\AppData\\Local\\Temp\\code-docs-tests-f8ibj7kc\\src\\auth\\name with space\nand newline.ts'
+
+----------------------------------------------------------------------
+Ran 57 tests in 25.304s
+
+FAILED (errors=1)

@@ -1,0 +1,36 @@
+# Python (los scripts de scripts/ se ejecutan a mano)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node / Docusaurus
+node_modules/
+build/
+.docusaurus/
+.cache-loader/
+*.tsbuildinfo
+
+# Claude Code
+# settings.json SÍ se versiona (permisos y hooks del equipo). El local no.
+# Claude Code lo excluye por su cuenta en el fichero de excludes GLOBAL de git, y solo la
+# primera vez que lo escribe él: uno creado a mano se colaría. Por eso está aquí.
+.claude/settings.local.json
+
+# Lista privada de identificadores que no deben publicarse (nombres de cliente, instalaciones,
+# instancias internas). La consumen scripts/check_docs.py y el hook; NO se versiona, porque el
+# sitio es público y la propia lista sería el dato que se quiere proteger.
+scripts/privados.txt
+
+# Vercel CLI. `vercel link` o `vercel dev` dejan aquí el orgId y el projectId del proyecto. No es
+# un secreto, pero es estado local de una herramienta y la propia CLI espera verlo ignorado.
+.vercel/
+
+# Línea base documental de la skill `code-documentation`: su subcomando `baseline` deja aquí un
+# ZIP con el estado del contenido en un momento dado. Es un artefacto, no fuente.
+.docs-baselines/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini

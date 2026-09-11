@@ -1,0 +1,206 @@
+/**
+ * Tema de la documentación de Codabench.
+ *
+ * Es una COPIA EXACTA del tema de `my-qa-captia-ai-app` (el manual de captia.ai): mismos tokens,
+ * mismos ratios medidos, mismas reglas. Si allí cambia un valor, aquí cambia igual — no se
+ * bifurca el sistema por sitio.
+ *
+ * Los tokens salen del **Captia Technology Design System**, extraído de la web de producción
+ * captiatechnology.com en septiembre de 2026. No son valores elegidos aquí: son los del sistema.
+ *
+ *   negro    #0a0a0a   --color-black / --color-primary
+ *   azul     #0000dc   --color-brand-primary
+ *   verde    #00ff79   --color-accent
+ *   verde ok #007a3d   --color-accent-on-light   (el acento cuando el fondo es blanco)
+ *
+ * POR QUÉ EL COLOR DE ENLACE CAMBIA ENTRE MODOS
+ * El propio sistema resuelve cada superficie con el color que funciona en ella, y medido da
+ * la razón: el azul de marca sobre el fondo oscuro del sistema (#0c0e14) queda en 1.87 —
+ * ilegible—, y el verde de acento sobre blanco queda en 1.35. Ninguno sirve para los dos
+ * modos. Así que el modo claro usa el azul (10.33, AAA) y el oscuro usa el verde (14.31, AAA),
+ * que es exactamente lo que hace la web de la que se extrajo el sistema.
+ *
+ * UNA CORRECCIÓN SOBRE EL SISTEMA, DELIBERADA
+ * En modo oscuro el sistema define --color-text-secondary: #64748b, que sobre #0c0e14 da
+ * **4.05**: por debajo del 4.5 que WCAG AA exige para texto normal. En una web de marketing
+ * ese token se usa en texto grande y pasa; aquí el texto secundario son celdas de tabla y
+ * descripciones a tamaño normal. Se sube a #94a3b8, que da 7.52 (AAA) y conserva el tono.
+ * Es la única desviación respecto al sistema, y está aquí para que se vea.
+ *
+ * Ratios verificados (WCAG 2.x, AA normal = 4.5):
+ *   claro  sobre #ffffff : texto #0a0a0a 19.80 · enlaces #0000dc 10.33 · secundario #6b6b6b 5.33
+ *   oscuro sobre #0c0e14 : texto #f1f5f9 17.61 · enlaces #00ff79 14.31 · secundario #94a3b8 7.52
+ */
+
+:root {
+  /* --- Marca, tal como la define el sistema --- */
+  --captia-black: #0a0a0a;
+  --captia-black-soft: #1a1a1a;
+  --captia-blue: #0000dc;
+  --captia-accent: #00ff79;
+  --captia-accent-on-light: #007a3d;
+
+  /* --- Primario de Infima: azul de marca, escala derivada --- */
+  --ifm-color-primary: #0000dc;
+  --ifm-color-primary-dark: #0000c6;
+  --ifm-color-primary-darker: #0000bb;
+  --ifm-color-primary-darkest: #00009a;
+  --ifm-color-primary-light: #0000f2;
+  --ifm-color-primary-lighter: #0000fd;
+  --ifm-color-primary-lightest: #1f1fff;
+
+  /* --- Superficies y tinta --- */
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f5f5f5;
+  --ifm-font-color-base: #0a0a0a;
+  --ifm-heading-color: #0a0a0a;
+  --ifm-color-content-secondary: #6b6b6b;
+  --ifm-toc-border-color: #e0e0e0;
+  --ifm-table-border-color: #e0e0e0;
+  --ifm-navbar-background-color: #ffffff;
+  --ifm-navbar-shadow: 0 1px 0 #e0e0e0;
+  --ifm-footer-background-color: #0a0a0a;
+
+  /* --- Tipografía del sistema: Geist y JetBrains Mono --- */
+  --ifm-font-family-base: Geist, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'Geist Mono', ui-monospace, SFMono-Regular,
+    Menlo, monospace;
+  --ifm-heading-font-weight: 600;
+  --ifm-font-weight-semibold: 600;
+  --ifm-h1-font-size: 2.25rem;
+  --ifm-code-font-size: 87.5%;
+  --ifm-line-height-base: 1.625;
+
+  /* --- Radios, sombras y espaciado del sistema --- */
+  --ifm-global-radius: 0.5rem;
+  --captia-radius-sm: 0.25rem;
+  --captia-radius-lg: 0.75rem;
+  --ifm-global-shadow-lw: 0 1px 2px 0 #0000000d;
+  --ifm-global-shadow-md: 0 4px 6px -1px #0000001a;
+  --ifm-global-shadow-tl: 0 10px 15px -3px #0000001a;
+  --ifm-spacing-horizontal: 1rem;
+
+  --docusaurus-highlighted-code-line-bg: #0000dc14;
+}
+
+[data-theme='dark'] {
+  /* El acento verde toma el relevo: el azul de marca es ilegible sobre este fondo (1.87). */
+  --ifm-color-primary: #00ff79;
+  --ifm-color-primary-dark: #00e66d;
+  --ifm-color-primary-darker: #00d967;
+  --ifm-color-primary-darkest: #00b255;
+  --ifm-color-primary-light: #1aff86;
+  --ifm-color-primary-lighter: #26ff8d;
+  --ifm-color-primary-lightest: #4dffa1;
+
+  --ifm-background-color: #0c0e14;
+  --ifm-background-surface-color: #12151d;
+  --ifm-font-color-base: #f1f5f9;
+  --ifm-heading-color: #f1f5f9;
+  /* #94a3b8 en vez del #64748b del sistema: aquel da 4.05 y no llega a AA para texto normal. */
+  --ifm-color-content-secondary: #94a3b8;
+  --ifm-toc-border-color: #ffffff14;
+  --ifm-table-border-color: #ffffff14;
+  --ifm-navbar-background-color: #0c0e14;
+  --ifm-navbar-shadow: 0 1px 0 #ffffff14;
+  --ifm-footer-background-color: #08090d;
+
+  --docusaurus-highlighted-code-line-bg: #00ff791f;
+}
+
+/* --- Titulares: el sistema usa tracking negativo en display y headline --- */
+
+.markdown h1 {
+  letter-spacing: -0.022em;
+  font-weight: 600;
+}
+
+.markdown h2 {
+  letter-spacing: -0.02em;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ifm-toc-border-color);
+}
+
+.markdown h3 {
+  letter-spacing: -0.01em;
+}
+
+/* --- Capturas: son el corazón de este manual --- */
+
+.markdown img {
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: var(--captia-radius-lg);
+  box-shadow: var(--ifm-global-shadow-lw);
+  background: #ffffff;
+}
+
+[data-theme='dark'] .markdown img {
+  box-shadow: 0 10px 15px -3px #00000080;
+}
+
+/* --- Tablas de despiece: largas, numeradas, deben desplazarse solas --- */
+
+.markdown table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+  border-radius: var(--captia-radius-sm);
+}
+
+.markdown table thead tr {
+  background: var(--ifm-background-surface-color);
+}
+
+/* La primera columna del despiece es un número de referencia: se alinea con cifras de ancho
+   fijo y no se parte. NO se pone en monoespaciada: las tablas del índice también tienen una
+   primera columna, y ahí son nombres de página — en mono se leían como código. */
+.markdown table td:first-child {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* --- Acento verde: solo donde el sistema lo permite ---
+   La guía de uso del acento lo reserva a estados activos, CTA y cifras destacadas, y sobre
+   blanco obliga a la variante --color-accent-on-light. Nunca verde puro sobre claro. */
+
+.navbar__title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.menu__link--active:not(.menu__link--sublist)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  bottom: 0.35rem;
+  width: 2px;
+  border-radius: var(--captia-radius-full, 9999px);
+  background: var(--captia-accent-on-light);
+}
+
+[data-theme='dark'] .menu__link--active:not(.menu__link--sublist)::before {
+  background: var(--captia-accent);
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+  position: relative;
+}
+
+/* El pie es negro en ambos modos: es la superficie oscura de la marca, y ahí el acento sí luce. */
+
+.footer {
+  --ifm-footer-link-color: #f1f5f9;
+  --ifm-footer-title-color: var(--captia-accent);
+  border-top: 1px solid #ffffff14;
+}
+
+.footer__title {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}

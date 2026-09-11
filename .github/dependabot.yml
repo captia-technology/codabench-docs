@@ -1,0 +1,41 @@
+# Nadie vigila a mano las versiones de las acciones ni de Docusaurus, así que las vigila esto.
+#
+# Solo abre pull requests: no fusiona nada. La CI del repositorio —`check_docs.py`,
+# `build_nav.py --check` y `npm run build`— corre en cada una de esas PR, de modo que una
+# actualización que rompa el sitio se ve antes de aceptarla, que es justo el punto.
+version: 2
+updates:
+  # Las tres acciones del workflow van pinneadas por major (@v5, @v6, @v5). GitHub las publica
+  # con cadencia propia y un major nuevo puede cambiar el comportamiento del checkout o del
+  # cacheado de npm; sin esto nadie se entera hasta que una queda sin soporte.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: 'ci'
+    labels:
+      - dependencias
+
+  # Docusaurus y sus dependencias. Mensual y agrupado a propósito: un PR por paquete y semana
+  # convierte el repositorio en un buzón y acaba ignorándose, que es el fallo clásico de
+  # Dependabot. El grupo `docusaurus` mantiene juntas `@docusaurus/core` y `preset-classic`,
+  # que deben subir SIEMPRE a la vez o el build falla por versiones cruzadas.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: 'chore'
+    labels:
+      - dependencias
+    groups:
+      docusaurus:
+        patterns:
+          - '@docusaurus/*'
+      resto:
+        patterns:
+          - '*'
+        exclude-patterns:
+          - '@docusaurus/*'

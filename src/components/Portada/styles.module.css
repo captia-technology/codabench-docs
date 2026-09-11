@@ -1,0 +1,392 @@
+/**
+ * Portada de la guía. Copia exacta de la de `my-qa-captia-ai-app`. Todo sale de los tokens del Captia Technology Design System que ya
+ * declara `src/css/custom.css`; aquí no se define ni un color nuevo.
+ *
+ * Por qué el panel superior es negro en los dos modos: `--captia-black` es la superficie
+ * oscura de la marca —la misma que usa el pie del sitio— y es la única sobre la que el
+ * verde de acento alcanza contraste (14.31, AAA). Sobre blanco el verde da 1.35 y no se
+ * puede usar como texto; por eso el acento solo aparece dentro de este panel y, fuera de
+ * él, siempre a través de `--captia-accent-on-light`.
+ */
+
+/* ------------------------------------------------------------------ portada */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 3.5rem;
+  padding: 3rem 2.5rem 2.75rem;
+  border-radius: var(--captia-radius-lg);
+  background: var(--captia-black);
+  color: #f1f5f9;
+}
+
+/* La regla de acento: el único trazo decorativo, y es el color de marca haciendo de marca. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--captia-accent);
+}
+
+.heroGrid {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  justify-content: space-between;
+}
+
+.heroTexto {
+  min-width: 0;
+  max-width: 42rem;
+}
+
+.heroEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 1.25rem;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--captia-accent);
+}
+
+.heroEyebrow span::before {
+  content: '·';
+  margin-right: 0.6rem;
+  color: #64748b;
+}
+
+.heroTitulo {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 1.35rem + 2.4vw, 3.25rem);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  color: #ffffff;
+}
+
+.heroEntradilla {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: #cbd5e1; /* 11.03 sobre #0a0a0a */
+}
+
+.heroMarca {
+  flex: 0 0 auto;
+  width: 132px;
+  height: 132px;
+  border-radius: var(--captia-radius-lg);
+  overflow: hidden;
+}
+
+.heroMarca svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.heroAcciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.accionPrimaria,
+.accionSecundaria {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.25rem;
+  border-radius: var(--captia-radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.accionPrimaria {
+  background: var(--captia-accent);
+  color: var(--captia-black);
+  border: 1px solid var(--captia-accent);
+}
+
+.accionPrimaria:hover,
+.accionPrimaria:focus-visible {
+  background: #4dffa1;
+  border-color: #4dffa1;
+  color: var(--captia-black);
+  text-decoration: none;
+}
+
+.accionSecundaria {
+  background: transparent;
+  color: #f1f5f9;
+  border: 1px solid #ffffff33;
+}
+
+.accionSecundaria:hover,
+.accionSecundaria:focus-visible {
+  background: #ffffff14;
+  border-color: #ffffff66;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.accionPrimaria:focus-visible,
+.accionSecundaria:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ bloques */
+
+.bloque {
+  margin: 0 0 3.5rem;
+}
+
+.bloqueCabecera {
+  margin-bottom: 1.5rem;
+}
+
+/* El H2 de la portada no lleva la línea superior que sí llevan los documentos: aquí las
+   secciones ya se separan solas por las rejillas de tarjetas.
+   El selector va calificado con `.markdown` a propósito: `custom.css` define `.markdown h2`
+   con especificidad (0,1,1) y una clase suelta (0,1,0) pierde, así que el borde seguía
+   pintándose por mucho que aquí se declarase `border-top: 0`. */
+:global(.markdown) h2.bloqueTitulo {
+  margin: 0 0 0.4rem;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ifm-heading-color);
+}
+
+.bloqueEntradilla {
+  margin: 0;
+  max-width: 46rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+/* ------------------------------------------------------------------ tarjetas */
+
+/* El `min(..., 100%)` no es adorno: sin él, `minmax(21rem, 1fr)` fija un mínimo de 336 px que
+   a 320 px de ancho desborda la página entera. Medido: scrollWidth 352 sobre clientWidth 320. */
+.rejilla {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));
+}
+
+.rejillaAncha {
+  grid-template-columns: repeat(auto-fill, minmax(min(21rem, 100%), 1fr));
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.25rem 1.25rem 1.1rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: var(--captia-radius-lg);
+  background: var(--ifm-background-color);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.tarjeta:hover {
+  border-color: var(--ifm-color-primary);
+  box-shadow: var(--ifm-global-shadow-md);
+  text-decoration: none;
+  color: inherit;
+  transform: translateY(-2px);
+}
+
+.tarjeta:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+  text-decoration: none;
+}
+
+.tarjetaCabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.45rem;
+}
+
+.tarjetaTitulo {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ifm-heading-color);
+}
+
+.tarjetaMeta {
+  flex: 0 0 auto;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ifm-color-content-secondary);
+  white-space: nowrap;
+}
+
+/* Contenedor `div`: dentro llega el `<p>` que genera MDX (ver el comentario de Tarjeta). */
+.tarjetaTexto {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ifm-color-content-secondary);
+}
+
+.tarjetaTexto > :global(p) {
+  margin: 0;
+}
+
+.tarjetaTexto > :global(p + p) {
+  margin-top: 0.5rem;
+}
+
+/* La flecha aparece al final de la tarjeta y solo se mueve al pasar por encima. */
+.tarjetaPie {
+  margin-top: auto;
+  padding-top: 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--captia-accent-on-light);
+}
+
+[data-theme='dark'] .tarjetaPie {
+  color: var(--captia-accent);
+}
+
+.tarjetaPie::after {
+  content: '→';
+  display: inline-block;
+  /* Margen, no un espacio dentro de `content`: el espacio inicial se colapsa y la flecha
+     quedaba pegada a la palabra («Empezar→»). */
+  margin-left: 0.35rem;
+  transition: transform 0.15s ease;
+}
+
+.tarjeta:hover .tarjetaPie::after {
+  transform: translateX(3px);
+}
+
+/* ------------------------------------------------------------------ anatomía */
+
+.anatomia {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: var(--captia-radius-lg);
+  overflow: hidden;
+}
+
+.anatomiaPaso {
+  padding: 1.4rem 1.35rem;
+  border-right: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-background-surface-color);
+}
+
+.anatomiaPaso:last-child {
+  border-right: 0;
+}
+
+.anatomiaOrden {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--captia-accent-on-light);
+}
+
+[data-theme='dark'] .anatomiaOrden {
+  color: var(--captia-accent);
+}
+
+.anatomiaTitulo {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ifm-heading-color);
+}
+
+.anatomiaTexto {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ifm-color-content-secondary);
+}
+
+/* ------------------------------------------------------------------ móvil */
+
+@media (max-width: 996px) {
+  .hero {
+    padding: 2.25rem 1.5rem 2rem;
+  }
+
+  .heroGrid {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 1.75rem;
+  }
+
+  .heroMarca {
+    width: 84px;
+    height: 84px;
+  }
+
+  .anatomiaPaso {
+    border-right: 0;
+    border-bottom: 1px solid var(--ifm-toc-border-color);
+  }
+
+  .anatomiaPaso:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroAcciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .accionPrimaria,
+  .accionSecundaria {
+    justify-content: center;
+  }
+}
+
+/* Quien haya pedido menos movimiento no lo tiene. */
+@media (prefers-reduced-motion: reduce) {
+  .tarjeta,
+  .tarjetaPie::after,
+  .accionPrimaria,
+  .accionSecundaria {
+    transition: none;
+  }
+
+  .tarjeta:hover {
+    transform: none;
+  }
+
+  .tarjeta:hover .tarjetaPie::after {
+    transform: none;
+  }
+}

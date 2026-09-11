@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "_generado_por": "scripts/build_nav.py — no editar a mano",
+  "_fuentes": {
+    "codabench": {
+      "producto": "Codabench",
+      "documentacion": "https://docs.codabench.org/",
+      "revision_contrastada": "v1.23",
+      "nota": "«revision_contrastada» sale de la etiqueta de versión que llevan las URLs de la documentación citadas por la guía, NO de una comprobación contra una instancia de Codabench en marcha. Los «paths» son URLs de documentación, no rutas de fichero: el producto documentado es externo. Una de ellas es un tutorial de la comunidad, no documentación oficial."
+    }
+  },
+  "documents": [
+    {
+      "doc": "docs/competicion/collaborators.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/competicion/details.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/competicion/index.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/competicion/pages.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/competicion/participation.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/empezar/conceptos.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Getting-started-with-Codabench/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/empezar/index.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Getting-started-with-Codabench/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/empezar/requisitos.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Getting-started-with-Codabench/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/evaluacion/index.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/",
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/evaluacion/leaderboards.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/",
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/evaluacion/phases.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/",
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/evaluacion/submission-rule.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Form/",
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/recursos/datasets-programs.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/recursos/index.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/recursos/tasks.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/referencia/fuentes.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/referencia/index.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/referencia/troubleshooting.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/submissions/formato.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/",
+            "https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/submissions/index.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/",
+            "https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/submissions/probar.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.23/Organizers/Running_a_benchmark/Resource-Management/",
+            "https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html"
+          ]
+        }
+      ]
+    }
+  ]
+}
