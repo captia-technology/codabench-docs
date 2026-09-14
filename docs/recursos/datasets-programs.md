@@ -10,7 +10,16 @@ sidebar_position: 1
 
 Antes de crear una Task hacen falta los recursos que va a usar. Ir a **Resources → Datasets and programs** —«Resources» está en el menú de la cuenta, arriba a la derecha— (accesible también desde el botón **Manage Tasks/Datasets** dentro de la pestaña [Phases](../evaluacion/phases.md)).
 
-Los cuatro tipos de recurso se ven mejor con el [ejemplo](../empezar/ejemplo.md) delante: `public_data` lleva el `train.csv` y el `test.csv` que descarga el participante, `reference_data` las etiquetas reales que nunca salen de aquí, y `scoring_program` el código que compara las dos cosas.
+Los tipos se ven mejor con el [ejemplo](../empezar/ejemplo.md) delante: los datos que descarga el participante, las etiquetas reales que nunca salen de aquí, y el código que compara las dos cosas.
+
+:::warning[`input_data` y `public_data` no son lo mismo, y el nombre engaña]
+Son dos tipos distintos y se eligen en sitios distintos:
+
+- **`input_data`** es lo que consume la **Task**: los ficheros que el scoring program encontrará bajo `/app/input_data`.
+- **`public_data`** es lo que se adjunta a una **fase** para que el participante lo descargue, en el campo `Public Data (Only 1 per phase)` del formulario de [Phases](../evaluacion/phases.md).
+
+Un recurso llamado «Public Data» puede estar subido como `input_data` —es lo que ocurre cuando los ficheros que ve el participante son los mismos que consume la Task— y entonces el campo `Public Data` de la fase se queda vacío, que es correcto. Lo que no se puede es dar por hecho que el nombre del recurso indica su tipo: el tipo está en la columna **Type**.
+:::
 
 ![Pestaña «Datasets and programs» de Resources, con cuatro recursos y las columnas Type, Size, In Use y Public](./resources-datasets-y-programas.jpg)
 

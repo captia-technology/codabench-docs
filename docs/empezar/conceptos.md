@@ -8,7 +8,7 @@ sidebar_position: 1
 
 **Objetivo:** reconocer los bloques con los que se construye una competición en Codabench y saber en qué parte de la guía se configura cada uno.
 
-Antes de tocar la UI, conviene tener claros los bloques con los que se construye una competición.
+Antes de tocar la interfaz, conviene tener claros los bloques con los que se construye una competición.
 
 ```mermaid
 flowchart TB
@@ -50,7 +50,7 @@ La flecha que más se malinterpreta es la que **no** está: `reference_data` nun
 | Concepto | Qué es |
 |---|---|
 | [**Competition**](../competicion/index.md) | La competición en sí: título, descripción, páginas, fases y leaderboards. |
-| [**Dataset**](../recursos/datasets-programs.md) | Datos subidos como recurso: `input_data` (lo que ve el participante), `reference_data` (ground truth), `public_data` o `starting_kit`. |
+| [**Dataset**](../recursos/datasets-programs.md) | Datos subidos como recurso. Cada uno declara su tipo: `input_data` (lo que consume la Task), `reference_data` (ground truth), `public_data` y `starting_kit` (lo que se reparte al participante). |
 | [**Program**](../recursos/datasets-programs.md) | Código ejecutable subido como recurso. Dos tipos: **Ingestion program** (transforma la submission del participante en predicciones) y **Scoring program** (compara predicciones contra `reference_data` y calcula métricas). |
 | [**Task**](../recursos/tasks.md) | Combina Datasets + Programs (input_data, reference_data, ingestion program, scoring program). Se crea una vez y se reutiliza en una o varias Phases. |
 | [**Phase**](../evaluacion/phases.md) | Etapa temporal de la competición (ej. `Development`, `Final`). Referencia una o varias Tasks y tiene sus propias fechas y límites de submission. |
@@ -59,6 +59,6 @@ La flecha que más se malinterpreta es la que **no** está: `reference_data` nun
 
 ## Los recursos se crean una vez, no una por fase
 
-Los recursos (Datasets/Programs) y las Tasks se crean **una sola vez** y luego se reutilizan al vincularlos desde las Phases — no se suben de nuevo por cada fase.
+Los recursos —los Datasets y los Programs— y las Tasks se crean **una sola vez** y luego se reutilizan al vincularlos desde las Phases — no se suben de nuevo por cada fase.
 
 **Siguiente paso:** [La competición de ejemplo](./ejemplo.md) — el caso concreto al que se refiere el resto de la guía.

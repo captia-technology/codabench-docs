@@ -1,21 +1,17 @@
 ---
 title: "Details"
-description: "Crear la competición en Codabench y rellenar la pestaña Details, que es la que le da título, logo, descripción y cola de procesamiento."
+description: "Crear la competición en Codabench y rellenar la pestaña Details, que es la que le da nombre, descripción, cola de procesamiento y la imagen en la que se ejecutará el scoring."
 sidebar_position: 1
 ---
 
 # Details
 
-**Objetivo:** crear la competición en Codabench y rellenar la pestaña Details, que es la que le da título, logo, descripción y cola de procesamiento.
+**Objetivo:** crear la competición en Codabench y rellenar la pestaña Details, que es la que le da nombre, descripción, cola de procesamiento y la imagen en la que se ejecutará el scoring.
 
 ## Crear la competición
 
-1. En el menú superior: **Benchmarks → Management**.
-2. Click en **Create** (botón arriba a la derecha de Benchmark Management).
-
-![Pantalla Benchmark Management, con la lista de competiciones propias y los botones Create y Upload arriba a la derecha](./gestion-de-benchmarks.jpg)
-
-*La lista solo muestra las competiciones propias. El botón **Edit** de cada fila abre el mismo editor que se describe a continuación; **Publish** la hace visible y **Delete** la borra.*
+1. En el menú superior, **Benchmarks/Competitions**. Como organizador, esa entrada abre **Benchmark Management**: la lista de las competiciones propias.
+2. Click en **Create**, arriba a la derecha.
 3. Se abre el editor de la competición con seis pestañas —**Details**, **Participation**, **Pages**, **Phases**, **Leaderboard** y **Administrators**—. Rellenar **Details**:
 
 | Campo | Para qué |
@@ -28,6 +24,10 @@ sidebar_position: 1
 | **Competition Type**, **Competition Reward** | Clasificación y premio, informativos, para el listado público. |
 | **Organizer Contact Email** | A quién escribe un participante con un problema. |
 | **Competition Report**, **Fact Sheet** | Enlace a un informe y fichas de datos adicionales de la competición. |
+
+![Pantalla Benchmark Management, con la lista de competiciones propias y los botones Create y Upload arriba a la derecha](./gestion-de-benchmarks.jpg)
+
+*La lista solo muestra las competiciones propias. El botón **Edit** de cada fila abre este mismo editor; **Publish** la hace visible y **Delete** la borra.*
 
 ![Pestaña Details del editor, con los campos Title, Logo, Description, Queue y Competition Docker Image](./editor-details.jpg)
 

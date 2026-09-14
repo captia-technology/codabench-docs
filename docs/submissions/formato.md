@@ -17,6 +17,16 @@ Cuando la Task no tiene ingestion program (el participante sube ya las prediccio
 - El CSV tiene columnas fijas y conocidas de antemano — en el [ejemplo](../empezar/ejemplo.md), `id,prediccion_iaq_class`.
 - El scoring program valida, antes de calcular métricas:
 
+| Error típico | Causa |
+|---|---|
+| `Only zip files are allowed` | Se subió el CSV suelto en vez de un `.zip`. |
+| `Missing submission.csv` | El zip no contiene el fichero con el nombre exacto esperado. |
+| `submission.csv inside folder` | El CSV está dentro de una subcarpeta en vez de en la raíz del zip. |
+| `Invalid columns` | Las columnas no coinciden exactamente (nombre u orden) con lo esperado. |
+| `IDs mismatch` | Faltan o sobran IDs respecto a `test.csv`/`reference_data`. |
+| `Duplicate IDs` | Hay una fila repetida para el mismo ID. |
+| `Prediction out of range` | El valor predicho no pertenece al conjunto de clases/valores válidos. |
+
 ### La entrega correcta, y las tres que llegan mal
 
 El error más frecuente no es el modelo: es el envoltorio. Estas son las cuatro formas en que llega un zip, y solo una pasa.
@@ -38,16 +48,6 @@ flowchart TB
 ```
 
 Merece la pena enseñar esta distinción en la página `Submission` de la competición: se ahorra la mitad de los mensajes en el foro.
-
-| Error típico | Causa |
-|---|---|
-| `Only zip files are allowed` | Se subió el CSV suelto en vez de un `.zip`. |
-| `Missing submission.csv` | El zip no contiene el fichero con el nombre exacto esperado. |
-| `submission.csv inside folder` | El CSV está dentro de una subcarpeta en vez de en la raíz del zip. |
-| `Invalid columns` | Las columnas no coinciden exactamente (nombre u orden) con lo esperado. |
-| `IDs mismatch` | Faltan o sobran IDs respecto a `test.csv`/`reference_data`. |
-| `Duplicate IDs` | Hay una fila repetida para el mismo ID. |
-| `Prediction out of range` | El valor predicho no pertenece al conjunto de clases/valores válidos. |
 
 ## Sample submission
 

@@ -13,7 +13,7 @@ sidebar_position: 2
 Pestaña **Participation**:
 
 - **Terms**: términos y condiciones de la competición (texto/markdown). Se muestran en un modal antes de registrarse y también quedan disponibles como pestaña "Terms" dentro de la competición pública.
-- **Auto approve registration requests**: si está marcado, cualquiera que se registre entra automáticamente; si no, la competición muestra "This competition requires approval from the competition organizers" y un organizador o un colaborador debe aprobar cada registro manualmente (**Resources → Participants**) antes de que el participante pueda enviar submissions.
+- **Auto approve registration requests**: si está marcado, cualquiera que se registre entra automáticamente; si no, la competición muestra "This competition requires approval from the competition organizers" y un organizador debe aprobar cada registro manualmente antes de que el participante pueda enviar submissions. La aprobación se hace desde el botón **Participants** de la cabecera de la competición, no desde **Resources**.
 - **Allow robot submissions**: si se deja sin marcar, las cuentas de tipo robot —las que envían por API en vez de por la interfaz— también pasan por aprobación manual. Se puede cambiar después.
 - **Whitelist Emails**: restringe el registro a una lista de correos o dominios. Es la vía para una competición interna sin abrirla a cualquiera con cuenta en la plataforma.
 
