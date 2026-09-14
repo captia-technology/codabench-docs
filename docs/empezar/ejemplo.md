@@ -78,6 +78,14 @@ a101-2026-02-11-4,aceptable
 a102-2026-02-11-4,deficiente
 ```
 
+## La trampa que hay que cerrar antes de publicar nada
+
+Si el dataset incluye entre las variables el propio CO₂ de la franja que se quiere predecir —o cualquier índice derivado de él—, la competición deja de medir lo que cree medir: la etiqueta se calcula a partir del CO₂, así que un modelo trivial la reconstruye sin aprender nada. Es una **fuga de la etiqueta**, y lo peor es que no se nota en el leaderboard: se nota porque todo el mundo saca casi 1.0.
+
+Por eso, en la Task de este ejemplo las variables instantáneas que determinan la clase —el CO₂ de la franja objetivo, el índice de calidad ya calculado y las medidas del mismo instante— **se excluyen de las columnas publicadas**, y solo se entregan agregados de la franja anterior. Se dice explícitamente en la descripción de la Task, para que quede registrado junto al recurso y no solo en la cabeza de quien lo montó.
+
+Vale la pena hacer el ejercicio con cualquier competición antes de abrirla: *¿con qué columna, sola, se reconstruye la etiqueta?* Si hay una, sobra.
+
 ## Cómo se puntúa
 
 La métrica principal es el **F1 macro**, no la exactitud. El motivo es del propio dominio y conviene entenderlo antes de elegir métrica en cualquier competición parecida: las aulas están casi siempre bien ventiladas, así que la clase `buena` domina. Un modelo que responda `buena` a todo acierta mucho y no sirve de nada — y la exactitud lo premiaría. El F1 macro pesa igual las tres clases, así que hundirse en `deficiente` sale caro.
@@ -85,10 +93,10 @@ La métrica principal es el **F1 macro**, no la exactitud. El motivo es del prop
 El scoring program escribe las dos en `scores.txt`:
 
 ```
-f1_macro: 0.8114
+macro_f1: 0.8114
 accuracy: 0.9032
 ```
 
-`f1_macro` es la columna principal del leaderboard y la que ordena la tabla; `accuracy` va al lado, como referencia.
+`macro_f1` es la columna principal del leaderboard y la que ordena la tabla; `accuracy` va al lado, como referencia.
 
 **Siguiente paso:** [Requisitos previos](./requisitos.md) — qué hay que tener listo antes de abrir el editor.

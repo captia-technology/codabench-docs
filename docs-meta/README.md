@@ -30,6 +30,7 @@ que no se convierta en una afirmación falsa sin que nadie se dé cuenta.
 | [`02-reparto-del-contenido.md`](02-reparto-del-contenido.md) | De dónde sale cada página del sitio: la correspondencia entre las 16 partes de la guía original —preámbulo, 14 secciones y Referencias— y las 16 páginas que las heredan | **Vigente** — es la trazabilidad del contenido |
 | [`03-version-contrastada.md`](03-version-contrastada.md) | De dónde salió la etiqueta «Codabench v1.31.2» del primer corte, qué **no** significaba, y qué haría falta para contrastarla de verdad | **Vigente** — se actualiza cada vez que la etiqueta cambie |
 | [`04-sync-codabench-v1.31.2.md`](04-sync-codabench-v1.31.2.md) | La revisión de v1.23 a v1.31.2: qué cambió de verdad, qué no era desfase sino hueco, y qué queda pendiente | **Vigente** — es el registro del ciclo de versión |
+| [`05-auditoria-de-capturas.md`](05-auditoria-de-capturas.md) | Qué clase de dato se retiró de las capturas y cómo; el procedimiento para rehacer una | **Vigente** — se actualiza con cada captura nueva |
 
 ## Dos avisos que valen siempre
 

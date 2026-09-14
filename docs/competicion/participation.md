@@ -17,6 +17,10 @@ Pestaña **Participation**:
 - **Allow robot submissions**: si se deja sin marcar, las cuentas de tipo robot —las que envían por API en vez de por la interfaz— también pasan por aprobación manual. Se puede cambiar después.
 - **Whitelist Emails**: restringe el registro a una lista de correos o dominios. Es la vía para una competición interna sin abrirla a cualquiera con cuenta en la plataforma.
 
+![Pestaña Participation, con el editor de Terms y debajo las casillas de aprobación automática, robots y la lista blanca de correos](./editor-participation.jpg)
+
+*Los términos se escriben en Markdown y se ven como pestaña «Terms» en la competición pública. Las dos casillas de abajo vienen **desmarcadas**: tal cual, cada registro y cada cuenta robot esperan aprobación manual.*
+
 ## Grupos de participantes
 
 Debajo de los ajustes anteriores se pueden definir **grupos**, cada uno con su **Group name**, una **Queue (optional)** propia y sus miembros. Sirven para encaminar las submissions de unos participantes a una cola distinta de la del resto —por ejemplo, reservar los recursos con GPU a un subconjunto—.

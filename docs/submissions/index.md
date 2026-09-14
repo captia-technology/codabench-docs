@@ -22,7 +22,7 @@ flowchart TB
   B["Cola de ejecución<br/><i>espera un worker libre</i>"]
   C["<b>Ingestion program</b><br/><i>solo si la Task lo tiene</i>"]
   D["<b>Scoring program</b><br/>valida la entrega<br/>y compara con reference_data"]
-  E["<b>scores.txt</b><br/><code>f1_macro: 0.8114</code>"]
+  E["<b>scores.txt</b><br/><code>macro_f1: 0.8114</code>"]
   F["Columna del leaderboard<br/>con la misma <b>Column Key</b>"]
   G["La fila aparece en <b>Results</b>"]
 

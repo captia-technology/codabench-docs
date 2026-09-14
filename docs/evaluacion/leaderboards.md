@@ -10,7 +10,7 @@ sidebar_position: 2
 
 ## Crear el leaderboard y sus columnas
 
-Pestaña **Leaderboards**:
+Pestaña **Leaderboard** —en singular, aunque el panel que abre se titule «Leaderboards» y admita varios—:
 
 1. Crear un leaderboard: **Title** y **Key**, los dos obligatorios. La ayuda del propio campo explica para qué sirve la clave: es la que el scoring program usa para asignar puntuaciones a este leaderboard. Preferiblemente en minúsculas.
 2. **Leaderboard is Hidden** deja la tabla montada pero invisible para los participantes. Sirve para preparar una fase final sin enseñar los resultados mientras tanto.
@@ -27,6 +27,10 @@ Pestaña **Leaderboards**:
 | **Hidden** | Oculta esa columna concreta a los participantes sin dejar de calcularla. |
 | **Computation** | Cómo se calcula la columna. Ver abajo. |
 
+![Formulario del leaderboard con Title, Key, Submission Rule y la tabla de columnas: Primary Column, Computation, Sorting, Column Key y Column Precision](./editor-leaderboard.jpg)
+
+*Las columnas se editan en vertical: cada columna de la tabla del formulario es una columna del leaderboard. Aquí son dos, `macro_f1` y `accuracy`, con la primera marcada como **Primary Column** y precisión 6.*
+
 ## Las columnas calculadas
 
 `Computation` admite **seis** valores: `None`, `Average`, `Sum`, `Min`, `Max` y `Average Rank`. Con `None` —lo normal— la columna recibe su valor directamente del scoring program, por su `Column Key`.
@@ -39,7 +43,7 @@ Con cualquiera de las otras cinco, la columna **no** recibe score del scoring pr
 Es útil cuando las métricas tienen escalas distintas y promediarlas sin más daría un número sin sentido. Está disponible desde **Codabench v1.29**.
 :::
 
-En el [ejemplo](../empezar/ejemplo.md) son dos columnas: `f1_macro`, marcada como **Primary Column** porque es la que ordena la tabla, y `accuracy` al lado como referencia. Las dos con `Computation` en `None`: las calcula el scoring program y llegan ya hechas.
+En el [ejemplo](../empezar/ejemplo.md) son dos columnas: `macro_f1`, marcada como **Primary Column** porque es la que ordena la tabla, y `accuracy` al lado como referencia. Las dos con `Computation` en `None`: las calcula el scoring program y llegan ya hechas.
 
 ## El fichero `scores.txt`
 

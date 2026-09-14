@@ -29,7 +29,7 @@ Esta página la genera `scripts/build_nav.py` a partir de la declaración `SECCI
 - [Details](./competicion/details.md)
 - [Participation](./competicion/participation.md)
 - [Pages](./competicion/pages.md)
-- [Collaborators](./competicion/collaborators.md)
+- [Administrators](./competicion/administrators.md)
 
 ## Recursos y tasks
 

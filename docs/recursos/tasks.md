@@ -10,6 +10,10 @@ sidebar_position: 3
 
 Ir a **Resources → Tasks**.
 
+![Pestaña Tasks de Resources, con una Task y su descripción, y los botones Create Task y Upload Task](./resources-tasks.jpg)
+
+*La descripción no es decorativa: es lo que aparece bajo el nombre en el desplegable de la fase cuando hay varias Tasks, y es lo único que las distingue ahí.*
+
 ## Crear la Task
 
 1. Click **Create Task**.

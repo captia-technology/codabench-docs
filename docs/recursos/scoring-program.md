@@ -65,7 +65,7 @@ Si no encuentra ninguno, la submission falla con `Could not find scores file, di
 Que `scores.txt` se lea como YAML tiene una consecuencia práctica: un `NaN`, una cadena sin comillas con dos puntos dentro o una tabulación traicionera lo convierten en otra cosa —o lo rompen— sin que el mensaje mencione el fichero. Escribir números, y ya está.
 
 ```
-f1_macro: 0.8114
+macro_f1: 0.8114
 accuracy: 0.9032
 ```
 
@@ -142,7 +142,7 @@ def main():
     y_pred = juntos["prediccion_iaq_class"]
 
     metricas = {
-        "f1_macro": f1_score(y_real, y_pred, average="macro", labels=sorted(CLASES)),
+        "macro_f1": f1_score(y_real, y_pred, average="macro", labels=sorted(CLASES)),
         "accuracy": accuracy_score(y_real, y_pred),
     }
 

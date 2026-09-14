@@ -6,7 +6,7 @@ Qué problema resuelve
 Docusaurus ordena el sidebar por `sidebar_position` y, donde no lo hay, por nombre de
 fichero. El orden de esta guía es el de montar una competición de verdad —Details →
 Participation → Pages → Collaborators, y después recursos, fases y submissions—, que no se
-parece en nada al alfabético: sin declararlo, `collaborators` abriría la sección de la
+parece en nada al alfabético: sin declararlo, `administrators` abriría la sección de la
 competición y `tasks` cerraría la de recursos, que es justo el orden en el que nada de lo
 que se lee tiene sentido todavía. Y las seis carpetas aparecerían con su nombre crudo
 («competicion», «evaluacion»), sin tilde y en minúscula, porque las rutas son ASCII por
@@ -172,7 +172,7 @@ SECCIONES = [
             "details",
             "participation",
             "pages",
-            "collaborators",
+            "administrators",
         ],
     },
     {
