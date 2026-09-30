@@ -85,7 +85,7 @@ jobs:
         # ausente del mapa, y el sitio publicaría un índice que miente sobre su propio contenido.
         run: python scripts/build_nav.py --check
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           # La caché se indexa por `package-lock.json`, así que se invalida sola cuando cambian
