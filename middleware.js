@@ -151,6 +151,8 @@ export const destinoSeguro = (valor) =>
 
 // Las variables no cambian durante la vida de un despliegue: se interpretan una vez por
 // instancia, y así los avisos de configuración salen una vez en los logs y no en cada petición.
+// Por eso un cambio en ellas no llega hasta un despliegue nuevo: *Redeploy* en el panel o, si
+// eso no está a mano, un push que toque una ruta del `ignoreCommand`; uno vacío no construye.
 let leido = { clave: null, accesos: new Map(), secreto: '' };
 
 function configuracion() {
