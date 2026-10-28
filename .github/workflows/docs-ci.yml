@@ -57,7 +57,7 @@ jobs:
   verificar:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           # El sitio muestra la fecha de última actualización de cada página
           # (`showLastUpdateTime` en `docusaurus.config.js`) y esa fecha sale del historial de
