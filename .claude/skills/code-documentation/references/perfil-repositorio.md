@@ -139,7 +139,7 @@ que escribirla `\|`—, y nada publicable que identifique a nadie.
 
 ## Datos que no pueden publicarse
 
-El repositorio y el sitio son públicos los dos. En `docs/` no puede aparecer un correo
+El repositorio es público: el sitio pide credencial, pero `docs/` se lee en GitHub sin ella. En `docs/` no puede aparecer un correo
 con dominio real (se permiten `@ejemplo.com` y `@example.com`), una dirección
 IP, una credencial o token, la URL de una instancia interna de Codabench, ni
 ningún identificador de la lista `scripts/privados.txt`.

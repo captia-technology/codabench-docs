@@ -11,17 +11,20 @@ name: Documentación · CI
 #    imágenes que resuelven con la caja exacta del fichero, un solo H1 por página, filas de tabla
 #    cuadradas, rutas ASCII en minúscula, y nada publicable que identifique a nadie (correos con
 #    dominio real, IPs, credenciales, URLs de instancias internas de Codabench)—. Docusaurus
-#    construye igual de bien con un enlace roto y con un correo real dentro. El repositorio es
-#    privado, pero el sitio publicado es público: por eso esa comprobación bloquea.
+#    construye igual de bien con un enlace roto y con un correo real dentro. El sitio pide
+#    credencial, pero el repositorio es público y `docs/` se lee en GitHub sin ella: por eso esa
+#    comprobación bloquea.
 #  - El runner es Linux y las máquinas de trabajo son Windows. En Windows el sistema de ficheros
 #    no distingue mayúsculas, así que un enlace a `Conceptos.md` apuntando a `conceptos.md` abre
 #    en local y devuelve 404 en producción. Este job es el único sitio donde ese fallo aparece
 #    antes de publicarse.
 #  - Y, sobre todo, **Vercel puede no construir**. El `ignoreCommand` de `vercel.json` salta el
 #    despliegue cuando el último commit no toca `docs`, `src`, `static`, `docusaurus.config.js`,
-#    `sidebars.js`, `package.json`, `package-lock.json` ni `vercel.json`. Un cambio en `scripts/`
-#    —justo el que puede romper la validación de todas las páginas— no dispara ningún build de
-#    Vercel. Sin este workflow, ese cambio no lo verificaría nadie.
+#    `sidebars.js`, `package.json`, `package-lock.json`, `vercel.json` ni `middleware.js`. Un
+#    cambio en `scripts/` —justo el que puede romper la validación de todas las páginas— no
+#    dispara ningún build de Vercel. Sin este workflow, ese cambio no lo verificaría nadie.
+#  - `middleware.js`, que pide la credencial, no lo ejecuta el build: solo Vercel al servir. Sus
+#    pruebas (`scripts/acceso.test.mjs`) son lo único que avisa de un cambio que abra la guía.
 
 on:
   push:
@@ -97,6 +100,13 @@ jobs:
         # lockfile y `package.json` no concuerdan. Es el mismo `installCommand` que usa Vercel,
         # que es lo que hace que este build sea representativo del que publica.
         run: npm ci
+
+      - name: Control de acceso
+        # El build de Docusaurus no ejecuta `middleware.js`: sin estas pruebas, un cambio que
+        # dejase la guía abierta pasaría todo en verde. Ver docs-meta/06-control-de-acceso.md.
+        # El aviso que se silencia es el de un .js con `export` en un paquete sin "type": no se
+        # puede poner "type": "module" porque docusaurus.config.js usa `require`.
+        run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test scripts/acceso.test.mjs
 
       - name: Construir el sitio
         # Mismo `buildCommand` que Vercel: si rompe aquí, rompe allí. El sitio está configurado

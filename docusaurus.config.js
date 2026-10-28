@@ -187,6 +187,13 @@ const config = {
           label: 'GitHub',
           position: 'right',
         },
+        // Un enlace normal y no `to`: `/salir` no es una página de Docusaurus, lo atiende
+        // `middleware.js`, y el router del cliente lo resolvería sin pedirlo al servidor.
+        {
+          type: 'html',
+          position: 'right',
+          value: '<a class="navbar__link" href="/salir">Salir</a>',
+        },
       ],
     },
     footer: {

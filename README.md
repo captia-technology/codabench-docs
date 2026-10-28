@@ -8,11 +8,11 @@ Guía de cómo crear y mantener competiciones en **Codabench**: 23 páginas en e
 | **Sitio** | `docs.codabench.captia.ai` |
 | **Contenido** | Contrastado con **Codabench v1.31.2**. Esa etiqueta sale de las URL de la documentación oficial que citaba la guía original, **no** de una comprobación contra una instancia viva: ver [`docs-meta/03-version-contrastada.md`](docs-meta/03-version-contrastada.md) |
 | **Publica** | Vercel, desde la rama de producción. GitHub Actions solo verifica |
-| **Repositorio** | `captia-technology/codabench-docs`, **público**. El sitio también |
+| **Repositorio** | `captia-technology/codabench-docs`, **público**. El sitio pide credencial ([Acceso](#acceso)), pero eso no protege nada de lo que hay en el repositorio |
 
-> **Lo primero que hay que interiorizar**: aquí **todo es público**. No solo el sitio: el
-> repositorio también, así que `docs-meta/`, `scripts/` y `.claude/` se leen desde GitHub aunque no
-> entren en el sitio publicado. La regla de qué no puede salir vale para el árbol entero, no solo
+> **Lo primero que hay que interiorizar**: aquí **el contenido es público**. El sitio pide
+> credencial, pero el repositorio no: `docs/`, `docs-meta/`, `scripts/` y `.claude/` se leen desde
+> GitHub sin ella, entren o no en el sitio publicado. La regla de qué no puede salir vale para el árbol entero, no solo
 > para `docs/`. Codabench se despliega por instancias, así que lo que no puede salir es concreto:
 > la URL de una instancia interna, la cola de ejecución de un cliente, correos con dominio real,
 > direcciones IP, claves o tokens de API. Un hook lo comprueba al escribir y
@@ -227,6 +227,34 @@ que puede romper la validación de todas las páginas, no dispara ningún build 
 > panel antes de dar por hecho que un push publica. Es la clase de desajuste que no da error en
 > ninguna parte y simplemente no despliega.
 
+### Acceso
+
+La guía pide usuario y contraseña en un formulario propio, `/acceso`, con el diseño de la guía.
+La puerta es [`middleware.js`](middleware.js), que Vercel ejecuta antes de servir cualquier
+fichero; al entrar deja una cookie de sesión de 30 días, y «Salir», en la barra, la borra. Es el
+mismo control que el del manual de captia.ai, y **la lista de quién entra es la misma**. Dos
+variables del proyecto en Vercel:
+
+| Variable | Qué es |
+|---|---|
+| `DOCS_ACCESOS` | Quién entra: una entrada por cliente, separadas por comas, con hashes y no contraseñas. El mismo valor que en el proyecto del manual de captia.ai. Tipo *Config*, no *Secret*, porque hay que poder editarla |
+| `DOCS_SESION_SECRETO` | Firma las cookies de sesión. Propio de este proyecto. Tipo *Secret*. Cambiarlo cierra la sesión de todos |
+
+```bash
+python scripts/credencial_cliente.py cliente-a   # contraseña nueva y la entrada para DOCS_ACCESOS
+python scripts/credencial_cliente.py --secreto   # valor para DOCS_SESION_SECRETO
+```
+
+Cualquier cambio en las variables exige **redesplegar producción** desde el panel: solo llegan a
+los despliegues nuevos. Si faltan o están mal formadas, no entra nadie; el sitio nunca se abre por
+un fallo de configuración. Con `npm start` no se ve nada de esto: el servidor de desarrollo de
+Docusaurus no ejecuta el middleware.
+
+> **La credencial cierra el sitio, no el contenido.** El repositorio sigue siendo público: todo lo
+> que la guía enseña se lee en GitHub sin credencial, así que las reglas de qué no puede salir no
+> cambian en nada. Puesta en marcha, alta, baja y límites en
+> [`docs-meta/06-control-de-acceso.md`](docs-meta/06-control-de-acceso.md).
+
 ### Dos trampas de Vercel
 
 **1. El orden de los commits decide si se publica.** `vercel.json` trae un `ignoreCommand` que
@@ -236,7 +264,7 @@ o `.claude/`). Compara **únicamente el último commit contra su padre**:
 ```
 git rev-parse HEAD^ >/dev/null 2>&1 || exit 1
 git diff --quiet HEAD^ HEAD -- docs src static docusaurus.config.js sidebars.js \
-                               package.json package-lock.json vercel.json
+                               package.json package-lock.json vercel.json middleware.js
 ```
 
 Convenio de Vercel: código 0 = saltar el build, 1 = construir. La primera línea es la red de
@@ -250,7 +278,7 @@ Comprobarlo antes es una línea:
 
 ```bash
 git diff --quiet HEAD^ HEAD -- docs src static docusaurus.config.js sidebars.js \
-  package.json package-lock.json vercel.json && echo "SALTA" || echo "CONSTRUYE"
+  package.json package-lock.json vercel.json middleware.js && echo "SALTA" || echo "CONSTRUYE"
 ```
 
 **2. `vercel.json` no admite comentarios ni claves inventadas.** JSON no tiene comentarios, y
@@ -268,7 +296,7 @@ explicación va a [`docs-meta/README.md`](docs-meta/README.md).
 
 | Situación | Qué hacer |
 |---|---|
-| Un despliegue rompió el sitio | *Instant Rollback* en el panel de Vercel — inmediato, sin tocar el repositorio |
+| Un despliegue rompió el sitio | *Instant Rollback* en el panel de Vercel — inmediato, sin tocar el repositorio. **Ojo**: un despliegue anterior al control de acceso sirve la guía abierta |
 | Hay que deshacerlo en git | `git revert <sha>` y push. Recuerda que el último commit debe tocar una ruta vigilada para que Vercel reconstruya |
 | El contenido está mal pero el sitio funciona | Corregir y volver a desplegar; no hace falta rollback |
 
@@ -322,6 +350,9 @@ compite en buscadores con el definitivo ni deja resultados que caduquen el día 
 | `python scripts/check_fuentes.py` | Que las URL externas que cita la guía sigan vivas. De red, a mano |
 | `python scripts/check_codabench.py` | ¿Sigue siendo v1.31.2 la versión contrastada? De red, a mano |
 | `python scripts/check_codabench.py --fijar` | Cierra el ciclo tras revisar: sube la etiqueta de versión donde aparece |
+| `node --test scripts/acceso.test.mjs` | Pruebas del control de acceso — **también en CI** |
+| `python scripts/credencial_cliente.py <cliente>` | Credencial nueva y su entrada para `DOCS_ACCESOS`; con `--check`, valida la lista; con `--secreto`, el secreto de sesión |
+| `DOCS_CREDENCIAL=equipo:… python scripts/check_dominio.py` | El sitio publicado: cerrado sin credencial y bien servido con ella. De red, a mano |
 | `npm run build` | Build de producción, **sin `--locale`** |
 
 Los tres que **escriben** en el árbol —`build_nav.py`, `add_frontmatter.py` y
@@ -354,7 +385,8 @@ si cambia una, cambian las tres—. En corto, con lo que ocurre si se incumplen:
 5. **Filas de tabla cuadradas, y un `|` dentro de `` `código` `` también separa celdas.** Hay que
    escribirlo `\|`, o Markdown recorta la fila en silencio.
 6. **Rutas ASCII y en minúscula** bajo `docs/`, sin tildes ni mayúsculas.
-7. **Nada publicable que identifique a nadie.** El sitio es público: ni correos con dominio real
+7. **Nada publicable que identifique a nadie.** El repositorio es público —el sitio pide
+   credencial, pero `docs/` se lee en GitHub sin ella—: ni correos con dominio real
    —`@ejemplo.com` y `@example.com` sí—, ni IPs, ni credenciales o tokens, ni URLs de instancias
    internas de Codabench.
 8. **Ninguna imagen huérfana** en `docs/`, y **todo documento declarado en `SECCIONES`**.
@@ -387,6 +419,9 @@ llaves llegan tarde o temprano.
 [trampa 1](#dos-trampas-de-vercel). Y comprueba que la *Production Branch* del proyecto de Vercel
 es la rama a la que estás empujando.
 
+**Con `npm start` no pide credencial y «Salir» da 404.** Es lo esperado: el servidor de
+desarrollo no ejecuta `middleware.js`; solo lo hace Vercel.
+
 **El sitio carga sin estilos.** Síntoma clásico de un `baseUrl` que no coincide con la ruta en la
 que se sirve. Debe ser `'/'`.
 
@@ -405,6 +440,7 @@ que se sirve. Debe ser `'/'`.
 | [`docs-meta/01-setup-inicial.md`](docs-meta/01-setup-inicial.md) | De dónde se replicó el patrón, qué se copió exacto y qué se adaptó |
 | [`docs-meta/02-reparto-del-contenido.md`](docs-meta/02-reparto-del-contenido.md) | De dónde sale cada página del sitio, sección a sección |
 | [`docs-meta/03-version-contrastada.md`](docs-meta/03-version-contrastada.md) | De dónde sale «Codabench v1.31.2» y qué haría falta para contrastarla de verdad |
+| [`docs-meta/06-control-de-acceso.md`](docs-meta/06-control-de-acceso.md) | El control de acceso: qué cierra y qué no con el repositorio público, alta, baja y rollback |
 | [`.claude/rules/documentacion.md`](.claude/rules/documentacion.md) | La plantilla de página y las invariantes, desarrolladas |
 | [`.claude/rules/design-system.md`](.claude/rules/design-system.md) | Los tokens de marca y por qué el tema no se bifurca |
 | [`CLAUDE.md`](CLAUDE.md) | El índice del repositorio para trabajar con Claude Code |

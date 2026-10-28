@@ -69,7 +69,7 @@ RE_OBJETIVO = re.compile(r"^\*\*Objetivo:\*\*", re.M)
 # Copiados literalmente de .claude/hooks/validar_doc.py. No los toques aquí sin tocarlos allí.
 RE_EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 RE_IP = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
-# Credenciales. El sitio es público y esta guía habla de subir recursos a una plataforma: un
+# Credenciales. El repositorio es público y esta guía habla de subir recursos a una plataforma: un
 # token pegado en un ejemplo se publica igual que el resto del texto.
 RE_SECRETO = re.compile(
     r"(?:api[_-]?key|secret|password|passwd|authorization)\s*[:=]\s*\S+"
@@ -302,8 +302,8 @@ def main() -> int:
 
         # BLOQUEANTE (invariante 8) — nada publicable que identifique a nadie.
         #
-        # El repositorio es privado; el sitio, público. Todo lo que entre aquí sale publicado,
-        # y una vez publicado ya está indexado. Los patrones son los del hook, letra por letra.
+        # El repositorio es público: el sitio pide credencial, pero `docs/` se lee en GitHub sin
+        # ella. Todo lo que entre aquí sale publicado, y una vez publicado ya está indexado. Los patrones son los del hook, letra por letra.
         for m in RE_EMAIL.finditer(text):
             if not es_demo(m.group(0)):
                 fallos.append(f"{rel}: correo no demo -> {m.group(0)} (usa @ejemplo.com)")
