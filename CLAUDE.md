@@ -22,12 +22,17 @@ Este fichero es un índice, no un manual. El detalle vive donde se carga solo cu
 
 ## Lo mínimo que hay que saber
 
-**Todo es público: el sitio y el repositorio.** Nada en el árbol que identifique a nadie: ni URLs
+**El repositorio es público, aunque el sitio pida credencial.** La guía se sirve tras un
+formulario de acceso (`middleware.js`; alta, baja y el porqué en
+[`docs-meta/06-control-de-acceso.md`](docs-meta/06-control-de-acceso.md)), pero todo lo que
+enseña está en `docs/` y se lee en GitHub sin credencial: **la credencial cierra el sitio, no el
+contenido**, y no cambia nada de lo que puede salir. Nada en el árbol que identifique a nadie: ni URLs
 de instancias internas de Codabench, ni nombres de cola de ejecución de un cliente, ni correos con
 dominio real (`@ejemplo.com` y `@example.com` sí), ni IPs, ni credenciales o tokens. El hook lo
 comprueba al escribir y `scripts/check_docs.py` lo bloquea en CI, pero **los dos solo miran
 `docs/`**: fuera de ahí —`docs-meta/`, `scripts/`, `.claude/`— no hay validación automática y el
-cuidado es humano.
+cuidado es humano. Y un *Instant Rollback* a un despliegue anterior al middleware publica la guía
+abierta.
 
 **`docs-meta/` no entra en el sitio, pero se lee en GitHub.** Está fuera de `docs/`, que es lo
 único que Docusaurus publica; ahí va el porqué de las decisiones y los registros fechados. Que no
@@ -41,7 +46,8 @@ de las seis secciones es el orden real de montar una competición (Empezar → C
 → Evaluación → Submissions → Referencia), no el alfabético.
 
 **Publica Vercel, no Actions.** El workflow de `.github/workflows/` solo verifica lo que el build
-de Vercel no ve (`check_docs.py` y `build_nav.py --check`, que son Python). Dos trampas de
+de Vercel no ve (`check_docs.py` y `build_nav.py --check`, que son Python, y las pruebas del
+middleware, que el build no ejecuta). Dos trampas de
 despliegue —el `ignoreCommand` que solo mira el último commit contra su padre, y que `vercel.json`
 no admite ni comentarios ni claves inventadas— están contadas en [`README.md`](README.md); merece
 la pena leerlas antes de tocar `vercel.json` o de encadenar commits.
@@ -73,6 +79,9 @@ python scripts/normalize_headings.py --apply  # un solo H1 por documento
 python scripts/check_fuentes.py       # las URL externas que cita la guía siguen vivas
 python scripts/check_codabench.py     # ¿sigue siendo v1.31.2 la versión contrastada?
 python scripts/check_codabench.py --fijar   # cierre del ciclo, DESPUÉS de revisar el contenido
+node --test scripts/acceso.test.mjs   # pruebas del control de acceso — también en CI
+python scripts/credencial_cliente.py <cliente>   # credencial nueva; luego DOCS_ACCESOS y redesplegar
+python scripts/check_dominio.py      # el sitio publicado, con DOCS_CREDENCIAL
 npm start                             # previsualización local
 npm run build                         # build de producción, SIN --locale
 ```

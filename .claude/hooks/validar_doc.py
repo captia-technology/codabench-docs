@@ -73,7 +73,7 @@ RE_MD_IMG = re.compile(r"!\[[^\]]*\]\(([^)]+)\)")
 RE_EMOJI = re.compile("[\U0001f300-\U0001faff☀-➿️‍⏱⏲⌛⌚]+")
 RE_EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 RE_IP = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
-# Credenciales. El sitio es público y esta guía habla de subir recursos a una plataforma: un
+# Credenciales. El repositorio es público y esta guía habla de subir recursos a una plataforma: un
 # token pegado en un ejemplo se publica igual que el resto del texto.
 RE_SECRETO = re.compile(
     r"(?:api[_-]?key|secret|password|passwd|authorization)\s*[:=]\s*\S+"
@@ -318,9 +318,9 @@ def main() -> int:
             fallos.append(f"correo no demo: {m.group(0)}. Usa un dominio @ejemplo.com")
     for m in RE_IP.finditer(texto):
         if m.group(0) not in IPS_DOC:
-            fallos.append(f"dirección IP: {m.group(0)}. El sitio es público")
+            fallos.append(f"dirección IP: {m.group(0)}. El repositorio es público")
     for m in RE_SECRETO.finditer(texto):
-        fallos.append(f"parece una credencial: {m.group(0)[:40]}… El sitio es público")
+        fallos.append(f"parece una credencial: {m.group(0)[:40]}… El repositorio es público")
     for m in RE_URL_CODABENCH.finditer(texto):
         if m.group(1).lower() not in HOSTS_CODABENCH:
             fallos.append(
@@ -330,8 +330,8 @@ def main() -> int:
     for ident in privados():
         if re.search(re.escape(ident), texto, re.I):
             fallos.append(
-                f"menciona un identificador de la lista privada ({ident[:24]}…). El sitio es "
-                "público"
+                f"menciona un identificador de la lista privada ({ident[:24]}…). El repositorio "
+                "es público"
             )
 
     if not fallos:

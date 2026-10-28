@@ -31,10 +31,12 @@ que no se convierta en una afirmación falsa sin que nadie se dé cuenta.
 | [`03-version-contrastada.md`](03-version-contrastada.md) | De dónde salió la etiqueta «Codabench v1.31.2» del primer corte, qué **no** significaba, y qué haría falta para contrastarla de verdad | **Vigente** — se actualiza cada vez que la etiqueta cambie |
 | [`04-sync-codabench-v1.31.2.md`](04-sync-codabench-v1.31.2.md) | La revisión de v1.23 a v1.31.2: qué cambió de verdad, qué no era desfase sino hueco, y qué queda pendiente | **Vigente** — es el registro del ciclo de versión |
 | [`05-auditoria-de-capturas.md`](05-auditoria-de-capturas.md) | Qué clase de dato se retiró de las capturas y cómo; el procedimiento para rehacer una | **Vigente** — se actualiza con cada captura nueva |
+| [`06-control-de-acceso.md`](06-control-de-acceso.md) | La guía pide credencial desde el 2026-10-28: qué significa con el repositorio público, la puesta en marcha, el alta y la baja | **Vigente** — es el procedimiento de operación |
 
 ## Dos avisos que valen siempre
 
-**El sitio es público, y el repositorio también.** Esta carpeta no entra en el sitio —Docusaurus
+**El repositorio es público, aunque el sitio pida credencial.** La credencial cierra el sitio, no
+el contenido ([`06`](06-control-de-acceso.md)). Esta carpeta no entra en el sitio —Docusaurus
 solo publica `docs/`—, pero se lee desde GitHub como cualquier otro fichero: no es un cuaderno
 privado. Codabench se despliega por instancias, y lo que no puede salir es concreto: la URL de una instancia interna, el
 nombre de una cola de ejecución de un cliente, correos con dominio real, IPs, claves o tokens. Hoy
@@ -56,6 +58,9 @@ fechada, encima de lo que corrige.
 | `scripts/normalize_headings.py` | Deja un solo H1 por documento | En uso al añadir docs |
 | `scripts/check_fuentes.py` | Que las URL externas que cita la guía sigan vivas. `check_docs.py` solo valida los enlaces relativos, así que una fuente rota se degrada en silencio | En uso, a mano (sale a la red) |
 | `scripts/check_codabench.py` | Compara la última release publicada de `codalab/codabench` con la versión que declara este sitio. Con `--fijar`, cierra el ciclo subiendo la etiqueta | En uso, a mano (sale a la red) |
+| `scripts/acceso.test.mjs` | Pruebas de `middleware.js`, el control de acceso: el build no lo ejecuta, así que son lo único que avisa de un cambio que abra la guía | En uso, corre en CI |
+| `scripts/credencial_cliente.py` | Genera una credencial y su entrada para `DOCS_ACCESOS`, el secreto de sesión (`--secreto`), y valida la lista antes de pegarla (`--check`) | En uso, a mano |
+| `scripts/check_dominio.py` | Que el sitio publicado está cerrado sin credencial y se sirve bien con ella. Lee `DOCS_CREDENCIAL` del entorno | En uso, a mano (sale a la red) |
 
 Los dos últimos **no corren en CI a propósito**: dependen de sitios ajenos —`docs.codabench.org` y
 la API de GitHub—, que caen, se mueven y devuelven 429. Un CI que se pone en rojo por eso no dice
@@ -89,7 +94,7 @@ que más sorprende, el `ignoreCommand`:
 ```
 git rev-parse HEAD^ >/dev/null 2>&1 || exit 1
 git diff --quiet HEAD^ HEAD -- docs src static docusaurus.config.js sidebars.js \
-                               package.json package-lock.json vercel.json
+                               package.json package-lock.json vercel.json middleware.js
 ```
 
 Salta el build cuando el commit no toca nada que salga en el sitio —por ejemplo, solo `docs-meta/`
@@ -102,7 +107,8 @@ despliegue— la primera línea sale con 1 y construye, que es el lado seguro de
 Y las cabeceras: `X-Robots-Tag: noindex, nofollow` se aplica **solo** cuando el host es
 `codabench-docs.vercel.app`, el dominio provisional. Así el sitio no compite consigo mismo en
 buscadores mientras se da de alta `docs.codabench.captia.ai`, ni deja resultados que caduquen el
-día del corte. El resto son caché de assets y cabeceras de seguridad estándar.
+día del corte. El resto son caché de assets —`private` desde el control de acceso, para que
+ningún proxy intermedio sirva a otro lo que se pidió con sesión— y cabeceras de seguridad estándar.
 
 ## Lo que queda pendiente
 
