@@ -25,7 +25,7 @@ const CONTRASENA = 'abcde-fghjk-mnpqr-stuvw-xyz23';
 const ENTRADA_PYTHON =
   'cliente-ejemplo:aded9a8c2ac02b7d84367dbf54fff0b7cb8c1a9736caea9a7b2ba95d9e733b69';
 const SECRETO = 'secreto-de-pruebas-con-mas-de-32-caracteres';
-const SITIO = 'https://docs.codabench.captia.ai';
+const SITIO = 'https://docs-codabench.captia.ai';
 
 const basic = (credencial) => `Basic ${Buffer.from(credencial).toString('base64')}`;
 const entrada = (usuario, contrasena) =>

@@ -12,13 +12,13 @@ envejece; los archivos no.
 Guía de cómo crear y mantener competiciones en **Codabench**, la plataforma
 open-source para benchmarks y competiciones de machine learning, sucesora de
 CodaLab. Sitio Docusaurus 3.10.2 en español, publicado en
-`https://docs.codabench.captia.ai`.
+`https://docs-codabench.captia.ai`.
 
 | Clave | Valor | Dónde se comprueba |
 | --- | --- | --- |
 | Repositorio | `captia-technology/codabench-docs`, **público** | `docusaurus.config.js` (`organizationName`, `projectName`) |
 | Sitio publicado | **público**, sin autenticación | La regla de datos publicables sale de ahí |
-| Dominio | `https://docs.codabench.captia.ai` | `docusaurus.config.js`; el literal es respaldo, manda `VERCEL_PROJECT_PRODUCTION_URL` |
+| Dominio | `https://docs-codabench.captia.ai` | `docusaurus.config.js`; el literal es respaldo, manda `VERCEL_PROJECT_PRODUCTION_URL` |
 | Publica | Vercel, producción desde `main`; preview por pull request | `vercel.json` y el encabezado de `.github/workflows/docs-ci.yml` |
 | Rama por defecto hoy | `master` | `git branch --show-current` |
 | Versión rotulada | `Codabench v1.31.2` | `docusaurus.config.js`, `versions.current.label` |

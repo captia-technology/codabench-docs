@@ -5,7 +5,7 @@ Guía de cómo crear y mantener competiciones en **Codabench**: 23 páginas en e
 
 | | |
 |---|---|
-| **Sitio** | `docs.codabench.captia.ai` |
+| **Sitio** | `docs-codabench.captia.ai` |
 | **Contenido** | Contrastado con **Codabench v1.31.2**. Esa etiqueta sale de las URL de la documentación oficial que citaba la guía original, **no** de una comprobación contra una instancia viva: ver [`docs-meta/03-version-contrastada.md`](docs-meta/03-version-contrastada.md) |
 | **Publica** | Vercel, desde la rama de producción. GitHub Actions solo verifica |
 | **Repositorio** | `captia-technology/codabench-docs`, **público**. El sitio pide credencial ([Acceso](#acceso)), pero eso no protege nada de lo que hay en el repositorio |
@@ -328,13 +328,13 @@ de entorno del proyecto. El CI ya lo cubre por su lado con `fetch-depth: 0`.
 
 El sitio se sirve en la raíz de su dominio (`baseUrl: '/'`) y el `url` sale de
 `VERCEL_PROJECT_PRODUCTION_URL`, la variable que inyecta Vercel con el dominio de producción del
-proyecto. En cuanto `docs.codabench.captia.ai` quede asignado ahí, el canonical, el Open Graph y
-el sitemap se corrigen solos sin tocar `docusaurus.config.js`; el literal que hay en el fichero es
-solo el respaldo para builds locales y para el primer despliegue.
+proyecto. Desde el 2026-11-02 ese dominio es `docs-codabench.captia.ai` —CNAME en el DNS de
+`captia.ai`, que está en Hostinger—, así que el canonical, el Open Graph y el sitemap salen de
+ahí sin tocar `docusaurus.config.js`; el literal que hay en el fichero es solo el respaldo para
+builds locales.
 
-Mientras el subdominio no exista, el sitio se sirve en `codabench-docs.vercel.app`, y para ese
-host `vercel.json` devuelve `X-Robots-Tag: noindex, nofollow`: así el dominio provisional no
-compite en buscadores con el definitivo ni deja resultados que caduquen el día del corte.
+El sitio sigue respondiendo también en `codabench-docs.vercel.app`, y para ese host `vercel.json`
+devuelve `X-Robots-Tag: noindex, nofollow`: así no compite en buscadores con el dominio propio.
 
 ---
 

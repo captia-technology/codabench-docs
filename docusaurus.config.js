@@ -49,7 +49,7 @@ const config = {
   // exacta: cuadrado #00FF79 con los arcos y el anillo en #0000DC.
   favicon: 'img/logo-mark.svg',
 
-  // Vercel es el ÚNICO destino de publicación, en la RAÍZ del dominio `docs.codabench.captia.ai`.
+  // Vercel es el ÚNICO destino de publicación, en la RAÍZ del dominio `docs-codabench.captia.ai`.
   //
   // `baseUrl` es lo primero que hay que revisar si algún día se sirve desde otro sitio: un sitio
   // construido con prefijo de ruta (como el que impone GitHub Pages, /codabench-docs/) y servido
@@ -57,10 +57,10 @@ const config = {
   // ve como HTML sin estilos.
   //
   // La URL se toma de la variable que inyecta Vercel, que vale el DOMINIO DE PRODUCCIÓN del
-  // proyecto: en cuanto `docs.codabench.captia.ai` queda asignado ahí, el canonical, el Open Graph
-  // y el sitemap se corrigen solos, sin tocar este fichero. El literal es solo el respaldo para
-  // builds locales y para el primer despliegue, antes de que el dominio exista.
-  url: `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL || 'docs.codabench.captia.ai'}`,
+  // proyecto: desde el 2026-11-02 es `docs-codabench.captia.ai`, así que el canonical, el Open
+  // Graph y el sitemap salen de ahí sin tocar este fichero. El literal es solo el respaldo para
+  // builds locales.
+  url: `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL || 'docs-codabench.captia.ai'}`,
   baseUrl: '/',
   organizationName: 'captia-technology',
   projectName: 'codabench-docs',

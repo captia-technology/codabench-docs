@@ -2,7 +2,7 @@
 
 Sitio de documentación de **cómo crear y mantener competiciones en Codabench**: 23 páginas en
 español repartidas en 6 secciones, con Docusaurus 3.10.2 y publicado en Vercel bajo
-**https://docs.codabench.captia.ai**. El contenido se etiqueta como contrastado con **Codabench
+**https://docs-codabench.captia.ai**. El contenido se etiqueta como contrastado con **Codabench
 v1.31.2**, tras la revisión de septiembre de 2026. Esa etiqueta se apoya en las notas de
 publicación y en el código de esa versión —formularios del editor y modelos—, **no** en haber
 vuelto a montar una competición sobre una instancia con ella; la distinción importa y está

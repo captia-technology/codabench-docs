@@ -54,9 +54,9 @@ import urllib.error
 import urllib.request
 from urllib.parse import urljoin, urlparse
 
-# Mientras `docs.codabench.captia.ai` no resuelva, produccion vive en el dominio de Vercel. El dia
-# que se asigne el subdominio, se cambia aqui: el canonical y el sitemap pasaran a declararlo.
-DOMINIO_POR_DEFECTO = "https://codabench-docs.vercel.app"
+# Dominio de produccion del proyecto de Vercel desde el 2026-11-02. El canonical y el sitemap lo
+# declaran porque salen de `VERCEL_PROJECT_PRODUCTION_URL`.
+DOMINIO_POR_DEFECTO = "https://docs-codabench.captia.ai"
 
 # Muestra representativa: la portada, un indice de seccion, una pagina de cada tramo del recorrido
 # y el mapa. No es exhaustiva a proposito —los enlaces los vigila el build con `onBrokenLinks`—,

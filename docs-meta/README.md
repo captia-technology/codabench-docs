@@ -105,17 +105,11 @@ anteriores hayan cambiado la guía entera. Si no existe `HEAD^` —clon superfic
 despliegue— la primera línea sale con 1 y construye, que es el lado seguro del error.
 
 Y las cabeceras: `X-Robots-Tag: noindex, nofollow` se aplica **solo** cuando el host es
-`codabench-docs.vercel.app`, el dominio provisional. Así el sitio no compite consigo mismo en
-buscadores mientras se da de alta `docs.codabench.captia.ai`, ni deja resultados que caduquen el
-día del corte. El resto son caché de assets —`private` desde el control de acceso, para que
+`codabench-docs.vercel.app`, el dominio de Vercel, que sigue respondiendo. Así el sitio no
+compite en buscadores con su dominio propio, `docs-codabench.captia.ai`. El resto son caché de assets —`private` desde el control de acceso, para que
 ningún proxy intermedio sirva a otro lo que se pidió con sesión— y cabeceras de seguridad estándar.
 
 ## Lo que queda pendiente
-
-**Dar de alta `docs.codabench.captia.ai`** en el proyecto de Vercel. La configuración ya está
-preparada: `url` sale de `VERCEL_PROJECT_PRODUCTION_URL` y `baseUrl` es `/`, así que el canonical,
-el Open Graph y el sitemap se corrigen solos el día que el dominio se asigne, sin tocar
-`docusaurus.config.js`.
 
 **Decidir el nombre de la rama de producción.** Hoy la rama por defecto del repositorio es
 `master` (`origin/HEAD → origin/master`), mientras que el montaje se especificó sobre `main`.

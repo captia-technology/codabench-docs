@@ -8,7 +8,7 @@ Vercel Authentication, Passport o un proxy delante, está contrastado en
 `docs-meta/12-control-de-acceso.md` de aquel repositorio; las razones valen igual aquí.
 
 ```
-navegador ──► codabench-docs.vercel.app ──► middleware.js ──┬── sesión válida ───────────►  la guía
+navegador ──► docs-codabench.captia.ai ───► middleware.js ──┬── sesión válida ───────────►  la guía
                                                             └── sin ella ──► /acceso ──►  cookie de sesión
 ```
 
@@ -67,7 +67,7 @@ disponible. Las dos cosas dejan su línea en los logs de Vercel.
 `middleware.js`, `scripts/acceso.test.mjs` y `scripts/credencial_cliente.py` son los de
 `my-qa-captia-ai-app` con tres diferencias: los textos de la página de acceso («Guía de
 Codabench»), el nombre de la cookie (`codabench_docs_sesion`) y las referencias a este
-documento. `scripts/check_dominio.py` apunta además a `codabench-docs.vercel.app` y a rutas de
+documento. `scripts/check_dominio.py` apunta además a `docs-codabench.captia.ai` y a rutas de
 esta guía. El tema no se tocó: `src/css/custom.css` y el mark son copia exacta del design system
 en los dos repositorios, y los tokens que lleva en línea la página de acceso son los mismos.
 
