@@ -9,21 +9,6 @@
   "ignoreCommand": "git rev-parse HEAD^ >/dev/null 2>&1 || exit 1; git diff --quiet HEAD^ HEAD -- docs src static docusaurus.config.js sidebars.js package.json package-lock.json vercel.json middleware.js",
   "headers": [
     {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "codabench-docs.vercel.app"
-        }
-      ],
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
-    },
-    {
       "source": "/assets/(.*)",
       "headers": [
         {

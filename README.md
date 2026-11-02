@@ -333,8 +333,9 @@ proyecto. Desde el 2026-11-02 ese dominio es `docs-codabench.captia.ai` —CNAME
 ahí sin tocar `docusaurus.config.js`; el literal que hay en el fichero es solo el respaldo para
 builds locales.
 
-El sitio sigue respondiendo también en `codabench-docs.vercel.app`, y para ese host `vercel.json`
-devuelve `X-Robots-Tag: noindex, nofollow`: así no compite en buscadores con el dominio propio.
+Es el único dominio: `codabench-docs.vercel.app` se quitó del proyecto el 2026-11-02 y ya da 404.
+Las URL propias de cada despliegue (`docs-codabench-<hash>-captia-technology.vercel.app`) siguen
+existiendo, pero Vercel pide iniciar sesión en su cuenta antes de llegar siquiera a la guía.
 
 ---
 

@@ -104,10 +104,11 @@ commit** contra su padre, así que una tanda de commits tiene que **terminar** c
 anteriores hayan cambiado la guía entera. Si no existe `HEAD^` —clon superficial, primer
 despliegue— la primera línea sale con 1 y construye, que es el lado seguro del error.
 
-Y las cabeceras: `X-Robots-Tag: noindex, nofollow` se aplica **solo** cuando el host es
-`codabench-docs.vercel.app`, el dominio de Vercel, que sigue respondiendo. Así el sitio no
-compite en buscadores con su dominio propio, `docs-codabench.captia.ai`. El resto son caché de assets —`private` desde el control de acceso, para que
-ningún proxy intermedio sirva a otro lo que se pidió con sesión— y cabeceras de seguridad estándar.
+Y las cabeceras: caché de assets —`private` desde el control de acceso, para que ningún proxy
+intermedio sirva a otro lo que se pidió con sesión— y cabeceras de seguridad estándar. Hubo una
+más, `X-Robots-Tag: noindex, nofollow` solo para el host `codabench-docs.vercel.app`, mientras ese
+dominio convivía con el propio; se quitó el 2026-11-02, al borrar el dominio de Vercel. El `noindex`
+que queda lo pone `middleware.js` en las respuestas sin sesión, que es todo lo que ve un buscador.
 
 ## Lo que queda pendiente
 
