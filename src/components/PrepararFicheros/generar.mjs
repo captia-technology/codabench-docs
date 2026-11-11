@@ -14,10 +14,20 @@
 import { ErrorDatos, escribirCsv } from './csv.mjs';
 import { detectarFormatoAncho, errorFormatoAncho, esNumero, normalizarNombre, parsearFecha } from './analisis.mjs';
 import { puntuar, redondear4 } from './metricas.mjs';
-import { diccionarioDatos, instrucciones, paginas } from './textos.mjs';
+import { agrupacion, diccionarioDatos, instrucciones, paginas, readmeKit } from './textos.mjs';
+
+/** Los scripts del kit de inicio, tal como están en `static/plantillas/kit/`. */
+export const FICHEROS_KIT = ['solucion_referencia.py', 'validar_envio.py', 'hacer_envio_zip.py'];
 
 /** Qué parte de las filas va a la prueba cuando el corte no es por fecha. */
 export const PARTE_PRUEBA = 0.2;
+
+/** Una plantilla que tiene que estar: un kit con un script vacío sería peor que un error. */
+function plantilla(grupo, nombre) {
+  const texto = grupo && grupo[nombre];
+  if (!texto) throw new Error(`Falta la plantilla ${nombre}.`);
+  return texto;
+}
 
 /** Nombre corto para los zip: minúsculas ASCII y guiones. */
 export function nombreCorto(texto) {
@@ -111,10 +121,7 @@ function referencias(entrenamiento, prueba, opciones) {
   });
   if (grupo || tiempo) {
     const que = tipo === 'numero' ? 'Media' : 'Clase más frecuente';
-    let donde;
-    if (grupo && tiempo) donde = `de cada ${grupo} a cada hora`;
-    else if (grupo) donde = `de cada ${grupo}`;
-    else donde = 'a cada hora del día';
+    const donde = agrupacion(grupo, tiempo);
     const agrupada = new Map(prueba.map((f) => [f.id, deClave(clave(f))]));
     lista.push({
       nombre: `${que} ${donde}`,
@@ -373,9 +380,16 @@ export function prepararCompeticion(datos, opciones, plantillas) {
       'solution.csv': escribirCsv([[idCol, objetivo], ...prueba.map((f) => [f.id, f.objetivo])]),
     },
     scoring_program: {
-      metadata: plantillas.metadata,
-      'score.py': plantillas.scorePy,
+      metadata: plantilla(plantillas, 'metadata'),
+      'score.py': plantilla(plantillas, 'scorePy'),
       'config.json': JSON.stringify(config, null, 2) + '\n',
+    },
+    // Los scripts del kit son genéricos: lo propio de esta competición va en su config.json,
+    // que lleva además el grupo y el tiempo con los que agrupa la solución de referencia.
+    starting_kit: {
+      'README.md': readmeKit(resumen),
+      'config.json': JSON.stringify({ ...config, grupo: resumen.grupo, tiempo: resumen.tiempo }, null, 2) + '\n',
+      ...Object.fromEntries(FICHEROS_KIT.map((nombre) => [nombre, plantilla(plantillas.kit, nombre)])),
     },
     extras: {
       'INSTRUCCIONES.md': instrucciones(resumen),

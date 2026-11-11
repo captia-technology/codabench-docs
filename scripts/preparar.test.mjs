@@ -27,13 +27,16 @@ import {
   sugerirTipo,
 } from '../src/components/PrepararFicheros/analisis.mjs';
 import { puntuar, redondear4 } from '../src/components/PrepararFicheros/metricas.mjs';
-import { nombreCorto, prepararCompeticion } from '../src/components/PrepararFicheros/generar.mjs';
+import { FICHEROS_KIT, nombreCorto, prepararCompeticion } from '../src/components/PrepararFicheros/generar.mjs';
+import { leerZip } from '../src/components/PrepararFicheros/zip.mjs';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PUNTUACION = join(REPO, 'static', 'plantillas', 'puntuacion');
+const KIT = join(REPO, 'static', 'plantillas', 'kit');
 const PLANTILLAS = {
   scorePy: readFileSync(join(PUNTUACION, 'score.py'), 'utf8'),
   metadata: readFileSync(join(PUNTUACION, 'metadata'), 'utf8'),
+  kit: Object.fromEntries(FICHEROS_KIT.map((n) => [n, readFileSync(join(KIT, n), 'utf8')])),
 };
 
 /** Generador pseudoaleatorio fijo: los datos salen iguales en cada ejecución. */
@@ -295,28 +298,45 @@ function python(args) {
   throw new Error('No hay Python en el PATH: la prueba cruzada lo necesita.');
 }
 
-/** Puntúa con el score.py real, como Codabench: program/, input/ref, input/res y output/. */
-function puntuarConPython(t, ficheros, envio) {
+/** Un directorio temporal con los ficheros indicados en cada subcarpeta; se borra al acabar la prueba. */
+function arbol(t, carpetas) {
   const raiz = mkdtempSync(join(tmpdir(), 'preparar-'));
   t.after(() => rmSync(raiz, { recursive: true, force: true }));
-  const escribir = (carpeta, contenido) => {
+  for (const [carpeta, contenido] of Object.entries(carpetas)) {
     mkdirSync(join(raiz, carpeta), { recursive: true });
     for (const [nombre, texto] of Object.entries(contenido)) writeFileSync(join(raiz, carpeta, nombre), texto);
-  };
-  escribir('program', ficheros.scoring_program);
-  escribir('input/ref', ficheros.reference_data);
-  escribir('input/res', { 'submission.csv': envio });
+  }
+  return raiz;
+}
+
+/** Puntúa con el score.py real, como Codabench: program/, input/ref, input/res y output/. */
+function puntuarConPython(t, ficheros, envio) {
+  const raiz = arbol(t, {
+    program: ficheros.scoring_program,
+    'input/ref': ficheros.reference_data,
+    'input/res': { 'submission.csv': envio },
+  });
   const r = python([join(raiz, 'program', 'score.py'), join(raiz, 'input'), join(raiz, 'output')]);
   assert.equal(r.status, 0, r.stderr);
   return JSON.parse(readFileSync(join(raiz, 'output', 'scores.json'), 'utf8'));
 }
 
-for (const [objetivo, tipo] of [
-  ['personas', 'numero'],
-  ['calidad', 'categoria'],
+/** Valores de la segunda columna de un CSV, por id: números como número, clases como texto. */
+function valores(texto, tipo) {
+  const { filas } = leerCsv(texto);
+  return new Map(filas.map(([id, v]) => [id, tipo === 'numero' ? Number(v) : v]));
+}
+
+for (const [objetivo, tipo, grupo] of [
+  ['personas', 'numero', 'aula'],
+  ['calidad', 'categoria', 'aula'],
+  ['personas', 'numero', null],
 ]) {
-  test(`prueba cruzada (${tipo}): score.py da las mismas notas que anuncia la herramienta`, (t) => {
-    const { resumen, ficheros, predicciones } = preparar(csvAulas({ vacias: 3 }), { objetivo, tipo, tiempo: 'fecha_hora', grupo: 'aula' });
+  const caso = `${tipo}${grupo ? '' : ', sin grupo'}`;
+  const opciones = { objetivo, tipo, tiempo: 'fecha_hora', grupo };
+
+  test(`prueba cruzada (${caso}): score.py da las mismas notas que anuncia la herramienta`, (t) => {
+    const { resumen, ficheros, predicciones } = preparar(csvAulas({ vacias: 3 }), opciones);
     assert.equal(resumen.referencias.length, 2);
     resumen.referencias.forEach((ref, i) => {
       const envio = escribirCsv([['id', objetivo], ...[...predicciones[i]].map(([id, v]) => [id, v])]);
@@ -325,5 +345,36 @@ for (const [objetivo, tipo] of [
     // El envío de ejemplo es la referencia del kit: lo que se promete en INSTRUCCIONES.md.
     const kit = resumen.referencias.find((r) => r.kit);
     assert.deepEqual(puntuarConPython(t, ficheros, ficheros.public_data['sample_submission.csv']), kit.metricas);
+  });
+
+  test(`kit de inicio (${caso}): la solución de referencia reproduce el envío de ejemplo`, async (t) => {
+    const { ficheros } = preparar(csvAulas({ vacias: 3 }), opciones);
+    // Como lo haría un participante: el kit y los datos en la misma carpeta.
+    const raiz = arbol(t, { kit: { ...ficheros.starting_kit, ...ficheros.public_data } });
+    const kit = join(raiz, 'kit');
+    const enKit = (args) => {
+      const r = spawnSync(process.env.PYTHON || 'python', args, { cwd: kit, encoding: 'utf8' });
+      return r.error ? spawnSync('python3', args, { cwd: kit, encoding: 'utf8' }) : r;
+    };
+
+    let r = enKit(['solucion_referencia.py']);
+    assert.equal(r.status, 0, r.stderr);
+    const envio = readFileSync(join(kit, 'submission.csv'), 'utf8');
+    assert.deepEqual(valores(envio, tipo), valores(ficheros.public_data['sample_submission.csv'], tipo));
+
+    r = enKit(['validar_envio.py', 'submission.csv', 'test.csv']);
+    assert.equal(r.status, 0, r.stderr);
+    assert.match(r.stdout, /^OK: \d+ filas/);
+
+    r = enKit(['hacer_envio_zip.py']);
+    assert.equal(r.status, 0, r.stderr);
+    const zip = await leerZip(readFileSync(join(kit, 'submission.zip')));
+    assert.deepEqual(zip.map((e) => e.nombre), ['submission.csv']);
+
+    // Y el validador rechaza lo que score.py rechazaría.
+    writeFileSync(join(kit, 'mal.csv'), envio.split('\n').slice(0, -3).join('\n') + '\n');
+    r = enKit(['validar_envio.py', 'mal.csv', 'test.csv']);
+    assert.notEqual(r.status, 0);
+    assert.match(r.stderr, /faltan 2 ids/);
   });
 }

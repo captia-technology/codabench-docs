@@ -196,6 +196,73 @@ ${tablaReferencias(resumen)}
 `;
 }
 
+/** «de cada aula a cada hora», «a cada hora del día»…: cómo agrupa la referencia. Vacío si no agrupa. */
+export function agrupacion(grupo, tiempo) {
+  if (grupo && tiempo) return `de cada ${grupo} a cada hora`;
+  if (grupo) return `de cada ${grupo}`;
+  if (tiempo) return 'a cada hora del día';
+  return '';
+}
+
+/** Qué hace la solución de referencia del kit, en una frase. */
+function queHaceLaReferencia(resumen) {
+  const que = resumen.tipo === 'numero' ? 'la media' : 'la clase más frecuente';
+  const como = agrupacion(resumen.grupo, resumen.tiempo);
+  if (!como) return `${que} de todo \`train.csv\``;
+  return `${que} ${como} en \`train.csv\`, y ${que} de todo el fichero cuando una combinación no aparece en él`;
+}
+
+/** `README.md` del kit de inicio, para el participante. */
+export function readmeKit(resumen) {
+  return `# Kit de inicio
+
+## Qué hay que hacer
+
+Predecir ${cod(resumen.objetivo)} en cada fila de \`test.csv\`. [Completa: qué es cada fila y qué significa esa columna.]
+
+## Qué hay en el kit
+
+${tabla(
+    ['Fichero', 'Para qué'],
+    [
+      [cod('solucion_referencia.py'), `Una solución que no necesita instalar nada: predice ${queHaceLaReferencia(resumen)}. Escribe \`submission.csv\`.`],
+      [cod('validar_envio.py'), 'Comprueba `submission.csv` con las mismas reglas que el programa de puntuación, antes de subirlo.'],
+      [cod('hacer_envio_zip.py'), 'Comprime `submission.csv` en `submission.zip`, con el CSV en la raíz.'],
+      [cod('config.json'), 'Qué columna se predice y cuál es el id. Lo leen los tres scripts: no hace falta tocarlo.'],
+    ],
+  )}
+
+Solo hace falta Python 3.
+
+## Pasos
+
+1. Descarga los datos de la competición (\`train.csv\`, \`test.csv\` y \`sample_submission.csv\`) y ponlos en la misma carpeta que este kit.
+2. Ejecuta \`python solucion_referencia.py\`. Escribe \`submission.csv\`, con una predicción para cada fila de \`test.csv\`.
+3. Compruébalo con \`python validar_envio.py submission.csv test.csv\`.
+4. Comprímelo con \`python hacer_envio_zip.py\`, que deja \`submission.zip\` con el CSV en la raíz.
+5. Sube \`submission.zip\` en la pestaña **My Submissions** de la competición.
+
+Después, mejora la solución: cambia cómo se calcula \`prediccion\` en \`solucion_referencia.py\`, o entrena tu propio modelo con \`train.csv\`.
+
+## Formato del envío
+
+Un \`.zip\` con un único CSV **en la raíz**, con dos columnas:
+
+${ejemploEnvio(resumen)}
+
+- Una fila por cada ${cod(resumen.id)} de \`test.csv\`, ni más ni menos.
+- ${resumen.tipo === 'numero' ? 'Los decimales, con punto.' : 'Las clases, escritas exactamente igual que en `train.csv`.'}
+
+## Referencias para saber si vas bien
+
+${explicacionMetrica(resumen)}
+
+${tablaReferencias(resumen)}
+
+\`solucion_referencia.py\` da la nota de la fila «${resumen.referencias.find((r) => r.kit).nombre}».
+`;
+}
+
 /** Las cuatro páginas base de la competición. */
 export function paginas(resumen, columnas) {
   const presentacion = `# [Completa: título de la competición]
