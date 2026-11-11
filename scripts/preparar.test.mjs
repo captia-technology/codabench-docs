@@ -27,7 +27,8 @@ import {
   sugerirTipo,
 } from '../src/components/PrepararFicheros/analisis.mjs';
 import { puntuar, redondear4 } from '../src/components/PrepararFicheros/metricas.mjs';
-import { FICHEROS_KIT, nombreCorto, prepararCompeticion } from '../src/components/PrepararFicheros/generar.mjs';
+import { FICHEROS_KIT, ORDEN_ZIPS, empaquetar, nombreCorto, prepararCompeticion } from '../src/components/PrepararFicheros/generar.mjs';
+import { comprobarZips } from '../src/components/PrepararFicheros/comprobar.mjs';
 import { leerZip } from '../src/components/PrepararFicheros/zip.mjs';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -378,3 +379,61 @@ for (const [objetivo, tipo, grupo] of [
     assert.match(r.stderr, /faltan 2 ids/);
   });
 }
+
+// ------------------------------------------------------------------- comprobar mis ficheros
+
+/** Los cuatro zip de una competición generada, como los subiría el docente a «Comprobar». */
+async function zipsGenerados(cambiar = (f) => f) {
+  const { ficheros, resumen } = preparar(csvAulas(), { objetivo: 'personas', tipo: 'numero', tiempo: 'fecha_hora', grupo: 'aula' });
+  const bytes = await empaquetar(cambiar(structuredClone(ficheros)), resumen.zips);
+  return Object.fromEntries(ORDEN_ZIPS.map((papel) => [papel, { nombre: resumen.zips[papel], bytes: bytes[papel] }]));
+}
+
+const errores = (informe) => informe.filter((r) => r.estado === 'error').map((r) => `${r.zip}: ${r.mensaje}`);
+
+test('comprobar: los zip que genera la herramienta pasan sin errores', async () => {
+  const informe = await comprobarZips(await zipsGenerados());
+  assert.deepEqual(errores(informe), []);
+  assert.ok(informe.some((r) => r.estado === 'ok' && /ids de `solution.csv` son los mismos/.test(r.mensaje)));
+  assert.ok(informe.some((r) => r.estado === 'ok' && /no lleva la columna «personas»/.test(r.mensaje)));
+});
+
+test('comprobar: un zip que no se sube queda «sin comprobar», no correcto', async () => {
+  const { public_data } = await zipsGenerados();
+  const informe = await comprobarZips({ public_data });
+  assert.equal(informe.filter((r) => r.estado === 'sin-comprobar').length, 3);
+});
+
+test('comprobar: cada fallo habitual se detecta y dice cómo arreglarlo', async () => {
+  const casos = [
+    [
+      'ficheros dentro de una carpeta',
+      (f) => ({ ...f, public_data: Object.fromEntries(Object.entries(f.public_data).map(([n, t]) => [`datos/${n}`, t])) }),
+      /dentro de la carpeta «datos\/»/,
+    ],
+    ['sin metadata', (f) => (delete f.scoring_program.metadata, f), /Falta el fichero `metadata`/],
+    ['metadata sin command', (f) => ((f.scoring_program.metadata = 'python3 score.py\n'), f), /no tiene la línea `command:`/],
+    ['config.json roto', (f) => ((f.scoring_program['config.json'] = '{"columna": "personas",}'), f), /no es un JSON válido/],
+    ['config.json sin tipo', (f) => ((f.scoring_program['config.json'] = '{"columna": "personas"}'), f), /"tipo" tiene que ser/],
+    ['genérico sin config.json', (f) => (delete f.scoring_program['config.json'], f), /falta `config.json`/],
+    ['test.csv con la respuesta', (f) => ((f.public_data['test.csv'] = f.public_data['train.csv']), f), /`test.csv` lleva la columna «personas»/],
+    [
+      'ids que no coinciden',
+      (f) => ((f.reference_data['solution.csv'] = f.reference_data['solution.csv'].split('\n').slice(0, -4).join('\n') + '\n'), f),
+      /no coinciden: a la solución le faltan 3/,
+    ],
+    ['punto y coma', (f) => ((f.public_data['train.csv'] = f.public_data['train.csv'].replace(/,/g, ';')), f), /punto y coma/],
+    [
+      'texto en Windows-1252',
+      (f) => ((f.public_data['diccionario_datos.md'] = Uint8Array.from([0x61, 0xf1, 0x6f, 0x0a])), f),
+      /diccionario_datos\.md no está en UTF-8/,
+    ],
+    ['la solución en los datos públicos', (f) => ((f.public_data['solution.csv'] = f.reference_data['solution.csv']), f), /llevan `solution.csv`/],
+  ];
+  for (const [nombre, cambiar, esperado] of casos) {
+    const informe = await comprobarZips(await zipsGenerados(cambiar));
+    const fallos = informe.filter((r) => r.estado === 'error');
+    assert.ok(fallos.some((r) => esperado.test(r.mensaje)), `${nombre}: ${errores(informe).join(' | ') || 'sin errores'}`);
+    assert.ok(fallos.every((r) => r.arreglo), `${nombre}: todo error dice cómo arreglarlo`);
+  }
+});
