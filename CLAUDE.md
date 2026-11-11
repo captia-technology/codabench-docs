@@ -1,7 +1,8 @@
 # codabench-docs
 
-Sitio de documentación de **cómo crear y mantener competiciones en Codabench**: 23 páginas en
-español repartidas en 6 secciones, con Docusaurus 3.10.2 y publicado en Vercel bajo
+Sitio de documentación de **cómo crear y mantener competiciones en Codabench**: 26 páginas en
+español repartidas en 7 secciones, más una herramienta que prepara en el navegador los ficheros de
+una competición, con Docusaurus 3.10.2 y publicado en Vercel bajo
 **https://docs-codabench.captia.ai**. El contenido se etiqueta como contrastado con **Codabench
 v1.31.2**, tras la revisión de septiembre de 2026. Esa etiqueta se apoya en las notas de
 publicación y en el código de esa versión —formularios del editor y modelos—, **no** en haber
@@ -17,6 +18,8 @@ Este fichero es un índice, no un manual. El detalle vive donde se carga solo cu
 | `.claude/rules/design-system.md` | Los tokens de marca y por qué el tema no se bifurca | Al tocar `src/`, `static/img/` o la configuración |
 | `.claude/hooks/validar_doc.py` | Valida el documento recién escrito y le devuelve los fallos a Claude | Automático, tras cada `Write` o `Edit` |
 | `scripts/build_nav.py` | `SECCIONES`: la declaración de la navegación, el mapa y `docs-map.json` | Al añadir, mover o renombrar una página |
+| `src/components/PrepararFicheros/` | La herramienta de «Preparar los ficheros»: lógica en `.mjs` sin React, interfaz en `index.js` | Al tocar la herramienta |
+| `static/plantillas/` | El programa de puntuación genérico y los scripts del kit de inicio, que la herramienta empaqueta y el docente descarga | Al tocar lo que se distribuye |
 | [`README.md`](README.md) | Empezar, organización, despliegue, comandos y qué hacer cuando Codabench cambia | A mano |
 | `docs-meta/` | Cómo se montó todo y por qué cada decisión es como es | A mano, cuando haga falta el porqué |
 
@@ -42,12 +45,13 @@ se publique en el sitio no lo hace privado: no escribas ahí nada que no pondrí
 `_category_.json`, `docs/mapa-de-la-guia.md` y `docs-map.json` salen todos de `SECCIONES`, dentro
 de `scripts/build_nav.py`. Si aparece un documento que no está declarado ahí, el script **falla** y
 CI con él. Es deliberado: colocar una página en el recorrido de la guía es una decisión. El orden
-de las seis secciones es el orden real de montar una competición (Empezar → Competición → Recursos
-→ Evaluación → Submissions → Referencia), no el alfabético.
+de las siete secciones es el orden real de montar una competición (Empezar → Preparar →
+Competición → Recursos → Evaluación → Submissions → Referencia), no el alfabético. Las páginas son
+`.md`; solo las que llevan un componente —la portada y dos de «Preparar los ficheros»— son `.mdx`.
 
 **Publica Vercel, no Actions.** El workflow de `.github/workflows/` solo verifica lo que el build
 de Vercel no ve (`check_docs.py` y `build_nav.py --check`, que son Python, y las pruebas del
-middleware, que el build no ejecuta). Dos trampas de
+middleware y de la herramienta, que el build no ejecuta). Dos trampas de
 despliegue —el `ignoreCommand` que solo mira el último commit contra su padre, y que `vercel.json`
 no admite ni comentarios ni claves inventadas— están contadas en [`README.md`](README.md); merece
 la pena leerlas antes de tocar `vercel.json` o de encadenar commits.
@@ -56,7 +60,18 @@ la pena leerlas antes de tocar `vercel.json` o de encadenar commits.
 `src/components/Portada/` y `static/img/logo-mark.svg` vienen del Captia Technology Design System a
 través del manual de captia.ai, sin un valor cambiado. La autoridad visual de la organización es
 una sola: si un color o un radio no cuadran aquí, se arregla en el sistema, no en este repositorio.
-Lo que sí cambia es el contenido, el dominio y la navegación.
+Lo que sí cambia es el contenido, el dominio y la navegación. La herramienta de
+`src/components/PrepararFicheros/` es de este sitio, pero no define ni un color: consume los
+tokens del tema y usa los botones de Infima y el Admonition del tema.
+
+**La herramienta promete notas que tiene que cumplir Codabench.** Calcula las notas de referencia
+en JavaScript (`metricas.mjs`) y las escribe en las instrucciones y en el kit de inicio; quien las
+comprueba de verdad es `static/plantillas/puntuacion/score.py`, en Codabench. Las dos cuentas
+tienen que ser idénticas —mismo orden al sumar, mismo redondeo—, y `score.py` y los scripts del
+kit tienen que seguir corriendo en Python 3.7, la imagen por defecto de Codabench. Las pruebas
+cruzadas de `scripts/preparar.test.mjs` ejecutan el `score.py` real para vigilarlo. Todo se hace
+en el navegador: ni el CSV ni los zip salen del ordenador del docente, y eso no se cambia
+(`docs-meta/07-preparar-ficheros.md`).
 
 **Cuando Codabench cambia, hay que revisar la guía.** Es un producto externo con su propio
 calendario. Cuando publique una versión que cambie la interfaz descrita y nadie toque la guía, la
@@ -80,6 +95,8 @@ python scripts/check_fuentes.py       # las URL externas que cita la guía sigue
 python scripts/check_codabench.py     # ¿sigue siendo v1.31.2 la versión contrastada?
 python scripts/check_codabench.py --fijar   # cierre del ciclo, DESPUÉS de revisar el contenido
 node --test scripts/acceso.test.mjs   # pruebas del control de acceso — también en CI
+python scripts/test_puntuacion.py     # programa de puntuación genérico — también en CI
+node --test scripts/preparar.test.mjs scripts/zip.test.mjs   # la herramienta — también en CI
 python scripts/credencial_cliente.py <cliente>   # credencial nueva; luego DOCS_ACCESOS y redesplegar
 python scripts/check_dominio.py      # el sitio publicado, con DOCS_CREDENCIAL
 npm start                             # previsualización local

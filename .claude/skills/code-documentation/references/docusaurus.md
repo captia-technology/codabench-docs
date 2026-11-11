@@ -45,7 +45,8 @@ compatibilidad; esos datos van al mapa (`docs-map.json`), que también genera
 `build_nav.py`. Usar MDX solo si hace falta: con `format: 'detect'`, un `.md`
 puede contener `{` sueltas —una plantilla de comando, una clave de `scores.txt`—
 sin romper nada, mientras que en un `.mdx` esa misma llave se interpreta como
-JSX y tumba el build. Hoy el único `.mdx` es la portada. Respetar las
+JSX y tumba el build. Hoy son `.mdx` la portada y las dos páginas de
+`docs/preparar/`, que llevan el componente de la herramienta. Respetar las
 convenciones de H1 y categorías del sitio.
 
 ## Diagramas y capturas

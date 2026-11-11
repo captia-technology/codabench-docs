@@ -95,3 +95,47 @@ Aprobadas el 2026-11-11: P1 y P3 sí; P5 cambia (no se convierte el formato anch
 `.claude/skills/code-documentation/references/perfil-repositorio.md` dice todavía que el sitio es
 público y sin autenticación. Desde el 2026-10-28 pide credencial (`06-control-de-acceso.md`). Se
 corrige en T8.
+
+## Nota del 2026-11-11: T2 a T8 hechas
+
+En la rama `preparar-ficheros`, sin push ni PR: T10 y T12 siguen pendientes.
+
+- **T2.** `static/plantillas/puntuacion/`: `score.py`, `metadata` y `config.json` de ejemplo.
+  Pruebas en `scripts/test_puntuacion.py`, en CI.
+- **T3.** `src/components/PrepararFicheros/`: `csv.mjs`, `analisis.mjs`, `metricas.mjs`,
+  `generar.mjs` y `textos.mjs`. Pruebas en `scripts/preparar.test.mjs`, en CI, con una prueba
+  cruzada que ejecuta `score.py` sobre los ficheros generados.
+- **T4.** `zip.mjs`. Pruebas en `scripts/zip.test.mjs`, contrastadas con `zipfile` de Python en
+  los dos sentidos.
+- **T5.** `static/plantillas/kit/`: `solucion_referencia.py`, `validar_envio.py` y
+  `hacer_envio_zip.py`. El README del kit lo escribe `textos.mjs`.
+- **T6.** `index.js` y `styles.module.css`: generar, comprobar (`comprobar.mjs`, también con
+  pruebas) y descargar el programa de puntuación.
+- **T7.** `docs/preparar/`: `index.md`, `herramienta.mdx` y `a-mano.mdx`.
+- **T8.** Portada, «Requisitos previos», `CLAUDE.md`, `README.md`, el índice de `docs-meta/` y
+  el perfil del repositorio de la skill.
+
+Desviaciones del plan, con su porqué:
+
+- **`build_nav.py` admite `.mdx` dentro de una sección.** Hasta hoy lo rechazaba, y P1 pide dos
+  páginas `.mdx`. El índice de una sección sigue siendo `index.md`, y un documento no puede
+  existir con las dos extensiones, porque las dos irían a la misma URL.
+- **T3 no convierte el formato ancho**, como decía su fila de la tabla: lo detecta y lo rechaza,
+  que es la versión aprobada de P5.
+- **El kit lleva su propio `config.json`** (columna, id, grupo y tiempo) en vez de scripts con
+  marcadores que se rellenan al generar. Así los tres scripts son idénticos en todas las
+  competiciones y se prueban tal cual.
+- **«Comprobar mis ficheros» revisa una cosa más que P12:** que `solution.csv` no esté en los
+  datos públicos. Es una fuga de la respuesta que Codabench no delata con ningún error.
+- **`a-mano.mdx` descarga el programa con el `config.json` ya escrito**, a partir de un formulario
+  con la columna, el tipo y el id, además de enlazar los tres ficheros sueltos. Para quien no
+  programa, editar un JSON dentro de un zip es justo el paso que falla.
+- **Retoques fuera de la lista de T8**, porque decían «seis secciones», «23 páginas» o que el
+  único `.mdx` era la portada: `docs/empezar/index.md`, `docs/referencia/fuentes.md`,
+  `sidebars.js`, el pie de `docusaurus.config.js`, `.claude/rules/documentacion.md` y la
+  referencia `docusaurus.md` de la skill.
+
+Lo que **no** está verificado: que una competición montada con estos zip puntúe en Codabench
+(T10). Las pruebas demuestran que `score.py` y la herramienta dan las mismas notas y que Python abre
+los zip; no que Codabench acepte los tipos de recurso, la Task sin **Input data** ni el leaderboard
+tal como los describen `INSTRUCCIONES.md` y la página a mano.

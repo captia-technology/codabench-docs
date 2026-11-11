@@ -13,7 +13,7 @@
  *   suelto en el texto se interpreta como una expresión JSX y rompe el build. Esta guía habla de
  *   ficheros `metadata`, plantillas de comando (`$program/scoring.py $input $output`) y claves de
  *   `scores.txt`, y ese tipo de contenido acaba trayendo llaves tarde o temprano. Con 'detect',
- *   los `.md` se procesan como CommonMark y solo los `.mdx` —hoy únicamente la portada— son MDX.
+ *   los `.md` se procesan como CommonMark y solo los `.mdx` —la portada y las páginas que llevan la herramienta— son MDX.
  *
  * - `i18n` con un solo locale y sin `--locale` en el build — construir un único locale NO añade
  *   prefijo de URL, así que el español vive en la raíz. Añadir `en` más adelante lo colocará bajo
@@ -211,6 +211,7 @@ const config = {
         {
           title: 'El recorrido',
           items: [
+            { label: 'Preparar los ficheros', to: '/preparar' },
             { label: 'Crear la competición', to: '/competicion' },
             { label: 'Recursos y tasks', to: '/recursos' },
             { label: 'Fases y evaluación', to: '/evaluacion' },
