@@ -25,6 +25,8 @@ name: Documentación · CI
 #    dispara ningún build de Vercel. Sin este workflow, ese cambio no lo verificaría nadie.
 #  - `middleware.js`, que pide la credencial, no lo ejecuta el build: solo Vercel al servir. Sus
 #    pruebas (`scripts/acceso.test.mjs`) son lo único que avisa de un cambio que abra la guía.
+#  - El programa de puntuación genérico (`static/plantillas/puntuacion/`) tampoco lo ejecuta el
+#    build: se descarga y corre en Codabench. Sus pruebas son `scripts/test_puntuacion.py`.
 
 on:
   push:
@@ -87,6 +89,13 @@ jobs:
         # atrás respecto a `docs/`. Sin esto, una página nueva se colaría al final del sidebar y
         # ausente del mapa, y el sitio publicaría un índice que miente sobre su propio contenido.
         run: python scripts/build_nav.py --check
+
+      - name: Programa de puntuación genérico
+        # `static/plantillas/puntuacion/score.py` no lo ejecuta nada en este repositorio: lo
+        # descarga un docente y lo sube a Codabench. Si se rompe, el build sigue en verde y el
+        # fallo aparece como un envío que no puntúa en una competición ajena. Ver
+        # docs-meta/07-preparar-ficheros.md.
+        run: python scripts/test_puntuacion.py
 
       - uses: actions/setup-node@v5
         with:
