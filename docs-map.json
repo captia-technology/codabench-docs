@@ -158,6 +158,42 @@
       ]
     },
     {
+      "doc": "docs/preparar/a-mano.mdx",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/",
+            "https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/preparar/herramienta.mdx",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/",
+            "https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html"
+          ]
+        }
+      ]
+    },
+    {
+      "doc": "docs/preparar/index.md",
+      "sources": [
+        {
+          "id": "codabench",
+          "paths": [
+            "https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/",
+            "https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html"
+          ]
+        }
+      ]
+    },
+    {
       "doc": "docs/recursos/datasets-programs.md",
       "sources": [
         {

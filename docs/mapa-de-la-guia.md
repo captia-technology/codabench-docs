@@ -21,6 +21,14 @@ Esta página la genera `scripts/build_nav.py` a partir de la declaración `SECCI
 - [La competición de ejemplo](./empezar/ejemplo.md)
 - [Requisitos previos](./empezar/requisitos.md)
 
+## Preparar los ficheros
+
+*3 páginas.*
+
+- [Preparar los ficheros](./preparar/index.md)
+- [Preparar los ficheros con la herramienta](./preparar/herramienta.mdx)
+- [Preparar los ficheros a mano](./preparar/a-mano.mdx)
+
 ## Crear la competición
 
 *5 páginas.*
