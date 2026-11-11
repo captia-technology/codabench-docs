@@ -1,6 +1,6 @@
 # 07 — Preparar los ficheros de una competición
 
-**Fecha:** 2026-11-11. **Estado:** plan, pendiente de aprobación. **Issue:** #7. **Rama:** `preparar-ficheros`.
+**Fecha:** 2026-11-11. **Estado:** plan aprobado el 2026-11-11 (P1 y P3 sí, P5 no; ver notas). **Issue:** #7. **Rama:** `preparar-ficheros`.
 
 ## Qué se pide y por qué
 
@@ -38,16 +38,15 @@ formato del envío) no se repite: las páginas nuevas enlazan a esas.
 
 ## Decisiones propuestas
 
-Las marcadas con **(a confirmar)** necesitan el visto bueno antes de implementar. El resto son de
-implementación y se pueden revisar en la PR.
+Aprobadas el 2026-11-11: P1 y P3 sí; P5 cambia (no se convierte el formato ancho). La verificación en una competición real (T10) queda pendiente y **no bloquea la publicación**: la herramienta se publica antes y no se presenta como verificada en Codabench hasta que T10 se haga.
 
 | # | Decisión | Por qué |
 |---|---|---|
-| P1 | **(a confirmar)** Sección nueva **«Preparar los ficheros»** (`docs/preparar/`) entre «Antes de empezar» y «Crear la competición», con tres páginas: `index.md` (los dos caminos), `herramienta.mdx` (generar y comprobar) y `a-mano.mdx` (qué lleva cada zip y el programa genérico) | Es el orden real: los ficheros se preparan antes de abrir el editor |
+| P1 | Sección nueva **«Preparar los ficheros»** (`docs/preparar/`) entre «Antes de empezar» y «Crear la competición», con tres páginas: `index.md` (los dos caminos), `herramienta.mdx` (generar y comprobar) y `a-mano.mdx` (qué lleva cada zip y el programa genérico) | Es el orden real: los ficheros se preparan antes de abrir el editor |
 | P2 | La herramienta es un componente React en `src/components/PrepararFicheros/`, usado desde los `.mdx`. La lógica va aparte, en módulos `.mjs` sin React | Los módulos sin React se prueban con `node --test` en CI, igual que el middleware |
-| P3 | **(a confirmar)** **Sin dependencias nuevas.** CSV con un lector propio (RFC 4180), zip con las API nativas `CompressionStream` y `DecompressionStream` (`deflate-raw`) y un CRC32 propio. Si el navegador no tiene `CompressionStream`, el zip se guarda sin comprimir | Evita añadir y mantener un paquete. Las API están en Chrome y Edge 80+, Firefox 113+ y Safari 16.4+ |
+| P3 | **Sin dependencias nuevas.** CSV con un lector propio (RFC 4180), zip con las API nativas `CompressionStream` y `DecompressionStream` (`deflate-raw`) y un CRC32 propio. Si el navegador no tiene `CompressionStream`, el zip se guarda sin comprimir | Evita añadir y mantener un paquete. Las API están en Chrome y Edge 80+, Firefox 113+ y Safari 16.4+ |
 | P4 | Todo ocurre en el navegador: el CSV y los zip no se envían a ningún sitio, y la página lo dice | Los datos son del centro y no deben salir de su ordenador |
-| P5 | **(a confirmar)** Se aceptan dos formatos de entrada: el **largo** (una fila por caso, con columna de grupo y de tiempo) y el **ancho** que descarga hoy captia.ai (una columna por variable y equipo, `variable__equipo`), que la herramienta convierte a largo | Funciona ya con la descarga actual de varios equipos, sin esperar a captia-technology/captia.ai#850 |
+| P5 | **Solo el formato largo:** una fila por caso, con columna de tiempo y, si hay varios grupos, columna de grupo. La descarga actual de captia.ai de **un solo equipo** ya sale así. El formato ancho de varios equipos (`variable__equipo`) se rechaza con un mensaje que explica qué hacer | Decidido el 2026-11-11: no se convierte el formato ancho. La descarga de varios equipos en formato largo llega con captia-technology/captia.ai#850 |
 | P6 | **Tipo de competición detectado por la columna a predecir:** números con más de 10 valores distintos → regresión (MAE principal y RMSE, mejor cuanto más bajo); texto o 10 valores o menos → clasificación (aciertos y F1 macro sobre las clases presentes en la solución, mejor cuanto más alto). El docente puede cambiarlo | El docente no tiene por qué saber qué métrica usar; la herramienta propone y explica |
 | P7 | **Reparto por tiempo, nunca al azar:** por defecto, el último 20 % cronológico va a la prueba; también se puede elegir una fecha de corte. Sin columna de tiempo, el último 20 % en el orden del fichero, con aviso. Las filas sin respuesta se quitan | Un reparto al azar mete la misma hora en entrenamiento y en prueba y da notas irreales |
 | P8 | `id` generado si no existe: `<grupo>_<AAAAMMDDHHMM>`, o el número de fila | La solución y el envío se emparejan por `id` |
@@ -70,7 +69,7 @@ implementación y se pueden revisar en la PR.
 | T7 | Páginas de `docs/preparar/`, declaradas en `SECCIONES`, con `build_nav.py --apply` y `check_docs.py` | `docs(preparar-ficheros): páginas …` |
 | T8 | Retoques: portada, `requisitos.md`, `CLAUDE.md`, el perfil del repositorio de la skill y `docs-meta/README.md` | `docs(preparar-ficheros): …` |
 | T9 | Verificación local: validadores, pruebas, build y QA visual en los dos temas y en móvil | sin commit si no cambia nada |
-| T10 | **Evidencia real:** montar en codabench.org dos competiciones privadas con zips generados por la herramienta a partir de datos sintéticos, una de regresión y otra de clasificación, enviar el envío de ejemplo y anotar aquí lo observado | `docs(preparar-ficheros): evidencia …` |
+| T10 | **Evidencia real (pendiente, sin fecha; no bloquea la publicación):** montar en codabench.org dos competiciones privadas con zips generados por la herramienta a partir de datos sintéticos, una de regresión y otra de clasificación, enviar el envío de ejemplo y anotar aquí lo observado | `docs(preparar-ficheros): evidencia …` |
 | T11 | Revisión de lector, separando exactitud y comprensión | correcciones, si las hay |
 | T12 | PR contra `master`, solo con autorización, y comprobación de la preview de Vercel | — |
 
@@ -86,7 +85,7 @@ implementación y se pueden revisar en la PR.
 
 | Riesgo | Mitigación |
 |---|---|
-| El formato de la descarga de captia.ai cambia con la #850 | P5 admite el formato largo; las pruebas cubren los dos |
+| La descarga de varios equipos de captia.ai sale en formato ancho hasta la #850 | La herramienta lo detecta y explica que hay que descargar un equipo o esperar a la descarga nueva |
 | Un navegador sin `CompressionStream` | Zip sin comprimir; los ficheros son algo más grandes pero válidos |
 | La imagen de Codabench no tiene una librería | `score.py` solo usa la biblioteca estándar |
 | Detección del tipo equivocada | El docente puede cambiarla, y la herramienta explica por qué eligió |
