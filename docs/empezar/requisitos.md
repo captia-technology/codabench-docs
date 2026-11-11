@@ -38,4 +38,4 @@ command: python3 $program/scoring.py $input $output
 
 Conviene nombrar los zips de forma que se identifiquen sin ambigüedad al elegirlos en los desplegables de la interfaz, p. ej. `reference_data_<slug>_<version>.zip`, `scoring_program_<slug>_<version>.zip`, `<slug>_<version>_public_data.zip`, `<slug>_<version>_starting_kit.zip` — sobre todo si se van a crear varias versiones/fases de la misma competición y conviven varios recursos con nombres parecidos en [**Resources → Datasets and programs**](../recursos/datasets-programs.md).
 
-**Siguiente paso:** [Crear la competición](../competicion/index.md) — el editor web pestaña a pestaña, empezando por **Details**.
+**Siguiente paso:** [Preparar los ficheros](../preparar/index.md) — los cuatro zip, generados desde un CSV con la herramienta de la guía o montados a mano.

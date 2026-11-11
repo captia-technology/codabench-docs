@@ -1,0 +1,71 @@
+---
+title: "Preparar los ficheros a mano"
+description: "Montar los cuatro zip sin la herramienta, con el programa de puntuación genérico de la guía, y saber qué reglas hay que cumplir para que Codabench los acepte."
+sidebar_label: "A mano"
+sidebar_position: 2
+---
+
+import { DescargarPrograma } from '@site/src/components/PrepararFicheros';
+
+# Preparar los ficheros a mano
+
+**Objetivo:** montar los cuatro zip sin la herramienta, con el programa de puntuación genérico de la guía, y saber qué reglas hay que cumplir para que Codabench los acepte.
+
+Esta página es para una competición de predicciones directas: el participante sube un CSV con sus predicciones. No repite lo que ya está en otras páginas de la guía: cómo se sube cada zip y qué tipo de recurso es está en [Datasets y Programs](../recursos/datasets-programs.md), el contrato del programa de puntuación en [El scoring program por dentro](../recursos/scoring-program.md) y el formato del envío en [Formato de submission](../submissions/formato.md).
+
+## Qué lleva cada zip
+
+| Zip | Tipo de recurso | Público | Ficheros, todos en la raíz |
+|---|---|---|---|
+| Datos públicos | `public_data` | Sí | `train.csv`, con la respuesta; `test.csv`, sin ella; y, si quieres, `sample_submission.csv` y un diccionario de datos |
+| Kit de inicio | `starting_kit` | Sí | Lo que el participante necesita para su primer envío: un README y una solución sencilla |
+| Datos de referencia | `reference_data` | **No** | `solution.csv`: el `id` y la respuesta de cada fila de `test.csv` |
+| Programa de puntuación | `scoring_program` | **No** | `metadata`, `score.py` y `config.json` |
+
+## Las reglas que más fallan
+
+| Regla | Qué pasa si no se cumple |
+|---|---|
+| **Los ficheros, en la raíz del zip.** Comprime los ficheros, no la carpeta que los contiene. | Codabench no encuentra `metadata` ni los CSV, y el envío falla. |
+| **Comas y UTF-8.** Excel en español guarda con punto y coma: elige «CSV UTF-8 (delimitado por comas)». | El programa de puntuación no encuentra las columnas, o las tildes salen rotas. |
+| **Un `id` único por fila, y los mismos en `test.csv` y en `solution.csv`.** | La solución y el envío no se pueden emparejar, y ningún envío puntúa. |
+| **El reparto, por fecha.** `test.csv` son las fechas más recientes, nunca filas sacadas al azar. | La misma hora queda en los dos lados y la nota premia memorizar, no predecir. |
+| **`test.csv`, sin la columna de la respuesta.** | Cualquiera la copia en su envío y saca la nota máxima. |
+| **`reference_data` y `scoring_program`, privados.** | Las respuestas quedan a la vista de todos. |
+
+## El programa de puntuación genérico
+
+Es un único `score.py` que sirve para cualquier competición de este tipo. Compara la columna que le digas del envío con la de `solution.csv`, fila a fila por el `id`, y escribe `scores.json`. Solo usa la biblioteca estándar de Python, así que funciona con la imagen por defecto de Codabench sin instalar nada.
+
+Lo que cambia de una competición a otra va en `config.json`, junto a `score.py`:
+
+```json
+{"columna": "personas", "tipo": "numero", "id": "id"}
+```
+
+| Clave | Qué pone |
+|---|---|
+| `columna` | El nombre de la columna a predecir, exactamente igual que en los CSV. |
+| `tipo` | `numero` si es una cantidad (regresión) o `categoria` si es una clase (clasificación). |
+| `id` | La columna del identificador. Es opcional: si no se pone, `id`. |
+
+Rellena estos campos y descarga el zip con el `config.json` ya escrito:
+
+<DescargarPrograma />
+
+Si prefieres montarlo tú, aquí están los tres ficheros: [`score.py`](pathname:///plantillas/puntuacion/score.py), [`metadata`](pathname:///plantillas/puntuacion/metadata) y un [`config.json` de ejemplo](pathname:///plantillas/puntuacion/config.json). Van los tres en la raíz del zip.
+
+### Qué escribe y cómo se configura el leaderboard
+
+| `tipo` | Claves de `scores.json` | **Sorting** | **Primary Column** |
+|---|---|---|---|
+| `numero` | `mae`, `rmse` y `n` | `Ascending` en las dos: menor es mejor | `mae` |
+| `categoria` | `f1`, `aciertos` y `n` | `Descending` en las dos: mayor es mejor | `f1` |
+
+Cada clave es la **Column Key** de una columna del [leaderboard](../evaluacion/leaderboards.md). `n` es el número de filas evaluadas y no necesita columna. Si el envío no cuadra, el programa falla con un mensaje en español que dice qué fila o qué columna falla: falta un `id`, sobra otro, un valor no es un número…
+
+## Antes de subirlos
+
+Pasa los cuatro zip por [Comprobar mis ficheros](./herramienta.mdx#comprobar-mis-ficheros): revisa lo que dice esta página y te dice qué corregir.
+
+**Siguiente paso:** [Crear la competición](../competicion/index.md) — el editor web pestaña a pestaña, empezando por **Details**.

@@ -162,6 +162,21 @@ SECCIONES = [
         ],
     },
     {
+        "carpeta": "preparar",
+        "label": "Preparar los ficheros",
+        # Lo que se prepara aquí son los recursos que después se suben y el programa que los
+        # puntúa: es lo que cuenta la página oficial de recursos, y el tutorial que la guía ya
+        # cita para empaquetarlos.
+        "fuentes": [DOC_RECURSOS, TUTORIAL_PAVAO],
+        # Antes de abrir el editor, porque es lo que se sube después. Primero la herramienta,
+        # que es el camino corto de quien no programa; detrás, lo que lleva cada zip por dentro.
+        # Las dos páginas son .mdx porque llevan el componente de src/components/PrepararFicheros.
+        "docs": [
+            ["herramienta", "Con la herramienta"],
+            ["a-mano", "A mano"],
+        ],
+    },
+    {
         "carpeta": "competicion",
         "label": "Crear la competición",
         # Las cuatro páginas describen pestañas del formulario de creación, que es
@@ -241,6 +256,15 @@ def escribir(p: Path, s: str) -> None:
 def es_indice(doc: Path) -> bool:
     """`index.md`, y sólo eso: es la única grafía de índice que admite este repositorio."""
     return doc.name == "index.md"
+
+
+def documento(carpeta: Path, stem: str) -> Path | None:
+    """El fichero de un documento declarado: `stem.md` o, si lleva componentes, `stem.mdx`."""
+    for extension in (".md", ".mdx"):
+        p = carpeta / f"{stem}{extension}"
+        if p.is_file():
+            return p
+    return None
 
 
 def titulo_de(p: Path) -> str:
@@ -433,23 +457,29 @@ def recorrer(
         errores.append(f"declarada una carpeta que no existe: {rel}")
         return
 
-    reales = sorted(carpeta.glob("*.md"))
+    # `.mdx` también: es lo que necesita una página que lleva un componente de React, como la
+    # herramienta de «Preparar los ficheros». Hasta el 2026-11-11 aquí se rechazaba, porque el
+    # script solo miraba `.md` y una página `.mdx` se habría quedado sin posición ni descripción;
+    # ahora se trata igual que un `.md`. Dos restricciones lo mantienen en una sola forma: el
+    # índice sigue siendo `index.md`, y un documento no puede existir con las dos extensiones,
+    # porque las dos se publicarían en la misma URL.
+    reales = sorted(list(carpeta.glob("*.md")) + list(carpeta.glob("*.mdx")))
     indices = [p for p in reales if es_indice(p)]
     ordinarios = [p for p in reales if p not in indices]
 
-    # El único `.mdx` del sitio es la portada, que lleva componentes de React. Dentro de una
-    # sección un `.mdx` se publicaría igual, pero este script no lo vería: se quedaría sin
-    # posición y sin descripción, que es justo lo que hay que impedir.
-    for p in sorted(carpeta.glob("*.mdx")):
-        errores.append(f"{rel}/{p.name} es .mdx; en las secciones sólo hay .md")
+    for p in reales:
+        if p.name == "index.mdx":
+            errores.append(f"{rel}/index.mdx: el índice de una sección es index.md")
+        elif p.suffix == ".mdx" and p.with_suffix(".md").is_file():
+            errores.append(f"{rel}/{p.stem}: existe como .md y como .mdx, y los dos irían a la misma URL")
 
     if not indices:
         errores.append(f"{rel}/index.md no existe y toda sección necesita su índice")
 
     declarados_full = [declaracion(d) for d in nodo.get("docs", [])]
     declarados = [d for d, _ in declarados_full]
-    sobran = [p.stem for p in ordinarios if p.stem not in declarados]
-    faltan = [d for d in declarados if not (carpeta / f"{d}.md").is_file()]
+    sobran = [p.stem for p in ordinarios if p.stem not in declarados and p.name != "index.mdx"]
+    faltan = [d for d in declarados if documento(carpeta, d) is None]
     for s in sobran:
         errores.append(f"{rel}/{s}.md existe y NO está declarado en build_nav.py")
     for f in faltan:
@@ -481,7 +511,7 @@ def recorrer(
     n = 0
     for stem, label in declarados_full:
         n += 1
-        salida.append(("posicion", carpeta / f"{stem}.md", (n, label)))
+        salida.append(("posicion", documento(carpeta, stem), (n, label)))
     for sub in subs:
         n += 1
         recorrer(sub, carpeta, n, salida, errores, nivel + 1, fuentes, mapa_fuentes)
@@ -566,7 +596,7 @@ def construir_mapa() -> str:
     def bloque(nodo: dict, base: Path, nivel: int):
         carpeta = base / nodo["carpeta"]
         indices = [p for p in sorted(carpeta.glob("*.md")) if es_indice(p)]
-        total = len(list(carpeta.rglob("*.md")))
+        total = len(list(carpeta.rglob("*.md"))) + len(list(carpeta.rglob("*.mdx")))
         # El encabezado va SIEMPRE en texto plano y la página índice entra como primer
         # elemento de la lista. Enlazar el encabezado parecía natural, pero deja el título de
         # la sección con el mismo aspecto que sus páginas y el mapa se lee peor.
@@ -583,7 +613,7 @@ def construir_mapa() -> str:
         # categoría alrededor que dé contexto, así que el título largo sí distingue.
         for entrada in nodo.get("docs", []):
             stem, _ = declaracion(entrada)
-            p = carpeta / f"{stem}.md"
+            p = documento(carpeta, stem)
             destino = "./" + p.relative_to(DOCS).as_posix()
             lineas.append(f"- [{titulo_de(p)}]({destino})")
         if indices or nodo.get("docs"):

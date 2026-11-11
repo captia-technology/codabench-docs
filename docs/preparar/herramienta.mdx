@@ -1,0 +1,76 @@
+---
+title: "Preparar los ficheros con la herramienta"
+description: "Generar los cuatro zip de una competición a partir de un CSV, sin programar, y comprobar unos zip hechos a mano antes de subirlos."
+sidebar_label: "Con la herramienta"
+sidebar_position: 1
+---
+
+import { GenerarFicheros, ComprobarFicheros } from '@site/src/components/PrepararFicheros';
+
+# Preparar los ficheros con la herramienta
+
+**Objetivo:** generar los cuatro zip de una competición a partir de un CSV, sin programar, y comprobar unos zip hechos a mano antes de subirlos.
+
+:::info[Nada sale de tu ordenador]
+La herramienta funciona entera en tu navegador. El CSV y los zip no se envían a ningún sitio: se leen, se preparan y se descargan en tu equipo.
+:::
+
+## Qué CSV sirve
+
+- **Una fila por caso**: por ejemplo, un aula en una hora.
+- Una columna con lo que hay que predecir, y las columnas con las que se predice.
+- Si los datos son de varios grupos —varias aulas, varios equipos—, una columna que diga de cuál es cada fila.
+- Si la hay, una columna de fecha y hora: con ella, la prueba son las fechas más recientes.
+- **Separado por comas y guardado en UTF-8.** Si lo guardas desde Excel, elige «CSV UTF-8 (delimitado por comas)».
+
+La descarga de **un equipo** desde captia.ai (**Variables → Dataset**) ya sale así: una columna `fecha_hora` y una por variable. La de **varios equipos a la vez** sale hoy con una columna por variable y equipo (`co2__AULA01`, `co2__AULA02`…), y la herramienta no la acepta: descarga los equipos de uno en uno. La descarga de varios equipos en una sola tabla llegará más adelante.
+
+:::warning[Antes de generar: que ninguna columna delate la respuesta]
+Si una columna permite reconstruir la respuesta, la competición no mide nada: un modelo trivial la copia. Pasa, por ejemplo, con el CO₂ de la misma franja cuando lo que se predice es una clase de calidad del aire calculada a partir de él. Quita esa columna del CSV antes de subirlo. El caso está contado en [la competición de ejemplo](../empezar/ejemplo.md#la-trampa-que-hay-que-cerrar-antes-de-publicar-nada).
+:::
+
+## Generar
+
+1. Sube el CSV, o arrástralo a la zona de abajo. La herramienta enseña las columnas que ha encontrado y propone cuál es la de tiempo y cuál la de grupo.
+2. Elige la columna a predecir. La herramienta propone el tipo de competición —número o categoría— y explica por qué. Si no estás de acuerdo, cámbialo.
+3. Elige dónde empieza la prueba: en el último 20 % del tiempo, o desde una fecha.
+4. Pulsa **Generar los ficheros**, revisa el resumen y las notas de referencia, y descarga los zip uno a uno o con **Descargar todo**.
+
+<GenerarFicheros />
+
+### Qué hace con tus datos
+
+| Qué | Cómo |
+|---|---|
+| Filas sin respuesta | Las quita y lo avisa: no hay con qué puntuarlas. |
+| Reparto | Por fecha, nunca al azar: la prueba es el último 20 % del tiempo, o lo que va desde la fecha que elijas. Sin columna de tiempo, el último 20 % de las filas, con aviso. |
+| `id` | Si el CSV no tiene columna `id`, la crea con el grupo, la fecha y la hora (`AULA01_202602100800`), o con el número de fila si no hay fecha. |
+| Tipo | Números con más de 10 valores distintos: regresión, que se puntúa con MAE y RMSE. Texto, o 10 valores distintos o menos: clasificación, con F1 macro y proporción de aciertos. |
+| Notas de referencia | Puntúa dos soluciones sencillas —la media, o la clase más frecuente, de todo el entrenamiento y la de cada grupo a cada hora— con las mismas cuentas que hará Codabench. |
+
+### Qué descargas
+
+| Fichero | Qué lleva |
+|---|---|
+| `public_data_<nombre>.zip` | `train.csv`, `test.csv`, `sample_submission.csv` y `diccionario_datos.md` |
+| `starting_kit_<nombre>.zip` | Un README, una solución de referencia que no necesita instalar nada, `validar_envio.py` y `hacer_envio_zip.py` |
+| `reference_data_<nombre>.zip` | `solution.csv`: el `id` y la respuesta de cada fila de `test.csv` |
+| `scoring_program_<nombre>.zip` | `metadata`, `score.py` y `config.json`: el [programa de puntuación genérico](./a-mano.mdx) |
+| **Descargar todo** | Los cuatro zip, `INSTRUCCIONES.md` y la carpeta `paginas/` |
+
+`INSTRUCCIONES.md` dice de qué tipo es cada zip al subirlo, cuáles son públicos, cómo se configuran las columnas del leaderboard y qué nota tiene que dar `sample_submission.csv` si lo subes como envío de prueba. Los ficheros de `paginas/` son un borrador de las páginas de la competición y de sus **Terms**: completa lo que va entre corchetes antes de publicarlas.
+
+## Comprobar mis ficheros
+
+Si has hecho los zip a mano, o has retocado los que generó la herramienta, pásalos por aquí antes de subirlos. Son los fallos que en Codabench solo se ven como un envío que falla:
+
+- ficheros dentro de una carpeta en vez de en la raíz del zip;
+- `metadata` sin la línea `command:`, o que ejecuta un fichero que no está;
+- un `config.json` que no es válido;
+- `train.csv` o `test.csv` que faltan, o un `test.csv` que lleva la columna de la respuesta;
+- los `id` de la solución y de `test.csv` que no coinciden;
+- CSV separados por punto y coma, o texto que no está en UTF-8.
+
+<ComprobarFicheros />
+
+**Siguiente paso:** [Preparar los ficheros a mano](./a-mano.mdx) — qué lleva cada zip por dentro, para entender lo que acabas de descargar o retocarlo sin romperlo.
