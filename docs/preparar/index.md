@@ -7,7 +7,7 @@ description: "Elegir cómo preparar los cuatro zip que necesita una competición
 
 **Objetivo:** elegir cómo preparar los cuatro zip que necesita una competición —con la herramienta de esta guía, a partir de un CSV, o a mano— y saber qué tiene que haber en ellos al final.
 
-Una competición de predicciones directas, en la que el participante sube un CSV con sus predicciones, necesita cuatro zip. Después se suben como recursos en [Datasets y Programs](../recursos/datasets-programs.md):
+Una competición de predicciones directas, en la que el participante sube un CSV con sus predicciones, se monta con cuatro zip. Después se suben como recursos en [Datasets y Programs](../recursos/datasets-programs.md):
 
 | Zip | Qué lleva | Quién lo ve |
 |---|---|---|

@@ -18,7 +18,7 @@ Esta página es para una competición de predicciones directas: el participante 
 | Zip | Tipo de recurso | Público | Ficheros, todos en la raíz |
 |---|---|---|---|
 | Datos públicos | `public_data` | Sí | `train.csv`, con la respuesta; `test.csv`, sin ella; y, si quieres, `sample_submission.csv` y un diccionario de datos |
-| Kit de inicio | `starting_kit` | Sí | Lo que el participante necesita para su primer envío: un README y una solución sencilla |
+| Kit de inicio | `starting_kit` | Sí | Opcional, pero recomendable: lo que el participante necesita para su primer envío, como un README y una solución sencilla |
 | Datos de referencia | `reference_data` | **No** | `solution.csv`: el `id` y la respuesta de cada fila de `test.csv` |
 | Programa de puntuación | `scoring_program` | **No** | `metadata`, `score.py` y `config.json` |
 
@@ -26,7 +26,7 @@ Esta página es para una competición de predicciones directas: el participante 
 
 | Regla | Qué pasa si no se cumple |
 |---|---|
-| **Los ficheros, en la raíz del zip.** Comprime los ficheros, no la carpeta que los contiene. | Codabench no encuentra `metadata` ni los CSV, y el envío falla. |
+| **Los ficheros, en la raíz del zip.** Comprime los ficheros, no la carpeta que los contiene. | Codabench busca `metadata` en la raíz del programa: si no está, ningún envío se ejecuta. Y muchos programas de puntuación solo buscan los CSV en la raíz. |
 | **Comas y UTF-8.** Excel en español guarda con punto y coma: elige «CSV UTF-8 (delimitado por comas)». | El programa de puntuación no encuentra las columnas, o las tildes salen rotas. |
 | **Un `id` único por fila, y los mismos en `test.csv` y en `solution.csv`.** | La solución y el envío no se pueden emparejar, y ningún envío puntúa. |
 | **El reparto, por fecha.** `test.csv` son las fechas más recientes, nunca filas sacadas al azar. | La misma hora queda en los dos lados y la nota premia memorizar, no predecir. |
@@ -35,7 +35,7 @@ Esta página es para una competición de predicciones directas: el participante 
 
 ## El programa de puntuación genérico
 
-Es un único `score.py` que sirve para cualquier competición de este tipo. Compara la columna que le digas del envío con la de `solution.csv`, fila a fila por el `id`, y escribe `scores.json`. Solo usa la biblioteca estándar de Python, así que funciona con la imagen por defecto de Codabench sin instalar nada.
+Es un único `score.py` que sirve para cualquier competición de este tipo. Compara la columna que le digas del envío con la de `solution.csv`, fila a fila por el `id`, y escribe `scores.json`. Solo usa la biblioteca estándar de Python y está escrito para la imagen por defecto de Codabench, que trae Python 3.7: no hay que instalar nada ni cambiar de imagen.
 
 Lo que cambia de una competición a otra va en `config.json`, junto a `score.py`:
 

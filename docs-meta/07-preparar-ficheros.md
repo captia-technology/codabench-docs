@@ -139,3 +139,27 @@ Lo que **no** está verificado: que una competición montada con estos zip punt�
 (T10). Las pruebas demuestran que `score.py` y la herramienta dan las mismas notas y que Python abre
 los zip; no que Codabench acepte los tipos de recurso, la Task sin **Input data** ni el leaderboard
 tal como los describen `INSTRUCCIONES.md` y la página a mano.
+
+### T9 y T11, el mismo día
+
+**T9.** Todo con código de salida 0: `python scripts/check_docs.py`, `python scripts/build_nav.py
+--check`, `python scripts/test_puntuacion.py` (24 pruebas), `node --test` sobre
+`acceso.test.mjs`, `preparar.test.mjs` y `zip.test.mjs` (55 pruebas) y `npm run build`, en
+Windows con Python 3.14 y Node 24; el CI usa Python 3.12 y Node 22. **La QA visual no se ha
+hecho**: los dos temas, el teclado y la anchura de móvil siguen pendientes de mirar en un
+navegador.
+
+**T11.** Dos pasadas hechas por la misma persona, una detrás de otra, no por dos revisores:
+
+- *Comprensión, como docente que no programa.* Faltaba decir qué es «la prueba» antes de pedir
+  que se elija dónde empieza; el tipo de competición se explicaba con siglas; la página de la
+  herramienta no decía cuál es el paso real tras descargar los zip; y el selector de la columna a
+  predecir escondía la que la herramienta había propuesto como grupo. Corregido.
+- *Exactitud, contra las páginas que ya explican Codabench.* «Requisitos previos» da `input_data`
+  por necesario, y la sección nueva no lo usa: el aviso lo aclara. Las instrucciones nombran el
+  tipo de recurso con su rótulo (**Public Data**) además de su clave, piden el **Title** y la
+  **Key** del leaderboard, y la prueba con `sample_submission.csv` mira la puntuación del envío y
+  la **Submission Rule**, como «Probar la competición». «Funciona con la imagen por defecto»
+  pasa a «está escrito para la imagen por defecto»: no se ha ejecutado con Python 3.7 (T10). Que
+  la Task se monte sin **Input data** coincide con las instrucciones de una competición real
+  anterior del equipo, que no forman parte de este repositorio.

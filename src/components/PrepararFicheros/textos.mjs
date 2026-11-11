@@ -126,10 +126,10 @@ elige su tipo:
 ${tabla(
     ['Zip', 'Tipo', 'Público', 'Dónde se usa después'],
     [
-      [cod(z.public_data), cod('public_data'), 'Sí', 'En la fase, campo **Public Data**'],
-      [cod(z.starting_kit), cod('starting_kit'), 'Sí', 'En la fase, campo **Starting Kit**'],
-      [cod(z.reference_data), cod('reference_data'), '**No**', 'En la Task, campo **Reference data**'],
-      [cod(z.scoring_program), cod('scoring_program'), '**No**', 'En la Task, campo **Scoring program**'],
+      [cod(z.public_data), `**Public Data** (${cod('public_data')})`, 'Sí', 'En la fase, campo **Public Data**'],
+      [cod(z.starting_kit), `**Starting Kit** (${cod('starting_kit')})`, 'Sí', 'En la fase, campo **Starting Kit**'],
+      [cod(z.reference_data), `**Reference Data** (${cod('reference_data')})`, '**No**', 'En la Task, campo **Reference data**'],
+      [cod(z.scoring_program), `**Scoring Program** (${cod('scoring_program')})`, '**No**', 'En la Task, campo **Scoring program**'],
     ],
   )}
 
@@ -142,8 +142,9 @@ En **Resources → Tasks**, pulsa **Create Task** y elige ${cod(z.reference_data
 **Reference data** y ${cod(z.scoring_program)} en **Scoring program**. Deja vacíos
 **Input data** e **Ingestion program**: el participante sube directamente sus predicciones.
 
-El programa de puntuación solo usa la biblioteca estándar de Python, así que funciona con la
-imagen por defecto de **Details → Competition Docker Image**.
+El programa de puntuación solo usa la biblioteca estándar de Python y está escrito para la
+imagen por defecto de **Details → Competition Docker Image**, que trae Python 3.7: no hace falta
+cambiarla.
 
 ## 3. La fase
 
@@ -152,7 +153,8 @@ En la pestaña **Phases** del editor, al crear o editar la fase: la Task del pas
 
 ## 4. El leaderboard
 
-En la pestaña **Leaderboard**, una columna por métrica:
+En la pestaña **Leaderboard**, crea el leaderboard con su **Title** y su **Key** (los dos
+obligatorios) y añade una columna por métrica:
 
 ${tabla(
     ['Title', 'Column Key', 'Sorting', 'Primary Column', 'Column Precision'],
@@ -180,9 +182,11 @@ Son un punto de partida: completa lo que va entre corchetes antes de publicar.
 ## 6. Probar antes de abrir
 
 Comprime ${cod('sample_submission.csv')} en un zip, con el CSV en la raíz, y súbelo en
-**My Submissions**. La columna ${principal.titulo} tiene que dar
-**${formatoDecimal(delKit.metricas[principal.clave])}** (Codabench lo enseña con punto decimal).
-Si falla o da otra cosa, revisa la Task y las **Column Key** del leaderboard.
+**My Submissions**. En el detalle del envío, la puntuación —la de la **Primary Column**,
+${principal.titulo}— tiene que ser **${formatoDecimal(delKit.metricas[principal.clave])}** (Codabench la enseña con
+punto decimal). Si falla o da otra cosa, revisa la Task y las **Column Key** del leaderboard. Si
+puntúa pero no aparece en el leaderboard, mira la **Submission Rule**: con \`Add\`, la regla por
+defecto, el envío hay que añadirlo a mano.
 
 ## Notas de referencia
 
