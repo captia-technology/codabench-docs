@@ -119,10 +119,10 @@ jobs:
 
       - name: Preparar los ficheros
         # La lógica de la herramienta (`src/components/PrepararFicheros/*.mjs`): el build la
-        # compila pero no la ejecuta. La prueba cruzada llama al `score.py` real con el Python
-        # instalado más arriba, para que la nota de referencia que anuncia la herramienta sea la
-        # que dará Codabench.
-        run: node --test scripts/preparar.test.mjs
+        # compila pero no la ejecuta. Las pruebas cruzadas llaman al Python instalado más arriba:
+        # al `score.py` real, para que la nota de referencia que anuncia la herramienta sea la
+        # que dará Codabench, y a `zipfile`, para que los zip que escribe los abra otro programa.
+        run: node --test scripts/preparar.test.mjs scripts/zip.test.mjs
 
       - name: Construir el sitio
         # Mismo `buildCommand` que Vercel: si rompe aquí, rompe allí. El sitio está configurado
