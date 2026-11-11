@@ -117,6 +117,13 @@ jobs:
         # puede poner "type": "module" porque docusaurus.config.js usa `require`.
         run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test scripts/acceso.test.mjs
 
+      - name: Preparar los ficheros
+        # La lógica de la herramienta (`src/components/PrepararFicheros/*.mjs`): el build la
+        # compila pero no la ejecuta. La prueba cruzada llama al `score.py` real con el Python
+        # instalado más arriba, para que la nota de referencia que anuncia la herramienta sea la
+        # que dará Codabench.
+        run: node --test scripts/preparar.test.mjs
+
       - name: Construir el sitio
         # Mismo `buildCommand` que Vercel: si rompe aquí, rompe allí. El sitio está configurado
         # con `onBrokenLinks`, `onBrokenAnchors` y `onBrokenMarkdownLinks` en `throw`, así que
