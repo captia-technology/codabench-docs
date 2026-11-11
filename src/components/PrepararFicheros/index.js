@@ -291,6 +291,9 @@ function Generar() {
 
   function elegirObjetivo(valor) {
     setObjetivo(valor);
+    // La propuesta de grupo puede equivocarse justo con la columna que se quiere predecir
+    // (una «zona» que es la respuesta): elegirla la quita del grupo en vez de esconderla.
+    if (valor && valor === grupo) setGrupo('');
     if (valor) setTipo(sugerirTipo(columna(valor)).tipo);
   }
 
@@ -358,7 +361,7 @@ function Generar() {
               <select id={`${id}-objetivo`} required value={objetivo} onChange={(e) => elegirObjetivo(e.target.value)}>
                 <option value="">Elige una columna</option>
                 {csv.datos.cabecera
-                  .filter((c) => c !== tiempo && c !== grupo && c !== csv.analisis.id)
+                  .filter((c) => c !== tiempo && c !== csv.analisis.id)
                   .map((c) => (
                     <option key={c} value={c}>
                       {c}

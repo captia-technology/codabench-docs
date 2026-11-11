@@ -23,7 +23,7 @@ Los ficheros ya preparados y comprimidos en `.zip` por separado:
 - `starting_kit.zip` / `public_data.zip` (opcionales)
 
 :::note[De dónde salen estos ficheros]
-Se preparan en la sección siguiente, [Preparar los ficheros](../preparar/index.md): con una herramienta que los genera desde un CSV, sin que los datos salgan del navegador, o a mano, con un programa de puntuación genérico. Esa sección cubre las competiciones de predicciones directas, que no llevan `ingestion_program`.
+Se preparan en la sección siguiente, [Preparar los ficheros](../preparar/index.md): con una herramienta que los genera desde un CSV, sin que los datos salgan del navegador, o a mano, con un programa de puntuación genérico. Esa sección cubre las competiciones de predicciones directas, que no llevan `ingestion_program` ni `input_data`: lo que descarga el participante va en `public_data`.
 :::
 
 ## El fichero `metadata` de cada programa
