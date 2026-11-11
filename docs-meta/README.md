@@ -32,6 +32,7 @@ que no se convierta en una afirmación falsa sin que nadie se dé cuenta.
 | [`04-sync-codabench-v1.31.2.md`](04-sync-codabench-v1.31.2.md) | La revisión de v1.23 a v1.31.2: qué cambió de verdad, qué no era desfase sino hueco, y qué queda pendiente | **Vigente** — es el registro del ciclo de versión |
 | [`05-auditoria-de-capturas.md`](05-auditoria-de-capturas.md) | Qué clase de dato se retiró de las capturas y cómo; el procedimiento para rehacer una | **Vigente** — se actualiza con cada captura nueva |
 | [`06-control-de-acceso.md`](06-control-de-acceso.md) | La guía pide credencial desde el 2026-10-28: qué significa con el repositorio público, la puesta en marcha, el alta y la baja | **Vigente** — es el procedimiento de operación |
+| [`07-preparar-ficheros.md`](07-preparar-ficheros.md) | La sección «Preparar los ficheros» y su herramienta (issue #7): decisiones P1-P13, tareas y lo hecho | **Vigente** — queda pendiente la prueba en una competición real (T10) |
 
 ## Dos avisos que valen siempre
 
@@ -59,6 +60,9 @@ fechada, encima de lo que corrige.
 | `scripts/check_fuentes.py` | Que las URL externas que cita la guía sigan vivas. `check_docs.py` solo valida los enlaces relativos, así que una fuente rota se degrada en silencio | En uso, a mano (sale a la red) |
 | `scripts/check_codabench.py` | Compara la última release publicada de `codalab/codabench` con la versión que declara este sitio. Con `--fijar`, cierra el ciclo subiendo la etiqueta | En uso, a mano (sale a la red) |
 | `scripts/acceso.test.mjs` | Pruebas de `middleware.js`, el control de acceso: el build no lo ejecuta, así que son lo único que avisa de un cambio que abra la guía | En uso, corre en CI |
+| `scripts/test_puntuacion.py` | Pruebas `unittest` del programa de puntuación genérico (`static/plantillas/puntuacion/`): métricas, mensajes de error y sintaxis de Python 3.7, también la de los scripts del kit | En uso, corre en CI |
+| `scripts/preparar.test.mjs` | Pruebas de la lógica de la herramienta (`src/components/PrepararFicheros/`): CSV, reparto, id, comprobación de zips y prueba cruzada con el `score.py` y el kit reales | En uso, corre en CI |
+| `scripts/zip.test.mjs` | Pruebas del zip propio de la herramienta, con comprobación cruzada contra `zipfile` de Python | En uso, corre en CI |
 | `scripts/credencial_cliente.py` | Genera una credencial y su entrada para `DOCS_ACCESOS`, el secreto de sesión (`--secreto`), y valida la lista antes de pegarla (`--check`) | En uso, a mano |
 | `scripts/check_dominio.py` | Que el sitio publicado está cerrado sin credencial y se sirve bien con ella. Lee `DOCS_CREDENCIAL` del entorno | En uso, a mano (sale a la red) |
 

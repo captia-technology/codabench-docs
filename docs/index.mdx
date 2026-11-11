@@ -49,12 +49,17 @@ import { Portada, Bloque, Rejilla, Tarjeta, Anatomia } from '@site/src/component
 </Bloque>
 
 <Bloque
-  titulo="Las seis secciones"
+  titulo="Las siete secciones"
   entradilla="La guía sigue el orden real de montar una competición. Cada sección abre con su página de entrada y desciende al detalle de cada formulario.">
   <Rejilla ancha>
     <Tarjeta titulo="Antes de empezar" meta="4 páginas" to="/empezar" accion="Abrir">
       Qué cubre esta guía y qué no, el vocabulario de Codabench, la competición de ejemplo que
       sirve de hilo conductor, y los ficheros que hay que tener listos antes de abrir el editor.
+    </Tarjeta>
+    <Tarjeta titulo="Preparar los ficheros" meta="3 páginas" to="/preparar" accion="Abrir">
+      Los cuatro zip que se suben después: generados desde un CSV con la herramienta de la guía,
+      sin que los datos salgan del navegador, o montados a mano con el programa de puntuación
+      genérico.
     </Tarjeta>
     <Tarjeta titulo="Crear la competición" meta="5 páginas" to="/competicion" accion="Abrir">
       El editor web pestaña a pestaña: Details, Participation, Pages y Administrators. Lo que ve
@@ -102,11 +107,11 @@ import { Portada, Bloque, Rejilla, Tarjeta, Anatomia } from '@site/src/component
 
 <Bloque
   titulo="Antes de llegar aquí"
-  entradilla="Esta guía empieza cuando los ficheros ya existen.">
+  entradilla="Los ficheros que hay que tener antes de abrir el editor, y el camino que esta guía deja fuera.">
   <Rejilla>
-    <Tarjeta titulo="Generar los datasets" meta="repo privado" to="/empezar/requisitos" accion="Ver requisitos">
-      Los `public_data`, `reference_data`, `scoring_program` y `starting_kit` se generan con el
-      motor parametrizado del repositorio privado `captia-technology/codabench-dataset-pipeline`.
+    <Tarjeta titulo="Preparar los ficheros" meta="en el navegador" to="/preparar" accion="Preparar los ficheros">
+      Los `public_data`, `reference_data`, `scoring_program` y `starting_kit` se generan desde un
+      CSV con la herramienta de la guía, o se montan a mano con el programa de puntuación genérico.
     </Tarjeta>
     <Tarjeta titulo="El método del bundle YAML" meta="fuera de alcance" to="/referencia/fuentes" accion="Ver fuentes">
       Codabench también admite crear la competición subiendo un `.zip` con un `competition.yaml`.

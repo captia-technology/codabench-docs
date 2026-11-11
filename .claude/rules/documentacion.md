@@ -16,7 +16,7 @@ mecanismo sí está comprobado contra la configuración real del sitio: `onBroke
 
 ## La plantilla de página
 
-Las 23 páginas comparten una estructura. Al crear o editar una, mantenerla:
+Las 26 páginas comparten una estructura. Al crear o editar una, mantenerla:
 
 ```markdown
 ---
@@ -185,7 +185,7 @@ existe pero no está declarado no recibe `sidebar_position`, no entra en el mapa
 `docs-map.json` y se publica **inalcanzable**: no está en el menú lateral, no está en el mapa y
 solo aparece si alguien acierta a buscarlo. Al revés también falla: declarado y no escrito, y
 `build_nav.py --check` se cae. La raíz solo admite la portada y el mapa porque toda página de
-contenido pertenece a una de las seis secciones; una suelta en la raíz no tendría padre en el
+contenido pertenece a una de las siete secciones; una suelta en la raíz no tendría padre en el
 recorrido.
 
 **11. El rótulo `**Objetivo:**` en toda página que no sea la portada ni el mapa.** *(Aviso, no

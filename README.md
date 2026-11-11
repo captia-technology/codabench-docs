@@ -1,7 +1,8 @@
 # Documentación de Codabench
 
-Guía de cómo crear y mantener competiciones en **Codabench**: 23 páginas en español repartidas en
-6 secciones, construida con [Docusaurus](https://docusaurus.io/) 3.10.2 y publicada en Vercel.
+Guía de cómo crear y mantener competiciones en **Codabench**: 26 páginas en español repartidas en
+7 secciones, con una herramienta que prepara los ficheros de una competición en el navegador,
+construida con [Docusaurus](https://docusaurus.io/) 3.10.2 y publicada en Vercel.
 
 | | |
 |---|---|
@@ -67,9 +68,9 @@ npm run serve      # sirve el build ya construido, para comprobarlo como en prod
 
 | Dónde | Qué contiene | Se publica |
 |---|---|---|
-| `docs/` | Las 23 páginas de la guía en sus 6 secciones, más la portada (`index.mdx`) y el mapa generado | **Sí** |
-| `src/` | Componentes de la portada y el tema | Sí (compilado) |
-| `static/` | El mark del design system y el resto de estáticos | Sí |
+| `docs/` | Las 26 páginas de la guía en sus 7 secciones, más la portada (`index.mdx`) y el mapa generado | **Sí** |
+| `src/` | Componentes de la portada, el tema y la herramienta de «Preparar los ficheros» (`components/PrepararFicheros/`) | Sí (compilado) |
+| `static/` | El mark del design system, el programa de puntuación genérico y los scripts del kit de inicio (`plantillas/`) | Sí |
 | `scripts/` | Validadores y generadores, en Python. Los que escriben en el árbol son idempotentes y traen `--check`; los `check_*` no escriben nada | No |
 | `docs-meta/` | Cómo se montó todo y por qué cada decisión es como es. Registros fechados | **No** |
 | `.claude/rules/` | `documentacion.md` (al tocar `docs/`) y `design-system.md` (al tocar el tema) | No |
@@ -77,8 +78,8 @@ npm run serve      # sirve el build ya construido, para comprobarlo como en prod
 | `.github/workflows/` | `docs-ci.yml`: la verificación en cada PR y push. **No publica nada** | No |
 | `.github/dependabot.yml` | Vigila las acciones del workflow y Docusaurus. Solo abre PR; la CI las valida | No |
 
-El recorrido de las seis secciones es el orden real de montar una competición: **Empezar →
-Competición → Recursos → Evaluación → Submissions → Referencia**. No es alfabético y no es
+El recorrido de las siete secciones es el orden real de montar una competición: **Empezar →
+Preparar → Competición → Recursos → Evaluación → Submissions → Referencia**. No es alfabético y no es
 casual; una página leída fuera de ese recorrido se lee fuera de contexto.
 
 ### La navegación se declara, no se deduce
@@ -352,6 +353,8 @@ existiendo, pero Vercel pide iniciar sesión en su cuenta antes de llegar siquie
 | `python scripts/check_codabench.py` | ¿Sigue siendo v1.31.2 la versión contrastada? De red, a mano |
 | `python scripts/check_codabench.py --fijar` | Cierra el ciclo tras revisar: sube la etiqueta de versión donde aparece |
 | `node --test scripts/acceso.test.mjs` | Pruebas del control de acceso — **también en CI** |
+| `python scripts/test_puntuacion.py` | Pruebas del programa de puntuación genérico de `static/plantillas/` — **también en CI** |
+| `node --test scripts/preparar.test.mjs scripts/zip.test.mjs` | Pruebas de la herramienta «Preparar los ficheros», con prueba cruzada contra Python — **también en CI** |
 | `python scripts/credencial_cliente.py <cliente>` | Credencial nueva y su entrada para `DOCS_ACCESOS`; con `--check`, valida la lista; con `--secreto`, el secreto de sesión |
 | `DOCS_CREDENCIAL=equipo:… python scripts/check_dominio.py` | El sitio publicado: cerrado sin credencial y bien servido con ella. De red, a mano |
 | `npm run build` | Build de producción, **sin `--locale`** |
@@ -447,6 +450,8 @@ que se sirve. Debe ser `'/'`.
 | [`CLAUDE.md`](CLAUDE.md) | El índice del repositorio para trabajar con Claude Code |
 
 Los ficheros de la competición —`public_data`, `reference_data`, `scoring_program`,
-`starting_kit`— **no se generan aquí**. Salen del motor parametrizado por `spec.yaml` del
-repositorio privado `captia-technology/codabench-dataset-pipeline` (acceso restringido). Esta guía
-empieza cuando esos zips ya existen.
+`starting_kit`— se preparan con la sección «Preparar los ficheros» de la guía: una herramienta que
+los genera en el navegador desde un CSV, o a mano con el programa de puntuación genérico. El porqué
+de cada decisión está en [`docs-meta/07-preparar-ficheros.md`](docs-meta/07-preparar-ficheros.md).
+El equipo usa también el motor parametrizado por `spec.yaml` del repositorio privado
+`captia-technology/codabench-dataset-pipeline` (acceso restringido).

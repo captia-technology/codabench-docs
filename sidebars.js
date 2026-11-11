@@ -4,7 +4,7 @@
  * El orden NO es alfabético: cada documento lleva `sidebar_position` en su front matter y cada
  * sección un `_category_.json` con su `position`, y ambos salen de la declaración `SECCIONES`
  * de `scripts/build_nav.py`, que es el recorrido real de montar una competición
- * (Empezar → Competición → Recursos → Evaluación → Submissions → Referencia).
+ * (Empezar → Preparar → Competición → Recursos → Evaluación → Submissions → Referencia).
  * No se editan a mano: se regeneran con `python scripts/build_nav.py --apply`.
  */
 module.exports = {

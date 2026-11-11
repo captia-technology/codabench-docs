@@ -16,7 +16,7 @@ sidebar_position: 2
 - [Resource Management (Submissions, Datasets/Programs, Tasks)](https://docs.codabench.org/v1.31.2/Organizers/Running_a_benchmark/Resource-Management/)
 - [How to Create your First Benchmark on Codabench (tutorial completo)](https://adrienpavao.com/blog/codabench-tuto/codabench-tuto.html)
 - Método alternativo (bundle YAML + zip, versionable en repo): [Competition Creation Bundle](https://docs.codabench.org/latest/Organizers/Benchmark_Creation/Competition-Creation-Bundle/)
-- Para generar los ficheros (`public_data`, `reference_data`, `scoring_program`, `starting_kit`) antes de llegar a esta guía: repo privado `captia-technology/codabench-dataset-pipeline` (motor genérico parametrizado por `spec.yaml`, acceso restringido).
+- Para generar los ficheros (`public_data`, `reference_data`, `scoring_program`, `starting_kit`): la sección [Preparar los ficheros](../preparar/index.md) de esta guía. El equipo que la mantiene usa también un repositorio privado, `captia-technology/codabench-dataset-pipeline` (motor genérico parametrizado por `spec.yaml`, acceso restringido).
 
 ## Con qué versión está contrastada esta guía
 

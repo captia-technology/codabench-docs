@@ -39,7 +39,7 @@ Reglas que respeta
   `index.md` por la misma URL.
 - **Toda carpeta declarada tiene su `index.md`**, y su ausencia es un fallo duro. La
   referencia caía en ese caso a una página de aterrizaje `generated-index`; aquí el árbol
-  del contrato da índice propio a las seis secciones, así que ese respaldo sólo serviría
+  del contrato da índice propio a todas las secciones, así que ese respaldo sólo serviría
   para que un `index.md` olvidado pasara sin ruido y la sección se publicara con una lista
   de tarjetas en lugar del texto puente que le toca.
 - **Aquí no se fijan slugs.** La referencia transliteraba los suyos porque arrastraba rutas

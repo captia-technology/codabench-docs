@@ -17,7 +17,7 @@ CodaLab. Sitio Docusaurus 3.10.2 en español, publicado en
 | Clave | Valor | Dónde se comprueba |
 | --- | --- | --- |
 | Repositorio | `captia-technology/codabench-docs`, **público** | `docusaurus.config.js` (`organizationName`, `projectName`) |
-| Sitio publicado | **público**, sin autenticación | La regla de datos publicables sale de ahí |
+| Sitio publicado | Pide credencial desde el 2026-10-28; el **contenido** sigue siendo público, porque el repositorio lo es | `middleware.js` y `docs-meta/06-control-de-acceso.md`; la regla de datos publicables sale del repositorio público |
 | Dominio | `https://docs-codabench.captia.ai` | `docusaurus.config.js`; el literal es respaldo, manda `VERCEL_PROJECT_PRODUCTION_URL` |
 | Publica | Vercel, producción desde `main`; preview por pull request | `vercel.json` y el encabezado de `.github/workflows/docs-ci.yml` |
 | Rama por defecto hoy | `master` | `git branch --show-current` |
@@ -38,27 +38,47 @@ código. La evidencia de lo que afirma la guía sale de la documentación oficia
 (`https://docs.codabench.org/`), de la observación directa de la interfaz y de
 las competiciones reales ya montadas. Nada de eso se compara con `git diff`.
 
-El repositorio privado `captia-technology/codabench-dataset-pipeline` genera los
-ficheros que la guía asume ya preparados —`public_data`, `reference_data`,
-`scoring_program`, `starting_kit`—. Es un vecino, no una fuente: la guía se
-puede seguir sin él, con los zips hechos a mano. No enlazarlo como si el lector
-tuviera acceso; el acceso está restringido.
+El repositorio privado `captia-technology/codabench-dataset-pipeline` genera
+ficheros de competición —`public_data`, `reference_data`, `scoring_program`,
+`starting_kit`—. Es un vecino, no una fuente: desde el 2026-11-11 la propia
+guía tiene la sección «Preparar los ficheros» (`docs/preparar/`), con una
+herramienta que los genera en el navegador a partir de un CSV y un programa de
+puntuación genérico para hacerlos a mano. No enlazar el repositorio privado como
+si el lector tuviera acceso; el acceso está restringido.
 
 Todo esto está desarrollado en `multi-repo-and-releases.md`.
 
 ## El árbol y lo que se publica
 
 ```text
-docs/            lo ÚNICO que entra en el sitio
+docs/            lo ÚNICO que entra en el sitio como página
 docs-meta/       cómo se montó y qué costó; NO se publica
-scripts/         validadores y generadores, en Python 3.11
-src/             tema y componentes; copia exacta del design system
+scripts/         validadores y generadores, en Python 3.11, y las pruebas
+src/             tema y portada, copia exacta del design system; y la
+                 herramienta de components/PrepararFicheros/, propia del sitio
 static/img/      marca
+static/plantillas/  programa de puntuación genérico y scripts del kit de inicio
 .claude/         reglas, hook y esta skill
 ```
 
 Un informe privado, una auditoría o una nota de trabajo van a `docs-meta/`,
 nunca a `docs/` ni a `static/`: `static/` se sirve tal cual en el sitio público.
+
+## La herramienta de «Preparar los ficheros»
+
+La sección `docs/preparar/` tiene dos páginas `.mdx` —las únicas fuera de la
+portada— porque llevan el componente de `src/components/PrepararFicheros/`. Su
+lógica está en módulos `.mjs` sin React (leer el CSV, repartir, métricas, zip,
+comprobar) y la interfaz en `index.js`, detrás de `BrowserOnly`. Todo ocurre en
+el navegador; solo se piden por red las plantillas de `static/plantillas/`.
+
+Tres juegos de pruebas, los tres en CI: `scripts/test_puntuacion.py` (el
+`score.py` genérico, con sintaxis de Python 3.7), `scripts/preparar.test.mjs`
+(la lógica, con una prueba cruzada que ejecuta el `score.py` y el kit reales) y
+`scripts/zip.test.mjs` (el zip, contrastado con `zipfile` de Python). Las
+métricas de `metricas.mjs` y las de `score.py` tienen que dar exactamente lo
+mismo: la herramienta anuncia notas que después calcula Codabench. El porqué de
+cada decisión, en `docs-meta/07-preparar-ficheros.md`.
 
 Bajo `docs/` las rutas son ASCII y en minúscula, sin tildes ni guiones bajos, y
 en la raíz de `docs/` solo pueden vivir `index.mdx` y `mapa-de-la-guia.md`.
@@ -89,6 +109,8 @@ python scripts/build_nav.py --check    # navegación declarada, mapa y docs-map
 python scripts/build_nav.py --apply    # regenera front matter, _category_.json, mapa y docs-map
 python scripts/add_frontmatter.py --apply
 python scripts/normalize_headings.py --apply
+python scripts/test_puntuacion.py      # programa de puntuación genérico
+node --test scripts/acceso.test.mjs scripts/preparar.test.mjs scripts/zip.test.mjs
 npm run build                          # build de producción, SIN --locale
 npm start                              # previsualización local
 ```
