@@ -27,6 +27,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 PROGRAMA = REPO / "static" / "plantillas" / "puntuacion"
+KIT = REPO / "static" / "plantillas" / "kit"
 
 
 class Competicion:
@@ -271,12 +272,16 @@ class PruebasFicheros(unittest.TestCase):
         # La imagen por defecto de Codabench es Python 3.7. Aquí no se puede ejecutar con
         # 3.7, pero sí rechazar la sintaxis posterior (`:=`, `match`, `/` en parámetros…).
         # Las funciones nuevas de la biblioteca estándar no las caza esto: se evitan a mano.
-        fuente = (PROGRAMA / "score.py").read_text(encoding="utf-8")
-        ast.parse(fuente, feature_version=(3, 7))
+        # Los scripts del kit de inicio corren en el ordenador del participante, que puede
+        # tener un Python viejo: se les pide lo mismo. Lo que hacen lo prueba
+        # scripts/preparar.test.mjs, que los ejecuta sobre unos ficheros generados.
+        for ruta in [PROGRAMA / "score.py", *sorted(KIT.glob("*.py"))]:
+            with self.subTest(ruta.name):
+                ast.parse(ruta.read_text(encoding="utf-8"), feature_version=(3, 7))
 
     def test_finales_de_linea_lf(self):
-        for nombre in ("score.py", "metadata", "config.json"):
-            self.assertNotIn(b"\r\n", (PROGRAMA / nombre).read_bytes(), nombre)
+        for ruta in [*sorted(PROGRAMA.iterdir()), *sorted(KIT.iterdir())]:
+            self.assertNotIn(b"\r\n", ruta.read_bytes(), ruta.name)
 
 
 if __name__ == "__main__":
