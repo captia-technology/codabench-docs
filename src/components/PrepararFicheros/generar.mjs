@@ -14,6 +14,7 @@
 import { ErrorDatos, escribirCsv } from './csv.mjs';
 import { detectarFormatoAncho, errorFormatoAncho, esNumero, normalizarNombre, parsearFecha } from './analisis.mjs';
 import { puntuar, redondear4 } from './metricas.mjs';
+import { crearZip } from './zip.mjs';
 import { agrupacion, diccionarioDatos, instrucciones, paginas, readmeKit } from './textos.mjs';
 
 /** Los scripts del kit de inicio, tal como están en `static/plantillas/kit/`. */
@@ -398,4 +399,29 @@ export function prepararCompeticion(datos, opciones, plantillas) {
   };
 
   return { resumen, ficheros, predicciones: refs.map((r) => r.predicciones) };
+}
+
+/** El orden en que se suben los zip, que es también el de los botones de descarga. */
+export const ORDEN_ZIPS = ['public_data', 'starting_kit', 'reference_data', 'scoring_program'];
+
+/**
+ * Los cuatro zip, con todo en la raíz, y el de «Descargar todo»: los cuatro zip más las
+ * instrucciones y las páginas base. Devuelve los bytes de cada uno, por papel y `todo`.
+ */
+export async function empaquetar(ficheros, zips, opciones = {}) {
+  const salida = {};
+  for (const papel of ORDEN_ZIPS) {
+    salida[papel] = await crearZip(
+      Object.entries(ficheros[papel]).map(([nombre, datos]) => ({ nombre, datos })),
+      opciones,
+    );
+  }
+  salida.todo = await crearZip(
+    [
+      ...ORDEN_ZIPS.map((papel) => ({ nombre: zips[papel], datos: salida[papel] })),
+      ...Object.entries(ficheros.extras).map(([nombre, datos]) => ({ nombre, datos })),
+    ],
+    opciones,
+  );
+  return salida;
 }

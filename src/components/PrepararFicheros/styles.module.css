@@ -1,0 +1,222 @@
+/**
+ * Estilos de la herramienta «Preparar los ficheros».
+ *
+ * No se define ningún color: todo sale de los tokens que declara `src/css/custom.css` (copia del
+ * Captia Technology Design System) y de las variables de Infima que el tema ya ajusta en los dos
+ * modos. Los botones son los de Infima (`button button--primary`) y los avisos, el Admonition
+ * del tema: así la herramienta se ve como el resto de la guía sin bifurcar nada.
+ *
+ * Contraste. El borde de los campos usa `--ifm-color-content-secondary` (5.33 en claro, 7.52 en
+ * oscuro) y no el gris de los separadores (`--ifm-toc-border-color`, ~1.3): WCAG 1.4.11 pide 3:1
+ * para el borde de un control, y un campo que no se distingue del fondo no se ve que es un campo.
+ */
+
+.herramienta {
+  margin: 1.5rem 0 2rem;
+  padding: 1.25rem 1.25rem 0.5rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: var(--captia-radius-lg);
+  background: var(--ifm-background-surface-color);
+}
+
+.paso + .paso {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--ifm-toc-border-color);
+}
+
+/* Los títulos de los pasos son h3 dentro de `.markdown`: se califican para ganar a su estilo. */
+:global(.markdown) .titulo {
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
+}
+
+:global(.markdown) .subtitulo {
+  margin: 1rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.titulo:focus-visible,
+.subtitulo:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 4px;
+}
+
+.titulo:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.etiqueta {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  color: var(--ifm-heading-color);
+}
+
+.ayuda {
+  margin: 0.35rem 0 0.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ifm-color-content-secondary);
+}
+
+/* ------------------------------------------------------------- arrastrar y soltar */
+
+.zona {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 2px dashed var(--ifm-color-content-secondary);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-color);
+  transition: border-color 0.15s ease;
+}
+
+.zonaActiva,
+.zona:focus-within {
+  border-color: var(--ifm-color-primary);
+}
+
+.fichero {
+  max-width: 100%;
+  font: inherit;
+}
+
+.fichero:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+.elegido {
+  margin: 0.5rem 0 0;
+  font-size: 0.9375rem;
+  overflow-wrap: anywhere;
+}
+
+/* --------------------------------------------------------------------- campos */
+
+/* El `min(..., 100%)` evita que la columna mínima desborde a 320 px, como en la portada. */
+.campos {
+  display: grid;
+  gap: 0 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
+}
+
+.campo {
+  margin-bottom: 0.75rem;
+}
+
+.campo select,
+.campo input[type='text'],
+.campo input[type='date'] {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--ifm-color-content-secondary);
+  border-radius: var(--captia-radius-sm);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font: inherit;
+}
+
+.campo select:focus-visible,
+.campo input:focus-visible,
+.opcion input:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+.opciones {
+  margin: 0.5rem 0 1rem;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.opcion {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.4rem;
+  cursor: pointer;
+}
+
+.opcion input {
+  flex: 0 0 auto;
+  accent-color: var(--ifm-color-primary);
+}
+
+/* -------------------------------------------------------------------- acciones */
+
+.acciones,
+.descargas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.acciones :global(.button):focus-visible,
+.descargas :global(.button):focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* Un nombre de zip largo se parte antes que desbordar la pantalla del móvil. */
+.descargas :global(.button) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.tabla {
+  font-size: 0.9375rem;
+}
+
+/* --------------------------------------------------------------------- informe */
+
+.informe {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.resultado {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid var(--ifm-color-content-secondary);
+  background: var(--ifm-background-color);
+  overflow-wrap: anywhere;
+}
+
+.estadoOk {
+  border-left-color: var(--captia-accent-on-light);
+}
+
+[data-theme='dark'] .estadoOk {
+  border-left-color: var(--captia-accent);
+}
+
+.estadoError {
+  border-left-color: var(--ifm-color-danger);
+}
+
+.estadoAviso {
+  border-left-color: var(--ifm-color-warning);
+}
+
+.estadoSinComprobar {
+  border-left-style: dashed;
+}
+
+.arreglo {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zona {
+    transition: none;
+  }
+}
